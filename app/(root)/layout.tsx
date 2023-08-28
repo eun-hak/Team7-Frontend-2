@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import { RecoilRoot } from "recoil";
-
+import ReactQueryProvider from "../ReactQueryProvider";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "빌런 노래방",
@@ -17,7 +17,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <BodyStyle>
         <BgStyle>
-          <RecoilRoot>{children}</RecoilRoot>
+          <RecoilRoot>
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+          </RecoilRoot>
         </BgStyle>
       </BodyStyle>
     </html>
