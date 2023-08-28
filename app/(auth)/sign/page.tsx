@@ -6,12 +6,6 @@ import Link from "next/link";
 import ButtonContainer from "@/components/start-button";
 
 const Sign = () => {
-  const KAKAO_CLIENT_ID = "44c1e368ad544d9a04d7a413f08b1e51";
-  const REDIRECT_URI = "http://localhost:3000/main"; // 카카오 API 설정에 등록한 리다이렉트 URI
-  const handleKakaoLogin = () => {
-    // 카카오 로그인 요청
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  };
   return (
     <SignWrapper>
       <HeaderWrapper>
