@@ -35,6 +35,7 @@ const CategoryWrapper = styled.div`
   align-items: center;
   width: 100%;
   padding: 0.5rem 0;
+
   white-space: nowrap;
   overflow-x: scroll; /* This hides horizontal scroll */
   scrollbar-width: none; /* Firefox */
@@ -45,9 +46,8 @@ const CategoryWrapper = styled.div`
   ::-webkit-scrollbar-thumb {
     background-color: transparent;
   }
-  @media (min-width: 768px) {
-    justify-content: flex-start;
-  }
+
+  justify-content: flex-start;
 `;
 
 const CategoryButton = styled.button`
@@ -56,6 +56,7 @@ const CategoryButton = styled.button`
   border-radius: 23px;
   font-size: 16px;
   text-align: center;
+
   font-weight: 500;
   cursor: default;
   background-color: #00000080;

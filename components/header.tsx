@@ -33,6 +33,7 @@ export default Header;
 
 const HeaderWrapper = styled.header`
   width: 100%;
+  background-color: white;
 `;
 
 const HeaderTop = styled.div`
