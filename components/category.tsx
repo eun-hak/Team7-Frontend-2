@@ -1,6 +1,6 @@
 "use client";
 import styled from "@emotion/styled";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 const category = [
@@ -19,14 +19,14 @@ interface BackgroundColors {
 }
 
 const backgroundColors: BackgroundColors = {
-  전체: "#f5f5f5",
+  전체: "black",
   고음괴물: "#E40C0C",
   화음귀신: "#E4F0F5",
   힙합전사: "#15B28D",
   하이라이트도둑: "#2962FF",
   소몰이대장: "#795548",
   삑사리요정: "#FF5CBE",
-  기타: "#f5f5f5",
+  기타: "black",
 };
 
 const CategoryWrapper = styled.div`
@@ -75,6 +75,7 @@ const CategoryButton = styled.button`
   &:focus {
     cursor: default;
     background-color: white;
+    /* color: ${(props) => props.color}; */
     color: black;
   }
 `;
@@ -82,15 +83,16 @@ const CategoryButton = styled.button`
 // router.navigate('/other-page');
 
 const Category = () => {
+  const searchParams = useSearchParams();
+
+  const searchValue = searchParams.get("value") || "";
   const router = useRouter();
-  // const Navigate = (item: string)=>{
-  //   router.push(`/main?value=${item}`);
-  // }
 
   return (
     <CategoryWrapper>
       {category.map((item, index) => (
         <CategoryButton
+          // color={backgroundColors[searchValue]}
           key={index}
           onClick={() => router.push(`/main?value=${item}`)}
         >

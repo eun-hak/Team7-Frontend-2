@@ -2,10 +2,9 @@ const storage = localStorage;
 
 //로그인에 관련된 곳
 export const isLoginStorage = () => {
-  // const state = localStorage.login;
-
-  // return !!state;
-  return true;
+  const state = localStorage.login;
+  return !!state;
+  // return true;
 };
 
 export const getStorage = (key: string, defaultValue = undefined) => {
