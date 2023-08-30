@@ -26,7 +26,7 @@ const backgroundColors: BackgroundColors = {
   힙합전사: "#15B28D",
   하이라이트도둑: "#2962FF",
   소몰이대장: "#795548",
-  삑사리요정: "#FF5CBE",
+  삑사리요정: "#856e7c",
   기타: "#f5f5f5",
 };
 

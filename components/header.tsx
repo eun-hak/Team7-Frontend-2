@@ -18,9 +18,11 @@ const Header = () => {
               <Logo width={115} height={24} />
             </LogoLink>
           </Link>
-          <NotificationIcon>
-            <Notification />
-          </NotificationIcon>
+          <Link href="/notice">
+            <NotificationIcon>
+              <Notification />
+            </NotificationIcon>
+          </Link>
         </HeaderTop>
       </div>
 

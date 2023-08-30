@@ -1,19 +1,18 @@
 "use client";
 import styled from "@emotion/styled";
 import UploadHeader from "@/components/upload_header";
-import MediaFileDownload from "@/components/mediafiledownload";
-const Upload = () => {
+
+const Notice = () => {
   return (
     <MainPageWrapper>
       <MainPageContainer>
         <UploadHeader></UploadHeader>
-        <MediaFileDownload />
       </MainPageContainer>
     </MainPageWrapper>
   );
 };
 
-export default Upload;
+export default Notice;
 
 const MainPageWrapper = styled.div`
   width: 100%;
