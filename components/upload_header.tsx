@@ -13,7 +13,7 @@ const UploadHeader = () => {
       <div>
         <HeaderTop>
           <Link href="/main">
-            <LogoLink>v
+            <LogoLink>
               <BackIcon width={55} height={24} />
             </LogoLink>
           </Link>
