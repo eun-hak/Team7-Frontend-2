@@ -1,7 +1,12 @@
+"use client";
 import KakaoOAuth2RedirectPage from "@/api/KakaoCallback";
 
-const kakoredirect = () => {
-  return <KakaoOAuth2RedirectPage />;
+const Kakoredirect = () => {
+  return (
+    <>
+      <KakaoOAuth2RedirectPage />;
+    </>
+  );
 };
 
-export default kakoredirect;
+export default Kakoredirect;
