@@ -50,30 +50,31 @@ const Main = () => {
 
       <MainPageContainer>
         <FeedWrap>
-          {data?.map((data) => {
-            return (
-              <FeedBox>
-                <BoxWrap>
-                  <BoxWrap2>
-                    <WordWrap>
-                      {data.musicName} - {data.musicianName}
-                    </WordWrap>
-                    <VillanType>#{data.feedType}</VillanType>
-                  </BoxWrap2>
-                  <ClapWrapper
-                    onClick={() => handleButtonClick}
-                    clicked={false}
-                  >
-                    👏
-                  </ClapWrapper>
-                </BoxWrap>
-                닉네임 : {data.ownerName}
-                <WordBottomWrap>
-                  {data.createdAt}-{data.viewCount}번
-                </WordBottomWrap>
-              </FeedBox>
-            );
-          })}
+          {data &&
+            data?.map((data) => {
+              return (
+                <FeedBox>
+                  <BoxWrap>
+                    <BoxWrap2>
+                      <WordWrap>
+                        {data.musicName} - {data.musicianName}
+                      </WordWrap>
+                      <VillanType>#{data.feedType}</VillanType>
+                    </BoxWrap2>
+                    <ClapWrapper
+                      onClick={() => handleButtonClick}
+                      clicked={false}
+                    >
+                      👏
+                    </ClapWrapper>
+                  </BoxWrap>
+                  닉네임 : {data.ownerName}
+                  <WordBottomWrap>
+                    {data.createdAt}-{data.viewCount}번
+                  </WordBottomWrap>
+                </FeedBox>
+              );
+            })}
         </FeedWrap>
 
         <Footer />

@@ -13,7 +13,7 @@ const Header = () => {
     <HeaderWrapper>
       <div>
         <HeaderTop>
-          <Link href="/main">
+          <Link href="/main?value=전체">
             <LogoLink>
               <Logo width={115} height={24} />
             </LogoLink>

@@ -44,7 +44,7 @@ function KakaoOAuth2RedirectPage() {
       getToken({ code: code }).then((res) => {
         // router.push("/main");
         setStorage("login", "true");
-        console.log(res.data.jwtAccessToken);
+        console.log(res.data);
         setToken(res.data.jwtAccessToken);
       });
     }

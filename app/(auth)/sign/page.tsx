@@ -9,7 +9,7 @@ const Sign = () => {
   return (
     <SignWrapper>
       <HeaderWrapper>
-        <Link href="/main" passHref>
+        <Link href="/main?value=전체" passHref>
           <CloseButton />
         </Link>
         <Title>로그인하고 노래를 올려보세요</Title>
