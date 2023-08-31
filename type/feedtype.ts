@@ -13,6 +13,10 @@ export interface Feed {
 }
 
 export interface MainFeed {
-  map(arg0: (data: any) => any): unknown;
   data: Feed[];
+}
+
+export interface MainFeed2 {
+  map(arg0: (data: any) => any): unknown;
+  data: MainFeed;
 }
