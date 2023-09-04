@@ -16,6 +16,7 @@ import { tokenState } from "@/recoil/recoilstore";
 function KakaoOAuth2RedirectPage() {
   const { instance } = JwtInterceptors();
   const router = useRouter();
+
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
 
@@ -42,10 +43,12 @@ function KakaoOAuth2RedirectPage() {
   useEffect(() => {
     if (code) {
       getToken({ code: code }).then((res) => {
-        // router.push("/main");
+        router.push("/main");
         setStorage("login", "true");
         console.log(res.data);
-        setToken(res.data.jwtAccessToken);
+        setToken(res.data.accessToken);
+        setStorage("refresh", res.data.refreshToken);
+        setStorage("access", res.data.accessToken);
       });
     }
   }, []);

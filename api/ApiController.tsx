@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import jwtDecode, { type JwtPayload } from "jwt-decode";
 import { logout, refresh } from "@/etc/etc";
-import { isLoginStorage } from "@/util/loginStorage";
+import { getStorage, isLoginStorage } from "@/util/loginStorage";
 // const PROXY_URL = window.location.hostname === "localhost" ? "" : "/proxy";
 // axios.defaults.withCredentials = true;
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -25,11 +25,11 @@ const JwtInterceptors = () => {
   // //토큰 리프레시
   // const refreshingToken = async () => {
   //   try {
-  //     const res = await refresh();
+  //     const res = await refresh({ refreshToken: getStorage("refresh") });
   //     if (res?.status !== 200) {
   //       throw new Error(`Response status is ${res?.status}`);
   //     } else {
-  //       setToken(res.data.AccessToken);
+  //       setToken(res.data.accessToken);
   //       return res;
   //     }
   //   } catch (error) {
