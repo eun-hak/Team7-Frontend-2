@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import { useForm } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { useRef, useState } from "react";
-import { useRecoilState_TRANSITION_SUPPORT_UNSTABLE } from "recoil";
+
 const MediaFileDownload = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<string | undefined>(
@@ -10,6 +10,14 @@ const MediaFileDownload = () => {
   const handleClickFileInput = () => {
     fileInputRef.current?.click();
   };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+    getValues,
+  } = useFormContext();
+  const { onChange } = register("audio");
   // type UploadImage = {
   //   file: File;
   //   thumbnail: string;
@@ -34,19 +42,32 @@ const MediaFileDownload = () => {
     }
     setSelectedFile(file.name);
   };
+  const onSubmit = (data: any) => {
+    // 제출 버튼을 클릭했을 때 실행되는 함수
+    console.log(data); // 폼 데이터 출력
+  };
   return (
     <FileUploadContainer>
-      <FileUploadForm>
-        <FileInput
-          type="file"
-          accept="audio/*"
-          ref={fileInputRef}
-          onChange={uploadProfile}
-        />
-        <FileUploadButton type="button" onClick={handleClickFileInput}>
+      <FileUploadForm onSubmit={handleSubmit(onSubmit)}>
+        <FileUploadLabel>
+          파일 업로드
+          <FileInput
+            type="file"
+            accept="audio/*"
+            {...register("audio", {
+              onChange: uploadProfile, // 커스텀 onChange 이벤트 핸들러를 등록
+            })}
+            // ref = { fileInputRef }
+          />
+        </FileUploadLabel>
+        {errors.audio && <div>errors.audio.message</div>}
+        {/* <FileUploadButton type="button" onClick={handleClickFileInput}>
           파일 업로드 버튼
-        </FileUploadButton>
+        </FileUploadButton> */}
         등록할 음악 : {selectedFile}
+        <button type="submit" disabled={isSubmitting}>
+          Submit
+        </button>
       </FileUploadForm>
     </FileUploadContainer>
   );
@@ -54,6 +75,16 @@ const MediaFileDownload = () => {
 
 export default MediaFileDownload;
 
+const FileUploadLabel = styled.label`
+  color: white;
+  display: block;
+  width: 150px;
+  height: 50px;
+  background-color: #651fff;
+  border-radius: 16px;
+  margin-top: 8px;
+  text-align: center;
+`;
 const FileUploadContainer = styled.div`
   display: flex;
   justify-content: center;

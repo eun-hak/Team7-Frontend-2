@@ -1,11 +1,41 @@
 import styled from "@emotion/styled";
-
+import { useFormContext } from "react-hook-form";
 const MusicUploadForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+    getValues,
+  } = useFormContext();
+
+  const onSubmit = (data: any) => {
+    // 제출 버튼을 클릭했을 때 실행되는 함수
+    console.log(data); // 폼 데이터 출력
+  };
+  const validateVillanType = () => {
+    const selectedVillanType = getValues("villainType");
+    if (!selectedVillanType) {
+      return "빌런 유형은 필수입니다.";
+    }
+    return true;
+  };
+
   return (
-    <MusicWrapper>
-      <MusicInput placeholder="원곡 노래 제목을 입력해주세요. (필수)" />
-      <MusicInput placeholder="원곡 가수 제목을 입력해주세요. (필수)" />
-      <VillanSelect placeholder="빌런 유형을 입력해주세요. (필수)">
+    <MusicWrapper onSubmit={handleSubmit(onSubmit)}>
+      <MusicInput
+        {...register("songTitle", { required: "원곡 노래 제목은 필수입니다." })}
+        placeholder="원곡 노래 제목을 입력해주세요. (필수)"
+      />
+      {errors.songTitle && <div>errors.songTitle.message</div>}
+      <MusicInput
+        {...register("artist", { required: "원곡 노래 제목은 필수입니다." })}
+        placeholder="원곡 가수 제목을 입력해주세요. (필수)"
+      />
+      {errors.artist && <div>errors.artist.message</div>}
+      <VillanSelect
+        {...register("villainType", { validate: validateVillanType })}
+        placeholder="빌런 유형을 입력해주세요. (필수)"
+      >
         <VillanOption>빌런 유형을 입력해주세요. (필수)</VillanOption>
         <VillanOption>고음괴물</VillanOption>
         <VillanOption>화음귀신</VillanOption>
@@ -15,13 +45,20 @@ const MusicUploadForm = () => {
         <VillanOption>삑사리요정</VillanOption>
         <VillanOption>기타</VillanOption>
       </VillanSelect>
+      {errors.villainType && (
+        <span className="error-message">errors.villainType.message</span>
+      )}
+      {/* 제출 버튼 */}
+      <button type="submit" disabled={isSubmitting}>
+        Submit
+      </button>
     </MusicWrapper>
   );
 };
 
 export default MusicUploadForm;
 
-const MusicWrapper = styled.div`
+const MusicWrapper = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
