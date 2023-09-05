@@ -3,15 +3,19 @@ import styled from "@emotion/styled";
 import UploadHeader from "@/components/upload_header";
 import MediaFileDownload from "@/components/mediafiledownload";
 import MusicUploadForm from "@/components/musicUploadForm";
+import { FormProvider, useForm } from "react-hook-form";
 const Upload = () => {
+  const methods = useForm();
   return (
-    <MainPageWrapper>
-      <MainPageContainer>
-        <UploadHeader></UploadHeader>
-        <MusicUploadForm></MusicUploadForm>
-        <MediaFileDownload />
-      </MainPageContainer>
-    </MainPageWrapper>
+    <FormProvider {...methods}>
+      <MainPageWrapper>
+        <MainPageContainer>
+          <UploadHeader></UploadHeader>
+          <MusicUploadForm></MusicUploadForm>
+          <MediaFileDownload />
+        </MainPageContainer>
+      </MainPageWrapper>
+    </FormProvider>
   );
 };
 
