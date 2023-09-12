@@ -1,18 +1,31 @@
 "use client";
 import styled from "@emotion/styled";
 import UploadHeader from "@/components/upload_header";
+import { logout } from "@/api/etc";
+import { FormProvider, useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { tokenState } from "@/recoil/recoilstore";
+import FrontIcon from "@/public/chevron-right.svg";
 
-const Notice = () => {
+const Mypage = () => {
+  const methods = useForm();
+  const [token, setToken] = useRecoilState(tokenState);
+  useEffect(() => {
+    console.log(token);
+  }, []);
   return (
-    <MainPageWrapper>
-      <MainPageContainer>
-        <UploadHeader></UploadHeader>
-      </MainPageContainer>
-    </MainPageWrapper>
+    <FormProvider {...methods}>
+      <MainPageWrapper>
+        <MainPageContainer>
+          <UploadHeader name="알림" type="hidden"></UploadHeader>
+        </MainPageContainer>
+      </MainPageWrapper>
+    </FormProvider>
   );
 };
 
-export default Notice;
+export default Mypage;
 
 const MainPageWrapper = styled.div`
   width: 100%;
@@ -27,4 +40,14 @@ const MainPageContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: calc(100% - 117px);
+  align-items: center;
+  justify-content: center;
+`;
+
+const LogoLink = styled.div`
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  line-height: 4;
+  margin-right: 14px;
 `;
