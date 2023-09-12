@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import "../globals.css";
 // import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-
+import { Providers } from "../providers";
 import { RecoilRoot } from "recoil";
 import ReactQueryProvider from "../ReactQueryProvider";
 const inter = Inter({ subsets: ["latin"] });

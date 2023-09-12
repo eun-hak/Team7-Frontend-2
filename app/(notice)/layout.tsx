@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import "../globals.css";
 // import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-
+import { Providers } from "../providers";
 import { RecoilRoot } from "recoil";
 import ReactQueryProvider from "../ReactQueryProvider";
 const inter = Inter({ subsets: ["latin"] });
@@ -17,9 +17,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <BodyStyle>
         <BgStyle>
-          <RecoilRoot>
-            <ReactQueryProvider>{children}</ReactQueryProvider>
-          </RecoilRoot>
+          <Providers>
+            <RecoilRoot>
+              <ReactQueryProvider>{children}</ReactQueryProvider>
+            </RecoilRoot>
+          </Providers>
         </BgStyle>
       </BodyStyle>
     </html>
