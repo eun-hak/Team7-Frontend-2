@@ -8,3 +8,8 @@ export const tokenState = atom({
   key: "tokenState",
   default: null,
 });
+
+export const playState = atom({
+  key: "playState",
+  default: "",
+});
