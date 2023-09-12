@@ -4,10 +4,23 @@ import Notification from "@/public/notification.svg";
 import Link from "next/link";
 import BackIcon from "@/public/chevron-left.svg";
 import { usePathname } from "next/navigation";
-
-const UploadHeader = () => {
+import { useFormContext } from "react-hook-form";
+interface propsType {
+  name: string;
+  type: string;
+}
+const UploadHeader = (props: propsType) => {
   const pathname = usePathname();
-
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+    getValues,
+  } = useFormContext();
+  const onSubmit = (data: any) => {
+    // 제출 버튼을 클릭했을 때 실행되는 함수
+    console.log(data); // 폼 데이터 출력
+  };
   return (
     <HeaderWrapper>
       <div>
@@ -17,8 +30,17 @@ const UploadHeader = () => {
               <BackIcon width={55} height={24} />
             </LogoLink>
           </Link>
-          <WordWrap color="rgba(0, 0, 0, 0.87);">새로운 노래</WordWrap>
-          <WordWrap color="rgba(0, 0, 0, 0.38);">올리기</WordWrap>
+          <WordWrap color="rgba(0, 0, 0, 0.87);">{props.name}</WordWrap>
+          <ButtonForm onSubmit={handleSubmit(onSubmit)}>
+            <ButtonWrap
+              type="submit"
+              disabled={isSubmitting}
+              color="rgba(0, 0, 0, 0.38);"
+              visibility={props.type}
+            >
+              올리기
+            </ButtonWrap>
+          </ButtonForm>
         </HeaderTop>
       </div>
 
@@ -31,6 +53,8 @@ export default UploadHeader;
 
 const HeaderWrapper = styled.header`
   width: 100%;
+  background-color: white;
+  z-index: 20;
 `;
 
 const HeaderTop = styled.div`
@@ -55,6 +79,21 @@ const WordWrap = styled.div<{ color: string }>`
   font-weight: 500;
   line-height: normal;
   margin-right: 20px;
+`;
+
+const ButtonForm = styled.form``;
+const ButtonWrap = styled.button<{ color: string; visibility: string }>`
+  background-color: white;
+  border: none;
+  color: ${(props) => props.color};
+  visibility: ${(props) => props.visibility};
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-right: 20px;
+  cursor: pointer;
 `;
 
 const WhiteBackground = styled.div`
