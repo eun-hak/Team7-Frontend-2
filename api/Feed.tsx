@@ -1,7 +1,8 @@
 import { AxiosError } from "axios";
-import JwtInterceptors from "./ApiController";
+import JwtInterceptors, { baseURL } from "./ApiController";
 // import { Feed } from "@/type/feedtype";
 import { MainFeed2 } from "@/type/feedtype";
+
 const Feed = () => {
   const { instance } = JwtInterceptors();
 
@@ -11,8 +12,8 @@ const Feed = () => {
       const data: MainFeed2 = await instance.get(
         `/feeds/feedType?value=${value}`
       );
-      console.log(data.data.data);
-
+      // console.log(data.data.data);
+      console.log(baseURL);
       return data.data.data;
       // return data
     } catch (error) {
