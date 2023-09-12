@@ -4,15 +4,23 @@ import UploadHeader from "@/components/upload_header";
 import MediaFileDownload from "@/components/mediafiledownload";
 import MusicUploadForm from "@/components/musicUploadForm";
 import { FormProvider, useForm } from "react-hook-form";
+import { CustomAudio } from "@/components/audio";
+// import CustomAudioPlayer from "@/components/audio2";
+import CustomAudi from "@/components/audio3";
+
 const Upload = () => {
   const methods = useForm();
   return (
     <FormProvider {...methods}>
       <MainPageWrapper>
         <MainPageContainer>
-          <UploadHeader></UploadHeader>
+          <UploadHeader name="새로운 노래" type="a"></UploadHeader>
           <MusicUploadForm></MusicUploadForm>
           <MediaFileDownload />
+          {/* <CustomAudio></CustomAudio> */}
+          {/* <CustomAudioPlayer /> */}
+
+          <CustomAudi></CustomAudi>
         </MainPageContainer>
       </MainPageWrapper>
     </FormProvider>
