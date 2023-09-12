@@ -18,7 +18,7 @@ const Mypage = () => {
     <FormProvider {...methods}>
       <MainPageWrapper>
         <MainPageContainer>
-          <UploadHeader name="알림" type="hidden"></UploadHeader>
+          <UploadHeader name="내 정보 수정" type="a"></UploadHeader>
         </MainPageContainer>
       </MainPageWrapper>
     </FormProvider>

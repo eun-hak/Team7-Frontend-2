@@ -1,8 +1,12 @@
 import styled from "@emotion/styled";
 import { useFormContext } from "react-hook-form";
 import { useRef, useState } from "react";
+import { useRecoilState } from "recoil";
+import { playState } from "@/recoil/recoilstore";
 
 const MediaFileDownload = () => {
+  const [music, setMusic] = useRecoilState(playState);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<string | undefined>(
     fileInputRef.current?.value
@@ -32,15 +36,23 @@ const MediaFileDownload = () => {
     const file = files[0];
     // file 객체에서 타입 확인
     const fileType = file.type;
-    if (!fileType.includes("m4a")) {
+    if (
+      !fileType.includes("m4a") &&
+      !fileType.includes("mp3") &&
+      !fileType.includes("mpeg")
+    ) {
       alert(
         `해당 파일은 이미지 파일이 아닙니다.\n이미지(JPG,JPEG,GIF,PNG)나 PDF 파일을 업로드 해주세요.`
       );
+      console.log(fileType);
       e.target.value = "";
       setSelectedFile(fileInputRef.current?.value);
       return;
     }
     setSelectedFile(file.name);
+    //blob 파일로
+    console.log(URL.createObjectURL(file));
+    setMusic(URL.createObjectURL(file));
   };
   const onSubmit = (data: any) => {
     // 제출 버튼을 클릭했을 때 실행되는 함수
@@ -65,9 +77,9 @@ const MediaFileDownload = () => {
           파일 업로드 버튼
         </FileUploadButton> */}
         등록할 음악 : {selectedFile}
-        <button type="submit" disabled={isSubmitting}>
+        {/* <button type="submit" disabled={isSubmitting}>
           Submit
-        </button>
+        </button> */}
       </FileUploadForm>
     </FileUploadContainer>
   );
@@ -84,6 +96,7 @@ const FileUploadLabel = styled.label`
   border-radius: 16px;
   margin-top: 8px;
   text-align: center;
+  line-height: 3;
 `;
 const FileUploadContainer = styled.div`
   display: flex;
