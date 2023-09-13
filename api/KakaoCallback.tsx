@@ -54,13 +54,13 @@ function KakaoOAuth2RedirectPage() {
   useEffect(() => {
     if (code) {
       getToken({ code: code }).then((res) => {
-        // router.push("/main");
         setStorage("login", "true");
         console.log(res.data.accessToken);
         setToken(res.data.accessToken);
         setStorage("refresh", res.data.refreshToken);
         setStorage("access", res.data.accessToken);
         console.log(token);
+        router.push("/main?value=전체");
       });
     }
   }, []);

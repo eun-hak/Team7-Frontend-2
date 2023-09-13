@@ -2,14 +2,17 @@ import { tokenState } from "@/recoil/recoilstore";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import jwtDecode, { type JwtPayload } from "jwt-decode";
-import { logout, refresh } from "@/api/etc";
-import { getStorage, isLoginStorage } from "@/util/loginStorage";
+// import { logout, refresh } from "@/api/etc";
+import ETC from "./etc";
+import { getStorage, isLoginStorage, setStorage } from "@/util/loginStorage";
 import { useState } from "react";
+
 // const PROXY_URL = window.location.hostname === "localhost" ? "" : "/proxy";
 // axios.defaults.withCredentials = true;
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const JwtInterceptors = () => {
+  const { logout, refresh } = ETC();
   const [token, setToken] = useRecoilState(tokenState);
   // const [rftoken, setRftoken] = useState();
   const data: any = getStorage("refresh");
@@ -34,8 +37,9 @@ const JwtInterceptors = () => {
       if (res?.status !== 200) {
         throw new Error(`Response status is ${res?.status}`);
       } else {
-        console.log(res);
+        console.log(res.data.accessToken);
         setToken(res.data.accessToken);
+        setStorage("access", res.data.accessToken);
         return res;
       }
     } catch (error) {
