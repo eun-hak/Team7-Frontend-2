@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -17,7 +18,7 @@ function CustomAudio() {
   const [currentTime, setCurrentTime] = useState(0); // 현재 노래의 진행 시간을 나타내는 상태 추가
   const [music, setMusic] = useRecoilState(playState);
   const [play, setPlay] = useState(false); // 재생 상태를 관리하는 상태
-  const audioSrc = music;
+  // const audioSrc = music;
   const [progress, setProgress] = useState(0); // 오디오의 현재 위치를 나타내는 상태
   // 재생 버튼 클릭 시, play 상태를 토글하고 오디오 재생/일시 정지를 수행합니다.
   const togglePlay = () => {
@@ -117,15 +118,15 @@ function CustomAudio() {
                 <img
                   src="/stop-arrow.png"
                   alt="Stop"
-                  width="16px"
-                  height="16px"
+                  width="12px"
+                  height="12px"
                 />
               ) : (
                 <img
                   src="/play-arrow.png"
                   alt="Play"
-                  width="40px"
-                  height="40px"
+                  width="34px"
+                  height="34px"
                 />
               )
             }
@@ -135,7 +136,7 @@ function CustomAudio() {
 
           {/* 여기서 WARNING */}
           <Slider
-            mr={8}
+            mr={6}
             value={isNaN(progress) ? 0 : progress} // duration이 NaN이면 0으로 설정
             onChange={(value) => {
               const audioElement = document.getElementById(
@@ -149,7 +150,7 @@ function CustomAudio() {
               }
               setProgress(value);
             }}
-            w="40%"
+            w="70%"
           >
             <SliderTrack>
               <SliderFilledTrack bg="#651FFF" />
@@ -158,13 +159,15 @@ function CustomAudio() {
           </Slider>
           {/* </Center>
         <Center mt={4}> */}
-          <Box>{formatTime(currentTime)}</Box>
-          <Box mx={2}>/</Box>
-          <Box>{formatTime(totalTime)}</Box>
+          <Center mr={6}>
+            <Box>{formatTime(currentTime)}</Box>
+            <Box mx={2}>/</Box>
+            <Box>{formatTime(totalTime)}</Box>
+          </Center>
         </Center>
 
         {/* 오디오 요소 */}
-        <audio id="audioElement" src={audioSrc} />
+        <audio id="audioElement" src={music} />
       </Box>
     </>
   );
