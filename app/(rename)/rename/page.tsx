@@ -1,12 +1,13 @@
 "use client";
 import styled from "@emotion/styled";
 import UploadHeader from "@/components/upload_header";
-import { logout } from "@/api/etc";
+// import { logout } from "@/api/etc";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
 import FrontIcon from "@/public/chevron-right.svg";
+import RenameForm from "@/components/renameForm";
 
 const Mypage = () => {
   const methods = useForm();
@@ -19,6 +20,7 @@ const Mypage = () => {
       <MainPageWrapper>
         <MainPageContainer>
           <UploadHeader name="내 정보 수정" type="a"></UploadHeader>
+          <RenameForm></RenameForm>
         </MainPageContainer>
       </MainPageWrapper>
     </FormProvider>
