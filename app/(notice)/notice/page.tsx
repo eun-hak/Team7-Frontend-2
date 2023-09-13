@@ -1,7 +1,8 @@
 "use client";
 import styled from "@emotion/styled";
 import UploadHeader from "@/components/upload_header";
-import { logout } from "@/api/etc";
+// import { logout } from "@/api/etc";
+// import ETC from "@/api/etc";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
