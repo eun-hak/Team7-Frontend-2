@@ -11,6 +11,7 @@ import Image from "next/image";
 import { css, keyframes } from "@emotion/react";
 import Category from "@/components/category";
 import { useState } from "react";
+import CustomAudio from "@/components/audio3";
 
 interface BackgroundImages {
   [key: string]: string;
@@ -50,10 +51,11 @@ const Main = () => {
 
       <MainPageContainer>
         <FeedWrap>
-          {data &&
+          <FeedContainer data={data}></FeedContainer>
+          {/* {data &&
             data?.map((data) => {
               return (
-                <FeedBox>
+                <FeedBox key={data.feedId}>
                   <BoxWrap>
                     <BoxWrap2>
                       <WordWrap>
@@ -68,13 +70,14 @@ const Main = () => {
                       👏
                     </ClapWrapper>
                   </BoxWrap>
-                  닉네임 : {data.ownerName}
+                  <CustomAudio></CustomAudio>
+                  <NickName>닉네임 : {data.ownerName}</NickName>
                   <WordBottomWrap>
                     {data.createdAt}-{data.viewCount}번
                   </WordBottomWrap>
                 </FeedBox>
               );
-            })}
+            })} */}
         </FeedWrap>
 
         <Footer />
@@ -85,6 +88,15 @@ const Main = () => {
 
 export default Main;
 
+const NickName = styled.div`
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-left: 10px;
+  margin-top: 10px;
+`;
 const CategoryWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -132,7 +144,7 @@ const BoxWrap2 = styled.div`
 const WordWrap = styled.div`
   display: block;
   font-size: 16px;
-  margin: 10px 10px 8px 10px;
+  margin: 10px 10px 2px 10px;
   color: rgba(0, 0, 0, 0.87);
   font-weight: 700;
 `;
@@ -140,11 +152,13 @@ const VillanType = styled.div`
   font-size: 14px;
   color: rgba(0, 0, 0, 0.6);
   display: block;
-  margin: 0px 10px;
+  margin-left: 10px;
+  margin-bottom: 6px;
 `;
 const WordBottomWrap = styled.div`
   display: flex;
   color: rgba(0, 0, 0, 0.6);
+  margin-left: 10px;
 `;
 
 // 박수 클릭 애니메이션  => 작동안됨
