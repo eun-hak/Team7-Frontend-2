@@ -19,7 +19,7 @@ const Mypage = () => {
     <FormProvider {...methods}>
       <MainPageWrapper>
         <MainPageContainer>
-          <UploadHeader name="내 정보 수정" type="a"></UploadHeader>
+          <UploadHeader name="탈퇴" type="a"></UploadHeader>
           <RenameForm></RenameForm>
         </MainPageContainer>
       </MainPageWrapper>

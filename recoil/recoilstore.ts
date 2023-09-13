@@ -1,3 +1,5 @@
+"use client";
+
 import { atom } from "recoil";
 export const feedstate = atom({
   key: "feedstate",
@@ -6,7 +8,7 @@ export const feedstate = atom({
 
 export const tokenState = atom({
   key: "tokenState",
-  default: null,
+  default: "",
 });
 
 export const playState = atom({

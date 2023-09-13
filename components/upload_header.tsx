@@ -25,7 +25,7 @@ const UploadHeader = (props: propsType) => {
     <HeaderWrapper>
       <div>
         <HeaderTop>
-          <Link href="/main">
+          <Link href="/main?value=전체">
             <LogoLink>
               <BackIcon width={55} height={24} />
             </LogoLink>

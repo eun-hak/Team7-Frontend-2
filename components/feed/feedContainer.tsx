@@ -2,6 +2,9 @@
 import { MainFeed2 } from "@/type/feedtype";
 // import { MainFeed } from "@/type/feedtype";
 import styled from "@emotion/styled";
+import { useRef, useState } from "react";
+import CustomAudio from "../audio3";
+import { css, keyframes } from "@emotion/react";
 // { data }: { data: MainFeed }
 
 // 노래제목 : data.musicName
@@ -11,58 +14,139 @@ import styled from "@emotion/styled";
 // 조회수   : data.viewCount
 // 생성일   : data.createdAt
 // 박수     : 아직 안만들어짐
-const FeedContainer = (data: any) => {
+const FeedContainer = ({ data }: any) => {
+  const colorChange = useRef();
+  // console.log(data);
+  const [clicked, setClicked] = useState(false);
+  const handleButtonClick = () => {
+    setClicked(!clicked);
+  };
   return (
     <>
-      {data.map((data: any) => {
-        return (
-          <FeedWrap>
-            <FeedBox>
+      {data &&
+        data?.map((data: any) => {
+          return (
+            <FeedBox key={data.feedId}>
               <BoxWrap>
-                <WordWrap>
-                  {data.musicName} {data.musicianName}
-                </WordWrap>
-                박수
+                <BoxWrap2>
+                  <WordWrap>
+                    {data.musicName} - {data.musicianName}
+                  </WordWrap>
+                  <VillanType>#{data.feedType}</VillanType>
+                </BoxWrap2>
+                <ClapWrapper onClick={() => handleButtonClick} clicked={false}>
+                  👏
+                </ClapWrapper>
               </BoxWrap>
-              {data.ownerName}
+              <CustomAudio></CustomAudio>
+              <NickName>닉네임 : {data.ownerName}</NickName>
               <WordBottomWrap>
-                {data.createdAt}
-                {data.viewCount}
+                {data.createdAt}-{data.viewCount}번
               </WordBottomWrap>
             </FeedBox>
-          </FeedWrap>
-        );
-      })}
+          );
+        })}
     </>
   );
 };
 
 export default FeedContainer;
 
-const FeedWrap = styled.div`
-  display: flex;
-  flex-direction: column;
+const NickName = styled.div`
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-left: 10px;
+  margin-top: 10px;
 `;
-
 const FeedBox = styled.div`
   width: 327px;
-  height: 128px;
+  height: 188px;
   border-radius: 16px;
   background: #fff;
   display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer, Edge */
+  ::-webkit-scrollbar {
+    width: 0.5em; /* Chrome, Safari, Opera */
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
 `;
 
 const BoxWrap = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: space-between;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
+const BoxWrap2 = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 //노래제목 / 빌런 사이 간격
 const WordWrap = styled.div`
   display: block;
+  font-size: 16px;
+  margin: 10px 10px 2px 10px;
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 700;
 `;
-
+const VillanType = styled.div`
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  display: block;
+  margin-left: 10px;
+  margin-bottom: 6px;
+`;
 const WordBottomWrap = styled.div`
   display: flex;
+  color: rgba(0, 0, 0, 0.6);
+  margin-left: 10px;
+`;
+
+// 박수 클릭 애니메이션  => 작동안됨
+const pingAnimation = (props: { clicked: boolean }) =>
+  props.clicked &&
+  css`
+    animation: ${pingKeyframes} 1s infinite;
+  `;
+
+const pingKeyframes = keyframes`
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.2;
+  }
+`;
+
+const ClapWrapper = styled.div<{ clicked: boolean }>`
+  border-radius: 8px;
+  border: 2px solid #651fff;
+  width: 60px;
+  height: 34px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 20px;
+  margin: 10px;
+  &:hover {
+    cursor: pointer;
+    background-color: #651fff;
+  }
+  &:active {
+    content: "박수";
+    cursor: pointer;
+    background-color: blue;
+  }
+
+  ${pingAnimation};
 `;

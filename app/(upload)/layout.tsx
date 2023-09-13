@@ -14,17 +14,15 @@ const inter = Inter({ subsets: ["latin"] });
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en">
-      <BodyStyle>
-        <BgStyle>
-          <Providers>
-            <RecoilRoot>
-              <ReactQueryProvider>{children}</ReactQueryProvider>
-            </RecoilRoot>
-          </Providers>
-        </BgStyle>
-      </BodyStyle>
-    </html>
+    <BodyStyle>
+      <BgStyle>
+        <Providers>
+          {/* <RecoilRoot> */}
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+          {/* </RecoilRoot> */}
+        </Providers>
+      </BgStyle>
+    </BodyStyle>
   );
 };
 
