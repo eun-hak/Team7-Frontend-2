@@ -18,7 +18,7 @@ const Footer = () => {
     <FooterWrapper>
       <FooterContainer>
         <FooterIcons>
-          <FooterIconLink href="/main">
+          <FooterIconLink href="/main?value=전체">
             <FooterIcon>
               <Home />
             </FooterIcon>

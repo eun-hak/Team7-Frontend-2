@@ -1,7 +1,7 @@
 "use client";
 import styled from "@emotion/styled";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const category = [
   "전체",
@@ -50,6 +50,7 @@ const CategoryWrapper = styled.div`
   justify-content: flex-start;
 `;
 
+//여기 useref이용해서 focus 바꾸기
 const CategoryButton = styled.button`
   padding: 0.5rem 1rem;
   margin: 24px 4px;
@@ -83,6 +84,14 @@ const CategoryButton = styled.button`
 // router.navigate('/other-page');
 
 const Category = () => {
+  // const handleChange = () => {
+  //   if(colorChange.current !== undefined){
+  //     colorChange.current.style = "width:300px; height:300px; background:red;"
+  //     //4. 해당 ref 이름과 current 를이용해 직접 조정할 수 있다.
+  //   }
+
+  // };
+  const colorChange = useRef();
   const searchParams = useSearchParams();
 
   const searchValue = searchParams.get("value") || "";
