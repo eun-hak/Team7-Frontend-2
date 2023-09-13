@@ -1,7 +1,8 @@
 "use client";
 import styled from "@emotion/styled";
 import UploadHeader from "@/components/upload_header";
-import { logout } from "@/api/etc";
+// import { logout } from "@/api/etc";
+import ETC from "@/api/etc";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
@@ -10,12 +11,16 @@ import FrontIcon from "@/public/chevron-right.svg";
 import { useRouter } from "next/navigation";
 
 const Mypage = () => {
+  const { logout } = ETC();
   const methods = useForm();
   const [token, setToken] = useRecoilState(tokenState);
   const router = useRouter();
   const handleLogoutAndRedirect = () => {
-    logout(); // 로그아웃 함수 호출
-    router.push("/main"); // 화면 이동
+    logout(() => {
+      router.push("/main"); // 특정 조건이 만족하는 경우에만 화면 이동
+    });
+    // logout(); // 로그아웃 함수 호출
+    // router.push("/main"); // 화면 이동
   };
   useEffect(() => {
     console.log(token);
