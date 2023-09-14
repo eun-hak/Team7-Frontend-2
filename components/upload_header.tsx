@@ -5,11 +5,15 @@ import Link from "next/link";
 import BackIcon from "@/public/chevron-left.svg";
 import { usePathname } from "next/navigation";
 import { useFormContext } from "react-hook-form";
+import { getStorage } from "@/util/loginStorage";
+import JwtInterceptors from "@/api/ApiController";
+import SubmitFeed from "@/api/SubmitFeed";
 interface propsType {
   name: string;
   type: string;
 }
 const UploadHeader = (props: propsType) => {
+  const { submit } = SubmitFeed();
   const pathname = usePathname();
   const {
     register,
@@ -17,9 +21,30 @@ const UploadHeader = (props: propsType) => {
     formState: { isSubmitting, errors },
     getValues,
   } = useFormContext();
+  const member = getStorage("member")?.replace(/\"/gi, "");
+  const formDataToSend: any = new FormData();
   const onSubmit = (data: any) => {
+    formDataToSend.append("ownerId", getStorage("member")?.replace(/\"/gi, ""));
+    formDataToSend.append("musicName", data.songTitle);
+    formDataToSend.append("musicianName", data.artist);
+    formDataToSend.append("feedType", data.villainType);
+    formDataToSend.append("description", data.description);
+    formDataToSend.append("recordDuration", 500);
+    formDataToSend.append("recordFile", data.audio);
+    submit(formDataToSend);
+    // submit(formDataToSend);
+    // console.log(typeof formDataToSend);
     // 제출 버튼을 클릭했을 때 실행되는 함수
-    console.log(data); // 폼 데이터 출력
+    // console.log([
+    //   formDataToSend,
+    //   // getStorage("member")?.replace(/\"/gi, ""),
+    //   // data.songTitle,
+    //   // data.artist,
+    //   // data.villainType,
+    //   // data.description,
+    //   // "500",
+    //   // data.audio,
+    // ]); // 폼 데이터 출력
   };
   return (
     <HeaderWrapper>

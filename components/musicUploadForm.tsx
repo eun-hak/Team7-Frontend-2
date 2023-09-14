@@ -48,6 +48,11 @@ const MusicUploadForm = () => {
       {errors.villainType && (
         <span className="error-message">errors.villainType.message</span>
       )}
+      <MusicDescription
+        {...register("description", { required: "설명을 입력해주세요" })}
+        placeholder="설명을 입력해주세요"
+      />
+      {errors.artist && <div>errors.artist.message</div>}
       {/* 제출 버튼 */}
       {/* <button type="submit" disabled={isSubmitting}>
         Submit
@@ -68,6 +73,15 @@ const MusicWrapper = styled.form`
 const MusicInput = styled.input`
   width: 327px;
   height: 48px;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  margin-top: 8px;
+  border: none;
+`;
+
+const MusicDescription = styled.input`
+  width: 327px;
+  height: 96px;
   background-color: rgba(0, 0, 0, 0.04);
   border-radius: 8px;
   margin-top: 8px;
