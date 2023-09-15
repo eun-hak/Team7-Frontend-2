@@ -17,7 +17,7 @@ const Mypage = () => {
   const router = useRouter();
   const handleLogoutAndRedirect = () => {
     logout(() => {
-      router.push("/main"); // 특정 조건이 만족하는 경우에만 화면 이동
+      router.push("/main?value=전체"); // 특정 조건이 만족하는 경우에만 화면 이동
     });
     // logout(); // 로그아웃 함수 호출
     // router.push("/main"); // 화면 이동
@@ -30,23 +30,35 @@ const Mypage = () => {
       <MainPageWrapper>
         <MainPageContainer>
           <UploadHeader name="마이페이지" type="hidden"></UploadHeader>
+          <ContentWrapper onClick={() => router.push("/rename")}>
+            <NicknameWrapper>닉네임</NicknameWrapper>
+            <EditWrapper>
+              <WordWrapper>수정하기</WordWrapper>
+              <LogoLink>
+                <FrontIcon width={55} height={24} />
+              </LogoLink>
+            </EditWrapper>
+          </ContentWrapper>
+
           <ContentWrapper>
-            닉네임
-            <LogoLink>
-              <FrontIcon width={55} height={24} />
-            </LogoLink>
+            <NicknameWrapper onClick={() => router.push("/mysong")}>
+              내 노래
+            </NicknameWrapper>
+            <EditWrapper>
+              <WordWrapper>0곡</WordWrapper>
+              <LogoLink>
+                <FrontIcon width={55} height={24} />
+              </LogoLink>
+            </EditWrapper>
           </ContentWrapper>
           <ContentWrapper>
-            내 노래
-            <LogoLink>
-              <FrontIcon width={55} height={24} />
-            </LogoLink>
-          </ContentWrapper>
-          <ContentWrapper>
-            박수 친 노래
-            <LogoLink>
-              <FrontIcon width={55} height={24} />
-            </LogoLink>
+            <NicknameWrapper> 박수 친 노래</NicknameWrapper>
+            <EditWrapper>
+              <WordWrapper>0곡</WordWrapper>
+              <LogoLink>
+                <FrontIcon width={55} height={24} />
+              </LogoLink>
+            </EditWrapper>
           </ContentWrapper>
           <ContentWrapper onClick={() => handleLogoutAndRedirect()}>
             로그아웃
@@ -67,7 +79,9 @@ const Mypage = () => {
 };
 
 export default Mypage;
-
+const EditWrapper = styled.div`
+  display: flex;
+`;
 const ContentWrapper = styled.div`
   width: 100%;
   height: 56px;
@@ -101,4 +115,15 @@ const LogoLink = styled.div`
   height: 24px;
   line-height: 4;
   margin-right: 14px;
+`;
+
+const WordWrapper = styled.div`
+  margin-right: 10px;
+  line-height: 3.5;
+  color: rgba(0, 0, 0, 0.6);
+`;
+
+const NicknameWrapper = styled.div`
+  flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
+  margin-right: 10px; /* "수정하기"와 간격 주기 */
 `;

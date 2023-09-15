@@ -60,9 +60,9 @@ const JwtInterceptors = () => {
           alert("로그인 시간이 만료되었습니다\n다시 로그인 해주세요");
           await logout();
         }
-        config.headers["Authorization"] = result?.data.AccessToken;
+        config.headers["Authorization"] = `Bearer ${result?.data.AccessToken}`;
       } else {
-        config.headers["Authorization"] = token;
+        config.headers["Authorization"] = `Bearer ${token}`;
       }
       console.log(token);
       console.log(config.headers.Authorization);

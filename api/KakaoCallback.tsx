@@ -59,6 +59,7 @@ function KakaoOAuth2RedirectPage() {
         setToken(res.data.accessToken);
         setStorage("refresh", res.data.refreshToken);
         setStorage("access", res.data.accessToken);
+        setStorage("member", res.data.memberId);
         console.log(token);
         router.push("/main?value=전체");
       });

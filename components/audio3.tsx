@@ -101,75 +101,72 @@ function CustomAudio() {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
   return (
-    <>
-      <Box>
-        <Center>
-          {/* Slider를 사용한 프로그레스 바 */}
-          {/* 재생/일시 정지 버튼 */}
+    <Box>
+      <Center>
+        {/* Slider를 사용한 프로그레스 바 */}
+        {/* 재생/일시 정지 버튼 */}
 
-          <IconButton
-            mr={2}
-            bg="transparent"
-            aria-label="Play"
-            onClick={togglePlay}
-            colorScheme={play ? "transparent" : "transparent"}
-            icon={
-              play ? (
-                <img
-                  src="/stop-arrow.png"
-                  alt="Stop"
-                  width="12px"
-                  height="12px"
-                />
-              ) : (
-                <img
-                  src="/play-arrow.png"
-                  alt="Play"
-                  width="34px"
-                  height="34px"
-                />
-              )
+        <IconButton
+          mr={2}
+          bg="transparent"
+          aria-label="Play"
+          onClick={togglePlay}
+          colorScheme={play ? "transparent" : "transparent"}
+          icon={
+            play ? (
+              <img
+                src="/stop-arrow.png"
+                alt="Stop"
+                width="12px"
+                height="12px"
+              />
+            ) : (
+              <img
+                src="/play-arrow.png"
+                alt="Play"
+                width="34px"
+                height="34px"
+              />
+            )
+          }
+        >
+          {play ? "일시 정지" : "재생"}
+        </IconButton>
+
+        {/* 여기서 WARNING */}
+        <Slider
+          mr={6}
+          value={isNaN(progress) ? 0 : progress} // duration이 NaN이면 0으로 설정
+          onChange={(value) => {
+            const audioElement = document.getElementById(
+              "audioElement"
+            ) as HTMLAudioElement;
+            const duration = audioElement.duration;
+            if (!isNaN(duration)) {
+              // duration이 NaN이 아닌 경우에만 업데이트
+              const newTime = (value / 100) * duration;
+              audioElement.currentTime = newTime;
             }
-          >
-            {play ? "일시 정지" : "재생"}
-          </IconButton>
-
-          {/* 여기서 WARNING */}
-          <Slider
-            mr={6}
-            value={isNaN(progress) ? 0 : progress} // duration이 NaN이면 0으로 설정
-            onChange={(value) => {
-              const audioElement = document.getElementById(
-                "audioElement"
-              ) as HTMLAudioElement;
-              const duration = audioElement.duration;
-              if (!isNaN(duration)) {
-                // duration이 NaN이 아닌 경우에만 업데이트
-                const newTime = (value / 100) * duration;
-                audioElement.currentTime = newTime;
-              }
-              setProgress(value);
-            }}
-            w="70%"
-          >
-            <SliderTrack>
-              <SliderFilledTrack bg="#651FFF" />
-            </SliderTrack>
-            <SliderThumb bg="#651FFF" />
-          </Slider>
-          {/* </Center>
+            setProgress(value);
+          }}
+          w="70%"
+        >
+          <SliderTrack>
+            <SliderFilledTrack bg="#651FFF" />
+          </SliderTrack>
+          <SliderThumb bg="#651FFF" />
+        </Slider>
+        {/* </Center>
         <Center mt={4}> */}
-          <Center mr={6}>
-            <Box>{formatTime(currentTime)}</Box>
-            <Box mx={2}>/</Box>
-            <Box>{formatTime(totalTime)}</Box>
-          </Center>
+        <Center mr={6}>
+          <Box>{formatTime(currentTime)}</Box>
+          <Box mx={2}>/</Box>
+          <Box>{formatTime(totalTime)}</Box>
         </Center>
-
-        {/* 오디오 요소 */}
-        <audio id="audioElement" src={music} />
-      </Box>
-    </>
+      </Center>
+      <audio id="audioElement" src={music} />
+      {/* 오디오 요소 */}
+    </Box>
   );
 }
 

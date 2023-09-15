@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import Feed from "@/api/Feed";
 import React, { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getStorage } from "@/util/loginStorage";
 interface BackgroundColors {
   [key: string]: string;
 }
@@ -45,6 +46,7 @@ const Body = () => {
   const feed = Feed();
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("value") || "";
+  const memberId = getStorage("member")?.replace(/\"/gi, "");
   // const value = "고음괴물";
 
   const { data } = useQuery(
@@ -52,7 +54,14 @@ const Body = () => {
     () => feed.all(searchValue),
     {}
   );
-  return { data };
+
+  const { data: myfeed } = useQuery(
+    ["myfeed", memberId],
+    () => feed.myfeed(memberId),
+    {}
+  );
+
+  return { data, myfeed };
 };
 
 export default Body;

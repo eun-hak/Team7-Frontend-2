@@ -22,7 +22,21 @@ const Feed = () => {
     }
   };
 
-  return { all };
+  //내가 만든 피드
+  const myfeed = async (id: string | undefined) => {
+    try {
+      const data: MainFeed2 = await instance.get(`/feeds/member?id=${id}`);
+      // console.log(data.data.data);
+      // console.log(baseURL);
+      return data.data.data;
+      // return data
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      console.error(axiosError.message);
+    }
+  };
+
+  return { all, myfeed };
 };
 
 export default Feed;
