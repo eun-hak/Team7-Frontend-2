@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import { useRef, useState } from "react";
 import CustomAudio from "../audio3";
 import { css, keyframes } from "@emotion/react";
+import { usePathname } from "next/navigation";
 // { data }: { data: MainFeed }
 
 // 노래제목 : data.musicName
@@ -15,6 +16,9 @@ import { css, keyframes } from "@emotion/react";
 // 생성일   : data.createdAt
 // 박수     : 아직 안만들어짐
 const FeedContainer = ({ data }: any) => {
+  const path = usePathname();
+  const parts = path.split("/"); // 경로를 '/' 문자로 분리
+  const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
   const colorChange = useRef();
   // console.log(data);
   const [clicked, setClicked] = useState(false);
@@ -34,9 +38,19 @@ const FeedContainer = ({ data }: any) => {
                   </WordWrap>
                   <VillanType>#{data.feedType}</VillanType>
                 </BoxWrap2>
-                <ClapWrapper onClick={() => handleButtonClick} clicked={false}>
-                  👏
-                </ClapWrapper>
+                {lastPart === "mysong" ? (
+                  <>
+                    <ModifyWrap>수정</ModifyWrap>
+                    <DeleteWrap>삭제</DeleteWrap>
+                  </>
+                ) : (
+                  <ClapWrapper
+                    onClick={() => handleButtonClick}
+                    clicked={false}
+                  >
+                    👏
+                  </ClapWrapper>
+                )}
               </BoxWrap>
               <CustomAudio></CustomAudio>
               <NickName>닉네임 : {data.ownerName}</NickName>
@@ -52,6 +66,18 @@ const FeedContainer = ({ data }: any) => {
 
 export default FeedContainer;
 
+const ModifyWrap = styled.div`
+  margin-left: 30px;
+  margin-top: 13px;
+  color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+`;
+const DeleteWrap = styled.div`
+  margin-right: 15px;
+  margin-top: 13px;
+  color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+`;
 const NickName = styled.div`
   color: rgba(0, 0, 0, 0.87);
   font-size: 14px;

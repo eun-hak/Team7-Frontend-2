@@ -8,13 +8,19 @@ import { useFormContext } from "react-hook-form";
 import { getStorage } from "@/util/loginStorage";
 import JwtInterceptors from "@/api/ApiController";
 import SubmitFeed from "@/api/SubmitFeed";
+import { useRouter } from "next/navigation";
+import ReName from "@/api/Rename";
 interface propsType {
   name: string;
   type: string;
 }
 const UploadHeader = (props: propsType) => {
+  const path = usePathname();
+  const parts = path.split("/"); // 경로를 '/' 문자로 분리
+  const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
+  const { rename } = ReName();
   const { submit } = SubmitFeed();
-  const pathname = usePathname();
+
   const {
     register,
     handleSubmit,
@@ -23,28 +29,18 @@ const UploadHeader = (props: propsType) => {
   } = useFormContext();
   const member = getStorage("member")?.replace(/\"/gi, "");
   const formDataToSend: any = new FormData();
-  const onSubmit = (data: any) => {
+  const onSubmitUpload = (data: any) => {
     formDataToSend.append("ownerId", getStorage("member")?.replace(/\"/gi, ""));
     formDataToSend.append("musicName", data.songTitle);
     formDataToSend.append("musicianName", data.artist);
     formDataToSend.append("feedType", data.villainType);
     formDataToSend.append("description", data.description);
     formDataToSend.append("recordDuration", 500);
-    formDataToSend.append("recordFile", data.audio);
+    formDataToSend.append("recordFile", data.audio[0]);
     submit(formDataToSend);
-    // submit(formDataToSend);
-    // console.log(typeof formDataToSend);
-    // 제출 버튼을 클릭했을 때 실행되는 함수
-    // console.log([
-    //   formDataToSend,
-    //   // getStorage("member")?.replace(/\"/gi, ""),
-    //   // data.songTitle,
-    //   // data.artist,
-    //   // data.villainType,
-    //   // data.description,
-    //   // "500",
-    //   // data.audio,
-    // ]); // 폼 데이터 출력
+  };
+  const onSubmitRename = (data: any) => {
+    rename(data.rename);
   };
   return (
     <HeaderWrapper>
@@ -56,16 +52,40 @@ const UploadHeader = (props: propsType) => {
             </LogoLink>
           </Link>
           <WordWrap color="rgba(0, 0, 0, 0.87);">{props.name}</WordWrap>
-          <ButtonForm onSubmit={handleSubmit(onSubmit)}>
-            <ButtonWrap
-              type="submit"
-              disabled={isSubmitting}
-              color="rgba(0, 0, 0, 0.38);"
-              visibility={props.type}
-            >
-              올리기
-            </ButtonWrap>
-          </ButtonForm>
+          {lastPart === "upload" ? (
+            <ButtonForm onSubmit={handleSubmit(onSubmitUpload)}>
+              <ButtonWrap
+                type="submit"
+                disabled={isSubmitting}
+                color="rgba(0, 0, 0, 0.38);"
+                visibility={props.type}
+              >
+                올리기
+              </ButtonWrap>
+            </ButtonForm>
+          ) : lastPart === "rename" ? (
+            <ButtonForm onSubmit={handleSubmit(onSubmitRename)}>
+              <ButtonWrap
+                type="submit"
+                disabled={isSubmitting}
+                color="rgba(0, 0, 0, 0.38);"
+                visibility={props.type}
+              >
+                완료
+              </ButtonWrap>
+            </ButtonForm>
+          ) : (
+            <ButtonForm onSubmit={handleSubmit(onSubmitRename)}>
+              <ButtonWrap
+                type="submit"
+                disabled={isSubmitting}
+                color="rgba(0, 0, 0, 0.38);"
+                visibility={props.type}
+              >
+                올리기
+              </ButtonWrap>
+            </ButtonForm>
+          )}
         </HeaderTop>
       </div>
 
