@@ -4,7 +4,7 @@ import UploadHeader from "@/components/upload_header";
 // import { logout } from "@/api/etc";
 import ETC from "@/api/etc";
 import { FormProvider, useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
 import FrontIcon from "@/public/chevron-right.svg";
@@ -15,6 +15,7 @@ const Mypage = () => {
   const methods = useForm();
   const [token, setToken] = useRecoilState(tokenState);
   const router = useRouter();
+  
   const handleLogoutAndRedirect = () => {
     logout(() => {
       router.push("/main?value=전체"); // 특정 조건이 만족하는 경우에만 화면 이동

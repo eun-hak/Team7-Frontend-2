@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import UploadHeader from "@/components/upload_header";
 // import { logout } from "@/api/etc";
 import { FormProvider, useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
 import FrontIcon from "@/public/chevron-right.svg";
@@ -15,6 +15,7 @@ const Mypage = () => {
   const methods = useForm();
   const { myfeed } = Body();
   const [token, setToken] = useRecoilState(tokenState);
+  
   useEffect(() => {
     console.log(token);
   }, []);

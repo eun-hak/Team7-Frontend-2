@@ -6,6 +6,9 @@ import { useRef, useState } from "react";
 import CustomAudio from "../audio3";
 import { css, keyframes } from "@emotion/react";
 import { usePathname } from "next/navigation";
+import Modal from "../modal";
+import ModalForm from "../modalform";
+import { getStorage, setStorage } from "@/util/loginStorage";
 // { data }: { data: MainFeed }
 
 // 노래제목 : data.musicName
@@ -19,6 +22,7 @@ const FeedContainer = ({ data }: any) => {
   const path = usePathname();
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
   const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const colorChange = useRef();
   // console.log(data);
   const [clicked, setClicked] = useState(false);
@@ -41,7 +45,21 @@ const FeedContainer = ({ data }: any) => {
                 {lastPart === "mysong" ? (
                   <>
                     <ModifyWrap>수정</ModifyWrap>
-                    <DeleteWrap>삭제</DeleteWrap>
+                    <DeleteWrap
+                      onClick={() => {
+                        setModalIsOpen(true);
+                        setStorage("delete", data.feedId);
+                      }}
+                    >
+                      삭제
+                    </DeleteWrap>
+                    <Modal
+                      isOpen={modalIsOpen}
+                      onRequestClose={() => setModalIsOpen(false)}
+                    >
+                      <ModalForm setModalIsOpen={setModalIsOpen}></ModalForm>
+                      {/* <ModalForm></ModalForm> */}
+                    </Modal>
                   </>
                 ) : (
                   <ClapWrapper
