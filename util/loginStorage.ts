@@ -18,7 +18,7 @@ export const isLoginStorage = () => {
   // return true;
 };
 
-export const getStorage = (key: string, defaultValue = undefined) => {
+export const getStorage = (key: string, defaultValue = "undefined") => {
   if (typeof window !== "undefined") {
     try {
       const storedValue = localStorage.getItem(key);
