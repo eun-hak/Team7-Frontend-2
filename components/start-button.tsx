@@ -17,9 +17,7 @@ interface ButtonProps {
 const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
-// process.env.NODE_ENV === "production"
-//   ? process.env.REDIRECT_URI
-//   : process.env.PUBLIC_REDIRECT_URI; // 카카오 API 설정에 등록한 리다이렉트 URI
+// 카카오 API 설정에 등록한 리다이렉트 URI
 
 const REDIRECT_URI2 = "team7-frontend-2.vercel.app/kakaoredirect"; // 카카오 API 설정에 등록한 리다이렉트 URI
 // "카카오로 시작하기": process.env.NEXT_PUBLIC_KAKAO_LOGIN_URL,
