@@ -11,6 +11,7 @@ import SubmitFeed from "@/api/SubmitFeed";
 import { useRouter } from "next/navigation";
 import ReName from "@/api/Rename";
 import Feed from "@/api/Feed";
+import { useState } from "react";
 interface propsType {
   name: string;
   type: string;
