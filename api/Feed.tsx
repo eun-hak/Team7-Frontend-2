@@ -1,7 +1,8 @@
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import JwtInterceptors, { baseURL } from "./ApiController";
 // import { Feed } from "@/type/feedtype";
 import { MainFeed2 } from "@/type/feedtype";
+import { getStorage } from "@/util/loginStorage";
 
 const Feed = () => {
   const { instance } = JwtInterceptors();
@@ -36,7 +37,24 @@ const Feed = () => {
     }
   };
 
-  return { all, myfeed };
+  const modifyfeed = async (formdata: { code: object }) => {
+    const token: any = getStorage("access");
+    const token2 = `Bearer ${token.replace(/\"/gi, "")}`;
+    try {
+      const response = await axios.put(`${baseURL}feeds`, formdata, {
+        headers: {
+          Authorization: token2,
+        },
+      });
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.error("Error getting access token:", error);
+      throw error;
+    }
+  };
+
+  return { all, myfeed, modifyfeed };
 };
 
 export default Feed;

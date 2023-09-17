@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import { useRef, useState } from "react";
 import CustomAudio from "../audio3";
 import { css, keyframes } from "@emotion/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Modal from "../modal";
 import ModalForm from "../modalform";
 import { getStorage, setStorage } from "@/util/loginStorage";
@@ -19,6 +19,8 @@ import { getStorage, setStorage } from "@/util/loginStorage";
 // 생성일   : data.createdAt
 // 박수     : 아직 안만들어짐
 const FeedContainer = ({ data }: any) => {
+  const router = useRouter();
+  const [modalData, setModalData] = useState<any>([]);
   const path = usePathname();
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
   const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
@@ -44,11 +46,20 @@ const FeedContainer = ({ data }: any) => {
                 </BoxWrap2>
                 {lastPart === "mysong" ? (
                   <>
-                    <ModifyWrap>수정</ModifyWrap>
+                    <ModifyWrap
+                      onClick={() => {
+                        router.push("/reupload");
+                        setStorage("modify", data.feedId);
+                        setModalData([data.musicName, data.musicianName]);
+                      }}
+                    >
+                      수정
+                    </ModifyWrap>
                     <DeleteWrap
                       onClick={() => {
                         setModalIsOpen(true);
                         setStorage("delete", data.feedId);
+                        setModalData([data.musicName, data.musicianName]);
                       }}
                     >
                       삭제
@@ -57,7 +68,11 @@ const FeedContainer = ({ data }: any) => {
                       isOpen={modalIsOpen}
                       onRequestClose={() => setModalIsOpen(false)}
                     >
-                      <ModalForm setModalIsOpen={setModalIsOpen}></ModalForm>
+                      <ModalForm
+                        setModalIsOpen={setModalIsOpen}
+                        musicname={modalData[0]}
+                        musician={modalData[1]}
+                      ></ModalForm>
                       {/* <ModalForm></ModalForm> */}
                     </Modal>
                   </>
