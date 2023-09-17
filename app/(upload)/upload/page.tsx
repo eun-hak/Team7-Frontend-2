@@ -17,8 +17,6 @@ const Upload = () => {
           <UploadHeader name="새로운 노래" type="a"></UploadHeader>
           <MusicUploadForm></MusicUploadForm>
           <MediaFileDownload />
-          {/* <CustomAudio></CustomAudio> */}
-          {/* <CustomAudioPlayer /> */}
           <UploadBox>
             <CustomAudio></CustomAudio>
           </UploadBox>
