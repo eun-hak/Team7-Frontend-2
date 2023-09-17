@@ -14,7 +14,7 @@ const Upload = () => {
     <FormProvider {...methods}>
       <MainPageWrapper>
         <MainPageContainer>
-          <UploadHeader name="새로운 노래" type="a"></UploadHeader>
+          <UploadHeader name="노래 수정" type="a"></UploadHeader>
           <MusicUploadForm></MusicUploadForm>
           <MediaFileDownload />
           <UploadBox>

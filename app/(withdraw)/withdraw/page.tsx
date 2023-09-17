@@ -20,7 +20,6 @@ const Mypage = () => {
       <MainPageWrapper>
         <MainPageContainer>
           <UploadHeader name="탈퇴" type="a"></UploadHeader>
-          <RenameForm></RenameForm>
         </MainPageContainer>
       </MainPageWrapper>
     </FormProvider>

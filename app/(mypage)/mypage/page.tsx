@@ -8,20 +8,21 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
 import FrontIcon from "@/public/chevron-right.svg";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import Modal from "@/components/modal";
+import ModalForm from "@/components/modalform";
 
 const Mypage = () => {
   const { logout } = ETC();
   const methods = useForm();
   const [token, setToken] = useRecoilState(tokenState);
   const router = useRouter();
-  
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const handleLogoutAndRedirect = () => {
     logout(() => {
       router.push("/main?value=전체"); // 특정 조건이 만족하는 경우에만 화면 이동
     });
-    // logout(); // 로그아웃 함수 호출
-    // router.push("/main"); // 화면 이동
   };
   useEffect(() => {
     console.log(token);
@@ -41,10 +42,8 @@ const Mypage = () => {
             </EditWrapper>
           </ContentWrapper>
 
-          <ContentWrapper>
-            <NicknameWrapper onClick={() => router.push("/mysong")}>
-              내 노래
-            </NicknameWrapper>
+          <ContentWrapper onClick={() => router.push("/mysong")}>
+            <NicknameWrapper>내 노래</NicknameWrapper>
             <EditWrapper>
               <WordWrapper>0곡</WordWrapper>
               <LogoLink>
@@ -61,11 +60,23 @@ const Mypage = () => {
               </LogoLink>
             </EditWrapper>
           </ContentWrapper>
-          <ContentWrapper onClick={() => handleLogoutAndRedirect()}>
+          {/* <ContentWrapper onClick={() => handleLogoutAndRedirect()}> */}
+          <ContentWrapper
+            onClick={() => {
+              setModalIsOpen(true);
+            }}
+          >
             로그아웃
             <LogoLink>
               <FrontIcon width={55} height={24} />
             </LogoLink>
+            <Modal
+              isOpen={modalIsOpen}
+              onRequestClose={() => setModalIsOpen(false)}
+            >
+              <ModalForm setModalIsOpen={setModalIsOpen}></ModalForm>
+              {/* <ModalForm></ModalForm> */}
+            </Modal>
           </ContentWrapper>
           <ContentWrapper>
             탈퇴하기

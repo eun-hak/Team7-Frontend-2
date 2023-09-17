@@ -10,16 +10,20 @@ import JwtInterceptors from "@/api/ApiController";
 import SubmitFeed from "@/api/SubmitFeed";
 import { useRouter } from "next/navigation";
 import ReName from "@/api/Rename";
+import Feed from "@/api/Feed";
+import { useState } from "react";
 interface propsType {
   name: string;
   type: string;
 }
 const UploadHeader = (props: propsType) => {
   const path = usePathname();
+  const router = useRouter();
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
   const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
   const { rename } = ReName();
   const { submit } = SubmitFeed();
+  const { modifyfeed } = Feed();
 
   const {
     register,
@@ -38,6 +42,20 @@ const UploadHeader = (props: propsType) => {
     formDataToSend.append("recordDuration", 500);
     formDataToSend.append("recordFile", data.audio[0]);
     submit(formDataToSend);
+    alert("등록되었습니다");
+    window.location.reload();
+  };
+
+  const onSubmitReUpload = (data: any) => {
+    formDataToSend?.append("musicName", data.songTitle);
+    formDataToSend?.append("musicianName", data.artist);
+    formDataToSend?.append("feedId", getStorage("modify")?.replace(/\"/gi, ""));
+    formDataToSend?.append("feedType", data.villainType);
+    formDataToSend?.append("description", data.description);
+    formDataToSend?.append("recordFile", data.audio[0]);
+    modifyfeed(formDataToSend);
+    alert("수정되었습니다");
+    router.push("/mysong");
   };
   const onSubmitRename = (data: any) => {
     rename(data.rename);
@@ -65,6 +83,17 @@ const UploadHeader = (props: propsType) => {
             </ButtonForm>
           ) : lastPart === "rename" ? (
             <ButtonForm onSubmit={handleSubmit(onSubmitRename)}>
+              <ButtonWrap
+                type="submit"
+                disabled={isSubmitting}
+                color="rgba(0, 0, 0, 0.38);"
+                visibility={props.type}
+              >
+                완료
+              </ButtonWrap>
+            </ButtonForm>
+          ) : lastPart === "reupload" ? (
+            <ButtonForm onSubmit={handleSubmit(onSubmitReUpload)}>
               <ButtonWrap
                 type="submit"
                 disabled={isSubmitting}
