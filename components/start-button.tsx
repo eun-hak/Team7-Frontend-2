@@ -12,8 +12,10 @@ type Label =
 interface ButtonProps {
   label: Label;
 }
-const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID;
-const REDIRECT_URI = process.env.REDIRECT_URI;
+// const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID;
+// const REDIRECT_URI = process.env.REDIRECT_URI;
+const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
+const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
 // process.env.NODE_ENV === "production"
 //   ? process.env.REDIRECT_URI
