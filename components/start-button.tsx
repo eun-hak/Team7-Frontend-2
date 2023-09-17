@@ -12,8 +12,13 @@ type Label =
 interface ButtonProps {
   label: Label;
 }
-const KAKAO_CLIENT_ID = "44c1e368ad544d9a04d7a413f08b1e51";
-const REDIRECT_URI = "http://localhost:3000/kakaoredirect"; // 카카오 API 설정에 등록한 리다이렉트 URI
+const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID;
+const REDIRECT_URI =
+  process.env.NODE_ENV === "production"
+    ? process.env.REDIRECT_URI
+    : process.env.PUBLIC_REDIRECT_URI; // 카카오 API 설정에 등록한 리다이렉트 URI
+
+const REDIRECT_URI2 = "team7-frontend-2.vercel.app/kakaoredirect"; // 카카오 API 설정에 등록한 리다이렉트 URI
 // "카카오로 시작하기": process.env.NEXT_PUBLIC_KAKAO_LOGIN_URL,
 const BUTTON_LINKS = {
   시작하기: "/sign",
