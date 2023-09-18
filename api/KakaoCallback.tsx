@@ -21,10 +21,13 @@ function KakaoOAuth2RedirectPage() {
   const code = searchParams.get("code");
 
   const [token, setToken] = useRecoilState(tokenState);
+  const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
+  const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
   // 2. access Token 요청
-  const getToken = async (code: { code: string }) => {
-    const KAKAO_REST_API_KEY = process.env.KAKAO_CLIENT_ID;
-    const KAKAO_REDIRECT_URI = process.env.REDIRECT_URI;
+  const getToken = async (code: {
+    code: string;
+    redirectUri: string | undefined;
+  }) => {
     // `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&code=${code}`
     try {
       const response = await instance.post(`/oauth2/kakao/login`, code);
@@ -53,7 +56,7 @@ function KakaoOAuth2RedirectPage() {
   // }, []);
   useEffect(() => {
     if (code) {
-      getToken({ code: code }).then((res) => {
+      getToken({ code: code, redirectUri: REDIRECT_URI }).then((res) => {
         setStorage("login", "true");
         console.log(res.data.accessToken);
         setToken(res.data.accessToken);
