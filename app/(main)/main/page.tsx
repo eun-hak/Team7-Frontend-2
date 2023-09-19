@@ -199,7 +199,7 @@ const ClapWrapper = styled.div<{ clicked: boolean }>`
 ////
 const MainPageWrapper = styled.div<{ background: string }>`
   width: 100%;
-  position: flex;
+  /* position: flex; */
   top: 0;
   bottom: 0;
   height: 100vh;
