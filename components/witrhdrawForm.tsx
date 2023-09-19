@@ -26,49 +26,43 @@ const WithDrawForm = () => {
     }
     return true;
   };
-
+  const WitdrawReason = [
+    "앱이 복잡하고 어려워요.",
+    "노래를 업로드하는 과정이 어려워요.",
+    "재미있는 노래가 부족해요.",
+    "SNS 기능이 부족해요.",
+    "기타",
+  ];
+  const [selectedButtonIndex, setSelectedButtonIndex] = useState<number>(-1);
   return (
     <MusicWrapper onSubmit={handleSubmit(onSubmit)}>
-      <MusicInput
+      {/* <MusicInput
         {...register("songTitle", { required: "원곡 노래 제목은 필수입니다." })}
         placeholder="원곡 노래 제목을 입력해주세요. (필수)"
       />
-      {errors.songTitle && <div>errors.songTitle.message</div>}
-      <CustomRadio>
-        <RadioInput
-          type="radio"
-          id="option1"
-          name="options"
-          value="option1"
-          checked={selectedOption === "option1"}
-          onChange={handleOptionChange}
-        />
-        <RadioLabel htmlFor="option1">Option 1</RadioLabel>
-      </CustomRadio>
+      {errors.songTitle && <div>errors.songTitle.message</div>} */}
 
-      <CustomRadio>
-        <RadioInput
-          type="radio"
-          id="option2"
-          name="options"
-          value="option2"
-          checked={selectedOption === "option2"}
-          onChange={handleOptionChange}
-        />
-        <RadioLabel htmlFor="option2">Option 2</RadioLabel>
-      </CustomRadio>
-
-      <CustomRadio>
-        <RadioInput
-          type="radio"
-          id="option3"
-          name="options"
-          value="option3"
-          checked={selectedOption === "option3"}
-          onChange={handleOptionChange}
-        />
-        <RadioLabel htmlFor="option3">Option 3</RadioLabel>
-      </CustomRadio>
+      {WitdrawReason.map((item, index) => (
+        <CustomRadio>
+          <RadioInput
+            {...register("withdrawTitle")}
+            key={index}
+            type="radio"
+            id={`option${index}`}
+            // name="options"
+            value={`option${index}`}
+            checked={selectedOption === `option${index}`}
+            onChange={(e) => {
+              handleOptionChange(e);
+              setSelectedButtonIndex(index);
+            }}
+          />
+          <RadioLabel htmlFor={`option${index}`}>{item}</RadioLabel>
+          {selectedButtonIndex === index ? (
+            <img src="/withdrawCheck.png"></img>
+          ) : null}
+        </CustomRadio>
+      ))}
     </MusicWrapper>
   );
 };
@@ -79,11 +73,12 @@ const MusicWrapper = styled.form`
   display: flex;
   flex-direction: column;
   /* align-items: center; */
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
 const MusicInput = styled.input`
   width: 327px;
+  /* width: 100px; */
   height: 48px;
   background-color: rgba(0, 0, 0, 0.04);
   border-radius: 8px;
@@ -92,29 +87,35 @@ const MusicInput = styled.input`
 `;
 const CustomRadio = styled.div`
   display: flex;
-  /* align-items: center; */
+  justify-content: space-between;
   margin-right: 20px;
   cursor: pointer;
   margin-top: 30px;
+  /* width: 100%; */
 `;
 
 const RadioInput = styled.input`
   display: none;
-
+  width: 100%;
+  /* margin-right: 200px; */
+  &::after {
+    content: "";
+    margin-left: 550px;
+  }
   &:checked + label {
     color: #651fff; /* 선택한 경우 텍스트 색상 변경 */
 
-    &::after {
-      content: url("/withdrawCheck.png"); /* 선택한 경우 체크 아이콘 표시 */
-      display: inline-block;
-      margin-left: 40px;
-      /* margin-top: 5px; */
-    }
+    /* &::after {
+      content: url("/withdrawCheck.png"); 
+      
+    } */
   }
 `;
 
 const RadioLabel = styled.label`
-  position: relative;
+  /* position: relative; */
+  max-width: 600px;
+  /* overflow-x: visible; */
   padding-left: 30px;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.6);
@@ -122,5 +123,6 @@ const RadioLabel = styled.label`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
   /* margin-top: 5px; */
 `;

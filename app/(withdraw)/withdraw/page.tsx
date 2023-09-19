@@ -43,8 +43,8 @@ const MainPageContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: calc(100% - 117px);
-  align-items: center;
-  justify-content: center;
+  /* align-items: center;
+  justify-content: center; */
 `;
 
 const LogoLink = styled.div`
