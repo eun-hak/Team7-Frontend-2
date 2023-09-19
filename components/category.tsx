@@ -1,7 +1,7 @@
 "use client";
 import styled from "@emotion/styled";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const category = [
   "전체",
@@ -51,7 +51,10 @@ const CategoryWrapper = styled.div`
 `;
 
 //여기 useref이용해서 focus 바꾸기
-const CategoryButton = styled.button`
+const CategoryButton = styled.button<{
+  backgroundColor: string;
+  color: string;
+}>`
   padding: 0.5rem 1rem;
   margin: 24px 4px;
   border-radius: 23px;
@@ -60,23 +63,24 @@ const CategoryButton = styled.button`
 
   font-weight: 500;
   cursor: default;
-  background-color: #00000080;
-  color: white;
+  /* background-color: #00000080; */
+  background-color: ${(props) => props.backgroundColor};
+  color: ${(props) => props.color};
   /* transition: background-color 0.3s, color 0.3s; */
   border: none;
   &:hover {
     cursor: default;
     background-color: #706969;
   }
-  &:active {
+  /* &:active {
     cursor: default;
     background-color: #706969;
     color: black;
-  }
+  } */
   &:focus {
     cursor: default;
     background-color: white;
-    /* color: ${(props) => props.color}; */
+
     color: black;
   }
 `;
@@ -96,14 +100,20 @@ const Category = () => {
 
   const searchValue = searchParams.get("value") || "";
   const router = useRouter();
-
+  const [selectedButtonIndex, setSelectedButtonIndex] = useState<number>(-1); // 선택된 버튼 인덱스
   return (
     <CategoryWrapper>
       {category.map((item, index) => (
         <CategoryButton
-          // color={backgroundColors[searchValue]}
+          backgroundColor={
+            selectedButtonIndex === index ? "white" : "#00000080"
+          }
+          color={selectedButtonIndex === index ? "black" : "white"}
           key={index}
-          onClick={() => router.push(`/main?value=${item}`)}
+          onClick={() => {
+            router.push(`/main?value=${item}`);
+            setSelectedButtonIndex(index);
+          }}
         >
           {item}
         </CategoryButton>

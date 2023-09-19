@@ -29,10 +29,13 @@ const Upload = () => {
 export default Upload;
 
 const UploadBox = styled.div`
-  width: 377px;
+  max-width: 377px;
 
   margin-top: 15px;
-  margin-left: 140px;
+  @media (min-width: 474px) {
+    margin-left: 140px;
+  }
+  /* margin-left: 140px; */
 `;
 const MainPageWrapper = styled.div`
   width: 100%;
@@ -40,11 +43,15 @@ const MainPageWrapper = styled.div`
   top: 0;
   bottom: 0;
   height: 100%;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
 `;
 
 const MainPageContainer = styled.div`
   display: flex;
   flex-direction: column;
+  /* align-items: center; */
   width: 100%;
   height: calc(100% - 117px);
 `;

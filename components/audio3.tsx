@@ -156,6 +156,7 @@ function CustomAudio() {
           </SliderTrack>
           <SliderThumb bg="#651FFF" />
         </Slider>
+
         {/* </Center>
         <Center mt={4}> */}
         <Center mr={6}>

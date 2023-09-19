@@ -8,6 +8,7 @@ import { useRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
 import FrontIcon from "@/public/chevron-right.svg";
 import RenameForm from "@/components/renameForm";
+import WithDrawForm from "@/components/witrhdrawForm";
 
 const Mypage = () => {
   const methods = useForm();
@@ -20,6 +21,7 @@ const Mypage = () => {
       <MainPageWrapper>
         <MainPageContainer>
           <UploadHeader name="탈퇴" type="a"></UploadHeader>
+          <WithDrawForm></WithDrawForm>
         </MainPageContainer>
       </MainPageWrapper>
     </FormProvider>
