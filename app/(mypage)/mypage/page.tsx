@@ -12,13 +12,17 @@ import { usePathname, useRouter } from "next/navigation";
 import Modal from "@/components/modal";
 import ModalForm from "@/components/modalform";
 
+import Body from "@/components/body";
+
 const Mypage = () => {
+  const { myfeed } = Body();
+
   const { logout } = ETC();
   const methods = useForm();
   const [token, setToken] = useRecoilState(tokenState);
   const router = useRouter();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
+  console.log(myfeed);
   const handleLogoutAndRedirect = () => {
     logout(() => {
       router.push("/main?value=전체"); // 특정 조건이 만족하는 경우에만 화면 이동
@@ -45,7 +49,9 @@ const Mypage = () => {
           <ContentWrapper onClick={() => router.push("/mysong")}>
             <NicknameWrapper>내 노래</NicknameWrapper>
             <EditWrapper>
-              <WordWrapper>0곡</WordWrapper>
+              <WordWrapper>
+                {myfeed == undefined ? 0 : myfeed?.length}곡
+              </WordWrapper>
               <LogoLink>
                 <FrontIcon width={55} height={24} />
               </LogoLink>
@@ -78,7 +84,7 @@ const Mypage = () => {
               {/* <ModalForm></ModalForm> */}
             </Modal>
           </ContentWrapper>
-          <ContentWrapper>
+          <ContentWrapper onClick={() => router.push("/withdraw")}>
             탈퇴하기
             <LogoLink>
               <FrontIcon width={55} height={24} />
@@ -131,7 +137,7 @@ const LogoLink = styled.div`
 
 const WordWrapper = styled.div`
   margin-right: 10px;
-  line-height: 3.5;
+  line-height: 3.2;
   color: rgba(0, 0, 0, 0.6);
 `;
 

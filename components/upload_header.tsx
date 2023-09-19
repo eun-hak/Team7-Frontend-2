@@ -31,6 +31,10 @@ const UploadHeader = (props: propsType) => {
     formState: { isSubmitting, errors },
     getValues,
   } = useFormContext();
+
+  const onSubmitWithdraw = (data: any) => {
+    console.log(data);
+  };
   const member = getStorage("member")?.replace(/\"/gi, "");
   const formDataToSend: any = new FormData();
   const onSubmitUpload = (data: any) => {
@@ -101,6 +105,17 @@ const UploadHeader = (props: propsType) => {
                 visibility={props.type}
               >
                 완료
+              </ButtonWrap>
+            </ButtonForm>
+          ) : lastPart === "withdraw" ? (
+            <ButtonForm onSubmit={handleSubmit(onSubmitWithdraw)}>
+              <ButtonWrap
+                type="submit"
+                disabled={isSubmitting}
+                color="rgba(0, 0, 0, 0.38);"
+                visibility={props.type}
+              >
+                제출2
               </ButtonWrap>
             </ButtonForm>
           ) : (
