@@ -1,3 +1,4 @@
+"use client";
 import { tokenState } from "@/recoil/recoilstore";
 import axios from "axios";
 import { useRecoilState } from "recoil";
@@ -33,11 +34,11 @@ const JwtInterceptors = () => {
     try {
       // console.log({ refreshToken: data.replace(/\"/gi, "") });
       const res = await refresh({ refreshToken: data.replace(/\"/gi, "") });
-      console.log(token);
+      // console.log(res?.status);
       if (res?.status !== 200) {
         throw new Error(`Response status is ${res?.status}`);
       } else {
-        console.log(res.data.accessToken);
+        // console.log(res.data.accessToken);
         setToken(res.data.accessToken);
         setStorage("access", res.data.accessToken);
         return res;
@@ -55,17 +56,17 @@ const JwtInterceptors = () => {
         config.headers["Content-Type"] = "application/json";
       } else if (isLogin && !tokenValid) {
         const result = await refreshingToken();
-        console.log(result);
+        // console.log(result);
+        config.headers["Authorization"] = `Bearer ${result?.data.AccessToken}`;
         if (!result) {
           alert("로그인 시간이 만료되었습니다\n다시 로그인 해주세요");
           await logout();
         }
-        config.headers["Authorization"] = `Bearer ${result?.data.AccessToken}`;
       } else {
         config.headers["Authorization"] = `Bearer ${token}`;
       }
-      console.log(token);
-      console.log(config.headers.Authorization);
+      // console.log(token);
+      // console.log(config.headers.Authorization);
       return config;
     },
     function (error) {

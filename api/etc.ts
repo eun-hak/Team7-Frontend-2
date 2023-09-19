@@ -29,15 +29,20 @@ const ETC = () => {
     const token: any = getStorage("access");
     const token2 = `Bearer ${token.replace(/\"/gi, "")}`;
     try {
-      console.log(token);
-      console.log(token2);
+      // console.log(token);
+      // console.log(token2);
 
-      const { data } = await axios.post(`${baseURL}oauth2/kakao/logout`, a, {
-        headers: {
-          Authorization: token2,
-        },
-      });
-      if (data == "Logged out successfully") {
+      const { data } = await axios.post(
+        `${baseURL}oauth2/kakao/logout`,
+        undefined,
+        {
+          headers: {
+            Authorization: token2,
+          },
+        }
+      );
+      console.log(data);
+      if (data.status == 200) {
         removeStorage("login");
         removeStorage("refresh");
         removeStorage("access");
@@ -53,7 +58,8 @@ const ETC = () => {
     } catch (error) {
       const axiosError = error as AxiosError;
       console.error(axiosError.message);
-      alert("로그아웃에 실패했습니다");
+
+      // alert("로그아웃에 실패했습니다");
     }
   };
   return { refresh, logout };
