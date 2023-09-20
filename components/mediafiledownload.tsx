@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useFormContext } from "react-hook-form";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { playState } from "@/recoil/recoilstore";
 
@@ -42,7 +42,7 @@ const MediaFileDownload = () => {
       !fileType.includes("mpeg")
     ) {
       alert(
-        `해당 파일은 이미지 파일이 아닙니다.\n이미지(JPG,JPEG,GIF,PNG)나 PDF 파일을 업로드 해주세요.`
+        `해당 파일은 오디오 파일이 아닙니다.\n 오디오(m4a,mp3,mpeg) 파일을 업로드 해주세요.`
       );
       console.log(fileType);
       e.target.value = "";
@@ -58,6 +58,12 @@ const MediaFileDownload = () => {
     // 제출 버튼을 클릭했을 때 실행되는 함수
     console.log(data); // 폼 데이터 출력
   };
+
+  useEffect(() => {
+    if (errors.audio) {
+      alert(errors.audio.message);
+    }
+  }, [errors.audio]);
   return (
     <FileUploadContainer>
       <FileUploadForm onSubmit={handleSubmit(onSubmit)}>
@@ -67,12 +73,13 @@ const MediaFileDownload = () => {
             type="file"
             accept="audio/*"
             {...register("audio", {
+              required: "오디오 파일을 등록해주세요",
               onChange: uploadProfile, // 커스텀 onChange 이벤트 핸들러를 등록
             })}
             // ref = { fileInputRef }
           />
         </FileUploadLabel>
-        {errors.audio && <div>errors.audio.message</div>}
+        {/* {errors.audio && <div>errors.audio.message</div>} */}
         {/* <FileUploadButton type="button" onClick={handleClickFileInput}>
           파일 업로드 버튼
         </FileUploadButton> */}
