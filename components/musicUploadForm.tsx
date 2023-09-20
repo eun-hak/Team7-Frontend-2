@@ -26,12 +26,12 @@ const MusicUploadForm = () => {
         {...register("songTitle", { required: "원곡 노래 제목은 필수입니다." })}
         placeholder="원곡 노래 제목을 입력해주세요. (필수)"
       />
-      {errors.songTitle && <div>errors.songTitle.message</div>}
+      {errors.songTitle && <div>{errors.songTitle.message as String}</div>}
       <MusicInput
-        {...register("artist", { required: "원곡 노래 제목은 필수입니다." })}
+        {...register("artist", { required: "원곡 가수 제목은 필수입니다." })}
         placeholder="원곡 가수 제목을 입력해주세요. (필수)"
       />
-      {errors.artist && <div>errors.artist.message</div>}
+      {errors.artist && <div>{errors.artist.message as String}</div>}
       <VillanSelect
         {...register("villainType", { validate: validateVillanType })}
         placeholder="빌런 유형을 입력해주세요. (필수)"
@@ -46,13 +46,15 @@ const MusicUploadForm = () => {
         <VillanOption>기타</VillanOption>
       </VillanSelect>
       {errors.villainType && (
-        <span className="error-message">errors.villainType.message</span>
+        <span className="error-message">
+          {errors.villainType.message as String}
+        </span>
       )}
       <MusicDescription
         {...register("description", { required: "설명을 입력해주세요" })}
         placeholder="설명을 입력해주세요"
       />
-      {errors.artist && <div>errors.artist.message</div>}
+      {errors.description && <div>{errors.description.message as String}</div>}
       {/* 제출 버튼 */}
       {/* <button type="submit" disabled={isSubmitting}>
         Submit

@@ -28,9 +28,9 @@ const Mypage = () => {
       router.push("/main?value=전체"); // 특정 조건이 만족하는 경우에만 화면 이동
     });
   };
-  useEffect(() => {
-    console.log(token);
-  }, []);
+  // useEffect(() => {
+  //   console.log(token);
+  // }, []);
   return (
     <FormProvider {...methods}>
       <MainPageWrapper>
@@ -41,7 +41,7 @@ const Mypage = () => {
             <EditWrapper>
               <WordWrapper>수정하기</WordWrapper>
               <LogoLink>
-                <FrontIcon width={55} height={24} />
+                <FrontIcon />
               </LogoLink>
             </EditWrapper>
           </ContentWrapper>
@@ -53,7 +53,7 @@ const Mypage = () => {
                 {myfeed == undefined ? 0 : myfeed?.length}곡
               </WordWrapper>
               <LogoLink>
-                <FrontIcon width={55} height={24} />
+                <FrontIcon />
               </LogoLink>
             </EditWrapper>
           </ContentWrapper>
@@ -62,7 +62,7 @@ const Mypage = () => {
             <EditWrapper>
               <WordWrapper>0곡</WordWrapper>
               <LogoLink>
-                <FrontIcon width={55} height={24} />
+                <FrontIcon />
               </LogoLink>
             </EditWrapper>
           </ContentWrapper>
@@ -74,7 +74,7 @@ const Mypage = () => {
           >
             로그아웃
             <LogoLink>
-              <FrontIcon width={55} height={24} />
+              <FrontIcon />
             </LogoLink>
             <Modal
               isOpen={modalIsOpen}
@@ -87,7 +87,7 @@ const Mypage = () => {
           <ContentWrapper onClick={() => router.push("/withdraw")}>
             탈퇴하기
             <LogoLink>
-              <FrontIcon width={55} height={24} />
+              <FrontIcon />
             </LogoLink>
           </ContentWrapper>
         </MainPageContainer>
@@ -99,6 +99,8 @@ const Mypage = () => {
 export default Mypage;
 const EditWrapper = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const ContentWrapper = styled.div`
   width: 100%;
@@ -107,7 +109,8 @@ const ContentWrapper = styled.div`
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
-  line-height: 3.5;
+  align-items: center;
+  /* line-height: 3.5; */
   cursor: pointer;
 `;
 const MainPageWrapper = styled.div`
@@ -131,13 +134,13 @@ const LogoLink = styled.div`
   cursor: pointer;
   width: 24px;
   height: 24px;
-  line-height: 4;
+  /* line-height: 4; */
   margin-right: 14px;
 `;
 
 const WordWrapper = styled.div`
   margin-right: 10px;
-  line-height: 3.2;
+  /* line-height: 3.2; */
   color: rgba(0, 0, 0, 0.6);
 `;
 
