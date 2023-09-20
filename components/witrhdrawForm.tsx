@@ -1,39 +1,42 @@
 import styled from "@emotion/styled";
-import { ReactEventHandler, useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { useEffect } from "react";
+import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
+
 const WithDrawForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors },
-    getValues,
+    watch,
+    formState: { errors },
   } = useFormContext();
 
-  const [selectedOption, setSelectedOption] = useState("");
+  const widthdrawTitle: string = watch("withdrawTitle");
 
-  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(event.target.value);
-  };
-
-  const onSubmit = (data: any) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     // 제출 버튼을 클릭했을 때 실행되는 함수
     console.log(data); // 폼 데이터 출력
   };
   const validateVillanType = () => {
-    const selectedVillanType = getValues("villainType");
+    const selectedVillanType = watch("villainType");
     if (!selectedVillanType) {
       return "빌런 유형은 필수입니다.";
     }
     return true;
   };
+
   const WitdrawReason = [
-    "앱이 복잡하고 어려워요.",
-    "노래를 업로드하는 과정이 어려워요.",
-    "재미있는 노래가 부족해요.",
-    "SNS 기능이 부족해요.",
-    "기타",
+    { value: 1, label: "앱이 복잡하고 어려워요." },
+    { value: 2, label: "노래를 업로드하는 과정이 어려워요." },
+    { value: 3, label: "재미있는 노래가 부족해요." },
+    { value: 4, label: "SNS 기능이 부족해요." },
+    { value: 5, label: "기타" },
   ];
-  const [selectedButtonIndex, setSelectedButtonIndex] = useState<number>(-1);
+  useEffect(() => {
+    if (errors.withdrawTitle) {
+      alert(errors.withdrawTitle.message);
+    }
+  }, [errors.withdrawTitle]);
+
   return (
     <MusicWrapper onSubmit={handleSubmit(onSubmit)}>
       {/* <MusicInput
@@ -42,25 +45,18 @@ const WithDrawForm = () => {
       />
       {errors.songTitle && <div>errors.songTitle.message</div>} */}
 
-      {WitdrawReason.map((item, index) => (
-        <CustomRadio>
+      {WitdrawReason.map(({ value, label }) => (
+        <CustomRadio key={value}>
           <RadioInput
-            {...register("withdrawTitle")}
-            key={index}
+            id={`option${value}`}
             type="radio"
-            id={`option${index}`}
-            // name="options"
-            value={`option${index}`}
-            checked={selectedOption === `option${index}`}
-            onChange={(e) => {
-              handleOptionChange(e);
-              setSelectedButtonIndex(index);
-            }}
+            {...register("withdrawTitle", {
+              required: "탈퇴 사유를 선택해주세요.",
+            })}
+            value={`${label}`}
           />
-          <RadioLabel htmlFor={`option${index}`}>{item}</RadioLabel>
-          {selectedButtonIndex === index ? (
-            <img src="/withdrawCheck.png"></img>
-          ) : null}
+          <RadioLabel htmlFor={`option${value}`}>{label}</RadioLabel>
+          {widthdrawTitle === `${label}` && <img src="/withdrawCheck.png" />}
         </CustomRadio>
       ))}
     </MusicWrapper>

@@ -46,24 +46,26 @@ const FeedContainer = ({ data }: any) => {
                 </BoxWrap2>
                 {lastPart === "mysong" ? (
                   <>
-                    <ModifyWrap
-                      onClick={() => {
-                        router.push("/reupload");
-                        setStorage("modify", data.feedId);
-                        setModalData([data.musicName, data.musicianName]);
-                      }}
-                    >
-                      수정
-                    </ModifyWrap>
-                    <DeleteWrap
-                      onClick={() => {
-                        setModalIsOpen(true);
-                        setStorage("delete", data.feedId);
-                        setModalData([data.musicName, data.musicianName]);
-                      }}
-                    >
-                      삭제
-                    </DeleteWrap>
+                    <ModifyFlex>
+                      <ModifyWrap
+                        onClick={() => {
+                          router.push("/reupload");
+                          setStorage("modify", data.feedId);
+                          setModalData([data.musicName, data.musicianName]);
+                        }}
+                      >
+                        수정
+                      </ModifyWrap>
+                      <DeleteWrap
+                        onClick={() => {
+                          setModalIsOpen(true);
+                          setStorage("delete", data.feedId);
+                          setModalData([data.musicName, data.musicianName]);
+                        }}
+                      >
+                        삭제
+                      </DeleteWrap>
+                    </ModifyFlex>
                     <Modal
                       isOpen={modalIsOpen}
                       onRequestClose={() => setModalIsOpen(false)}
@@ -99,14 +101,18 @@ const FeedContainer = ({ data }: any) => {
 
 export default FeedContainer;
 
+const ModifyFlex = styled.div`
+  max-width: 200px;
+  display: flex;
+`;
 const ModifyWrap = styled.div`
-  margin-left: 30px;
+  margin-right: 16px;
   margin-top: 13px;
   color: rgba(0, 0, 0, 0.6);
   cursor: pointer;
 `;
 const DeleteWrap = styled.div`
-  margin-right: 15px;
+  margin-right: 16px;
   margin-top: 13px;
   color: rgba(0, 0, 0, 0.6);
   cursor: pointer;
@@ -151,6 +157,7 @@ const BoxWrap2 = styled.div`
 `;
 //노래제목 / 빌런 사이 간격
 const WordWrap = styled.div`
+  max-width: 150px;
   display: block;
   font-size: 16px;
   margin: 10px 10px 2px 10px;

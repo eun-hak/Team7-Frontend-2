@@ -5,18 +5,21 @@ import Link from "next/link";
 import BackIcon from "@/public/chevron-left.svg";
 import { usePathname } from "next/navigation";
 import { useFormContext } from "react-hook-form";
-import { getStorage } from "@/util/loginStorage";
+import { getStorage, setStorage } from "@/util/loginStorage";
 import JwtInterceptors from "@/api/ApiController";
 import SubmitFeed from "@/api/SubmitFeed";
 import { useRouter } from "next/navigation";
 import ReName from "@/api/Rename";
 import Feed from "@/api/Feed";
 import { useState } from "react";
+import Modal from "./modal";
+import ModalForm from "./modalform";
 interface propsType {
   name: string;
   type: string;
 }
 const UploadHeader = (props: propsType) => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const path = usePathname();
   const router = useRouter();
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
@@ -34,6 +37,7 @@ const UploadHeader = (props: propsType) => {
 
   const onSubmitWithdraw = (data: any) => {
     console.log(data);
+    // setStorage("withdraw", data.withdrawTitle)
   };
   const member = getStorage("member")?.replace(/\"/gi, "");
   const formDataToSend: any = new FormData();
@@ -68,11 +72,26 @@ const UploadHeader = (props: propsType) => {
     <HeaderWrapper>
       <div>
         <HeaderTop>
-          <Link href="/main?value=전체">
-            <LogoLink>
-              <BackIcon width={55} height={24} />
-            </LogoLink>
-          </Link>
+          {lastPart === "mysong" ? (
+            <Link href="/mypage">
+              <LogoLink>
+                <BackIcon width={55} height={24} />
+              </LogoLink>
+            </Link>
+          ) : lastPart === "rename" ? (
+            <Link href="/mypage">
+              <LogoLink>
+                <BackIcon width={55} height={24} />
+              </LogoLink>
+            </Link>
+          ) : (
+            <Link href="/main?value=전체">
+              <LogoLink>
+                <BackIcon width={55} height={24} />
+              </LogoLink>
+            </Link>
+          )}
+
           <WordWrap color="rgba(0, 0, 0, 0.87);">{props.name}</WordWrap>
           {lastPart === "upload" ? (
             <ButtonForm onSubmit={handleSubmit(onSubmitUpload)}>
@@ -114,9 +133,19 @@ const UploadHeader = (props: propsType) => {
                 disabled={isSubmitting}
                 color="rgba(0, 0, 0, 0.38);"
                 visibility={props.type}
+                onClick={() => {
+                  setModalIsOpen(true);
+                }}
               >
                 제출2
               </ButtonWrap>
+              <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={() => setModalIsOpen(false)}
+              >
+                <ModalForm setModalIsOpen={setModalIsOpen}></ModalForm>
+                {/* <ModalForm></ModalForm> */}
+              </Modal>
             </ButtonForm>
           ) : (
             <ButtonForm onSubmit={handleSubmit(onSubmitRename)}>

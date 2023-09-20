@@ -3,6 +3,7 @@ import DeleteFeed from "@/api/deleteFeed";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import ETC from "@/api/etc";
+import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
 interface StyledComponentProps {
   background?: string; // background 속성을 정의합니다.
 }
@@ -23,6 +24,18 @@ const ModalForm = (
     logout(() => {
       router.push("/main?value=전체"); // 특정 조건이 만족하는 경우에만 화면 이동
     });
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+    getValues,
+  } = useFormContext();
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    // 제출 버튼을 클릭했을 때 실행되는 함수
+    console.log(data); // 폼 데이터 출력
   };
   const path = usePathname();
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
@@ -52,6 +65,36 @@ const ModalForm = (
                 }}
               >
                 네
+              </ModalButtonWord>
+            </ModalButton>
+          </ModalButtonFlex>
+        </ModalFlex>
+      ) : lastPart === "withdraw" ? (
+        <ModalFlex>
+          <ModalWordWrap>탈퇴 전 확인해주세요</ModalWordWrap>
+          <ModalWordSubWrap>
+            내가 올린 노래, 알림, 박수 친 노래, 닉네임, 개인 정보가 모두
+            삭제되며 다시 복구할 수 없어요.
+          </ModalWordSubWrap>
+          <ModalButtonFlex>
+            <ModalButton background="rgba(151, 148, 148, 0.04)">
+              <ModalButtonWord
+                color="rgba(0, 0, 0, 0.60);"
+                onClick={() => setModalIsOpen(false)}
+              >
+                취소
+              </ModalButtonWord>
+            </ModalButton>
+
+            <ModalButton background="#651FFF">
+              <ModalButtonWord
+                color="#FFF;"
+                onClick={() => {
+                  // handleLogoutAndRedirect();
+                  setModalIsOpen(false);
+                }}
+              >
+                탈퇴하기
               </ModalButtonWord>
             </ModalButton>
           </ModalButtonFlex>
@@ -102,6 +145,7 @@ const ModalFlex = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const ButtonForm = styled.form``;
 const ModalWordWrap = styled.div`
   color: #000;
 
