@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { baseURL } from "@/api/ApiController";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
+import { getTsBuildInfoEmitOutputFilePath } from "typescript";
 // 리프레시
 
 const ETC = () => {
@@ -28,21 +29,17 @@ const ETC = () => {
     const a = 1;
     const token: any = getStorage("access");
     const token2 = `Bearer ${token.replace(/\"/gi, "")}`;
+    const memberId = getStorage("member")?.replace(/\"/gi, "");
     try {
       // console.log(token);
       // console.log(token2);
 
       const { data } = await axios.post(
-        `${baseURL}oauth2/kakao/logout`,
-        undefined,
-        {
-          headers: {
-            Authorization: token2,
-          },
-        }
+        `${baseURL}oauth2/kakao/logout?memberId=${memberId}`,
+        undefined
       );
       console.log(data);
-      if (data.status == 200) {
+      if (data == "Logged out successfully") {
         removeStorage("login");
         removeStorage("refresh");
         removeStorage("access");
