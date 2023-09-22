@@ -38,7 +38,7 @@ const Main = () => {
   const searchValue = searchParams.get("value") || "";
 
   // console.log(typeof searchValue);
-  const { data } = Body();
+  const { all } = Body();
   // const Data = JSON.stringify(data);
   // const a = data[0].musicName
 
@@ -51,7 +51,7 @@ const Main = () => {
 
       <MainPageContainer>
         <FeedWrap>
-          <FeedContainer data={data}></FeedContainer>
+          <FeedContainer data={all}></FeedContainer>
           {/* {data &&
             data?.map((data) => {
               return (

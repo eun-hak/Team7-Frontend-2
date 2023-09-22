@@ -12,6 +12,7 @@ import Feed from "@/api/Feed";
 import React, { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getStorage } from "@/util/loginStorage";
+import Interection from "@/api/Interection";
 interface BackgroundColors {
   [key: string]: string;
 }
@@ -43,13 +44,14 @@ const backgroundImages: BackgroundImages = {
 };
 
 const Body = () => {
+  const { Interection_click } = Interection();
   const feed = Feed();
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("value") || "";
   const memberId = getStorage("member")?.replace(/\"/gi, "");
   // const value = "고음괴물";
 
-  const { data } = useQuery(
+  const { data: all } = useQuery(
     ["feed", searchValue],
     () => feed.all(searchValue),
     {}
@@ -61,7 +63,7 @@ const Body = () => {
     {}
   );
 
-  return { data, myfeed };
+  return { all, myfeed };
 };
 
 export default Body;
