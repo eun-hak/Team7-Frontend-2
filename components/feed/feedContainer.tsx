@@ -9,6 +9,8 @@ import { usePathname, useRouter } from "next/navigation";
 import Modal from "../modal";
 import ModalForm from "../modalform";
 import { getStorage, setStorage } from "@/util/loginStorage";
+import Interection from "@/api/Interection";
+import { useQuery } from "@tanstack/react-query";
 // { data }: { data: MainFeed }
 
 // 노래제목 : data.musicName
@@ -19,9 +21,13 @@ import { getStorage, setStorage } from "@/util/loginStorage";
 // 생성일   : data.createdAt
 // 박수     : 아직 안만들어짐
 const FeedContainer = ({ data }: any) => {
+  const { Interection_click } = Interection();
+  // const Interection_id = data.feedId;
+
   const router = useRouter();
   const [modalData, setModalData] = useState<any>([]);
   const path = usePathname();
+  const memberId = getStorage("member")?.replace(/\"/gi, "");
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
   const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -80,7 +86,13 @@ const FeedContainer = ({ data }: any) => {
                   </>
                 ) : (
                   <ClapWrapper
-                    onClick={() => handleButtonClick}
+                    onClick={() => {
+                      handleButtonClick();
+                      Interection_click({
+                        feedId: data.feedId,
+                        memberId: memberId,
+                      });
+                    }}
                     clicked={false}
                   >
                     👏
@@ -90,7 +102,7 @@ const FeedContainer = ({ data }: any) => {
               <CustomAudio></CustomAudio>
               <NickName>닉네임 : {data.ownerName}</NickName>
               <WordBottomWrap>
-                {data.createdAt}-{data.viewCount}번
+                {data.createdAt}-{data.viewCount} -{data.interactionCount} 번
               </WordBottomWrap>
             </FeedBox>
           );
