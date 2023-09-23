@@ -16,9 +16,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <BodyStyle>
       <BgStyle>
-        <RecoilRoot>
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-        </RecoilRoot>
+        <RecoilRoot>{children}</RecoilRoot>
       </BgStyle>
     </BodyStyle>
   );
