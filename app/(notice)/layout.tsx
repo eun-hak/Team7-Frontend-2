@@ -15,11 +15,7 @@ import ReactQueryProvider from "../ReactQueryProvider";
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <BodyStyle>
-      <BgStyle>
-        {/* <RecoilRoot> */}
-        <ReactQueryProvider>{children}</ReactQueryProvider>
-        {/* </RecoilRoot> */}
-      </BgStyle>
+      <BgStyle>{children}</BgStyle>
     </BodyStyle>
   );
 };

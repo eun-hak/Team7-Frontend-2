@@ -1,10 +1,13 @@
 "use client";
 import { RecoilRoot } from "recoil";
+import ReactQueryProvider from "./ReactQueryProvider";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
-      <RecoilRoot>{children}</RecoilRoot>
+      <RecoilRoot>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </RecoilRoot>
     </html>
   );
 };
