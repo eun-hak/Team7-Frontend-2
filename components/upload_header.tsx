@@ -84,6 +84,18 @@ const UploadHeader = (props: propsType) => {
                 <BackIcon width={55} height={24} />
               </LogoLink>
             </Link>
+          ) : lastPart === "mysong" ? (
+            <Link href="/mypage">
+              <LogoLink>
+                <BackIcon width={55} height={24} />
+              </LogoLink>
+            </Link>
+          ) : lastPart === "myclapsong" ? (
+            <Link href="/mypage">
+              <LogoLink>
+                <BackIcon width={55} height={24} />
+              </LogoLink>
+            </Link>
           ) : (
             <Link href="/main?value=전체">
               <LogoLink>

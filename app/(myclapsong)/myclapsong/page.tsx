@@ -13,7 +13,7 @@ import Body from "@/components/body";
 
 const Mypage = () => {
   const methods = useForm();
-  const { myfeed } = Body();
+  const { myclapfeed } = Body();
   const [token, setToken] = useRecoilState(tokenState);
 
   useEffect(() => {
@@ -23,9 +23,9 @@ const Mypage = () => {
     <FormProvider {...methods}>
       <MainPageWrapper>
         <MainPageContainer>
-          <UploadHeader name="내 노래" type="hidden"></UploadHeader>
+          <UploadHeader name="박수 친 노래" type="hidden"></UploadHeader>
           <FeedWrap>
-            <FeedContainer data={myfeed}></FeedContainer>
+            <FeedContainer data={myclapfeed}></FeedContainer>
           </FeedWrap>
         </MainPageContainer>
       </MainPageWrapper>
@@ -37,10 +37,9 @@ export default Mypage;
 
 const MainPageWrapper = styled.div`
   width: 100%;
-  position: flex;
+  /* position: flex; */
   top: 0;
   bottom: 0;
-
   height: 100vh;
 `;
 
@@ -50,7 +49,7 @@ const MainPageContainer = styled.div`
   width: 100%;
   height: calc(100% - 117px);
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
 `;
 
 const FeedWrap = styled.div`
