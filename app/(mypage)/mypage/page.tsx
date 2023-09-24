@@ -15,7 +15,7 @@ import ModalForm from "@/components/modalform";
 import Body from "@/components/body";
 
 const Mypage = () => {
-  const { myfeed } = Body();
+  const { myfeed, myclapfeed } = Body();
 
   const { logout } = ETC();
   const methods = useForm();
@@ -57,10 +57,13 @@ const Mypage = () => {
               </LogoLink>
             </EditWrapper>
           </ContentWrapper>
-          <ContentWrapper>
+          <ContentWrapper onClick={() => router.push("/myclapsong")}>
             <NicknameWrapper> 박수 친 노래</NicknameWrapper>
             <EditWrapper>
-              <WordWrapper>0곡</WordWrapper>
+              <WordWrapper>
+                {" "}
+                {myclapfeed == undefined ? 0 : myclapfeed?.length}곡
+              </WordWrapper>
               <LogoLink>
                 <FrontIcon />
               </LogoLink>

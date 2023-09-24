@@ -15,7 +15,7 @@ const Mypage = () => {
   const methods = useForm();
   const { myfeed } = Body();
   const [token, setToken] = useRecoilState(tokenState);
-  
+
   useEffect(() => {
     console.log(token);
   }, []);
@@ -24,7 +24,9 @@ const Mypage = () => {
       <MainPageWrapper>
         <MainPageContainer>
           <UploadHeader name="내 노래" type="hidden"></UploadHeader>
-          <FeedContainer data={myfeed}></FeedContainer>
+          <FeedWrap>
+            <FeedContainer data={myfeed}></FeedContainer>
+          </FeedWrap>
         </MainPageContainer>
       </MainPageWrapper>
     </FormProvider>
@@ -38,7 +40,8 @@ const MainPageWrapper = styled.div`
   position: flex;
   top: 0;
   bottom: 0;
-  height: 100%;
+
+  height: 100vh;
 `;
 
 const MainPageContainer = styled.div`
@@ -50,10 +53,15 @@ const MainPageContainer = styled.div`
   justify-content: center;
 `;
 
-const LogoLink = styled.div`
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-  line-height: 4;
-  margin-right: 14px;
+const FeedWrap = styled.div`
+  overflow-y: scroll;
+  /* This hides horizontal scroll */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer, Edge */
+  ::-webkit-scrollbar {
+    width: 0.5em; /* Chrome, Safari, Opera */
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
 `;
