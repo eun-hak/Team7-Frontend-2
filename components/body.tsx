@@ -9,7 +9,7 @@ import Background5 from "@/public/background-5.svg";
 import Background6 from "@/public/background-6.svg";
 import { useQuery } from "@tanstack/react-query";
 import Feed from "@/api/Feed";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getStorage } from "@/util/loginStorage";
 import Interection from "@/api/Interection";
@@ -21,34 +21,14 @@ interface BackgroundImages {
   [key: string]: string;
 }
 
-const backgroundColors: BackgroundColors = {
-  전체: "#f5f5f5",
-  고음괴물: "#E40C0C",
-  화음귀신: "#E4F0F5",
-  힙합전사: "#15B28D",
-  하이라이트도둑: "#2962FF",
-  소몰이대장: "#795548",
-  삑사리요정: "#856e7c",
-  기타: "#f5f5f5",
-};
-
-const backgroundImages: BackgroundImages = {
-  전체: BackgroundAll,
-  고음괴물: Background1,
-  화음귀신: Background2,
-  힙합전사: Background3,
-  하이라이트도둑: Background4,
-  소몰이대장: Background5,
-  삑사리요정: Background6,
-  기타: BackgroundAll,
-};
-
 const Body = () => {
-  const { Interection_click } = Interection();
+  const interection = Interection();
   const feed = Feed();
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("value") || "";
   const memberId = getStorage("member")?.replace(/\"/gi, "");
+  const [refetchcache, setRefetchcache] = useState();
+  const clapfeed = 1;
   // const value = "고음괴물";
 
   const { data: all } = useQuery(
@@ -57,13 +37,23 @@ const Body = () => {
     {}
   );
 
+  // refetchOnMount: true, // 처음 마운트될 때 자동으로 다시 불러오기
   const { data: myfeed } = useQuery(
     ["myfeed", memberId],
     () => feed.myfeed(memberId),
-    {}
+    { staleTime: 0, cacheTime: 0 }
   );
 
-  return { all, myfeed };
+  const { data: myclapfeed } = useQuery(
+    ["myclapfeed", clapfeed],
+    () => interection.Interection_check(),
+    { staleTime: 0, cacheTime: 0 }
+  );
+
+  // useEffect(() => {
+  //   refetch();
+  // }, [memberId, searchValue]);
+  return { all, myfeed, myclapfeed };
 };
 
 export default Body;
