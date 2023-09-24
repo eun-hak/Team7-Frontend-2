@@ -48,36 +48,9 @@ const Main = () => {
       <CategoryWrapper>
         <Category />
       </CategoryWrapper>
-
       <MainPageContainer>
         <FeedWrap>
           <FeedContainer data={all}></FeedContainer>
-          {/* {data &&
-            data?.map((data) => {
-              return (
-                <FeedBox key={data.feedId}>
-                  <BoxWrap>
-                    <BoxWrap2>
-                      <WordWrap>
-                        {data.musicName} - {data.musicianName}
-                      </WordWrap>
-                      <VillanType>#{data.feedType}</VillanType>
-                    </BoxWrap2>
-                    <ClapWrapper
-                      onClick={() => handleButtonClick}
-                      clicked={false}
-                    >
-                      👏
-                    </ClapWrapper>
-                  </BoxWrap>
-                  <CustomAudio></CustomAudio>
-                  <NickName>닉네임 : {data.ownerName}</NickName>
-                  <WordBottomWrap>
-                    {data.createdAt}-{data.viewCount}번
-                  </WordBottomWrap>
-                </FeedBox>
-              );
-            })} */}
         </FeedWrap>
 
         <Footer />
@@ -216,8 +189,4 @@ const MainPageContainer = styled.div`
   width: 100%;
   height: calc(100% - 186px);
   align-items: center;
-  /* background-image: url("/background-1.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center; */
 `;
