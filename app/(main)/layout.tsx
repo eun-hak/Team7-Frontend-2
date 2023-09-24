@@ -10,11 +10,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <BodyStyle>
       <BgStyle>
-        <Providers>
-          {/* <RecoilRoot> */}
-          {children}
-          {/* </RecoilRoot> */}
-        </Providers>
+        <Providers>{children}</Providers>
       </BgStyle>
     </BodyStyle>
   );
