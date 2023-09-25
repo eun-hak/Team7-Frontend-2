@@ -14,14 +14,11 @@ const Sign = () => {
         </Link>
         <Title>로그인하고 노래를 올려보세요</Title>
       </HeaderWrapper>
-
       <ButtonsContainer>
         <BubbleButton>
           <Bubble />
         </BubbleButton>
-
         <ButtonContainer label="카카오로 시작하기" />
-
         <ButtonContainer label="다른 방법은 아직 준비 중이에요" />
       </ButtonsContainer>
     </SignWrapper>

@@ -58,20 +58,19 @@ function KakaoOAuth2RedirectPage() {
     if (code) {
       getToken({ code: code, redirectUri: REDIRECT_URI }).then((res) => {
         setStorage("login", "true");
-        console.log(res.data.accessToken);
+        // console.log(res.data.accessToken);
         setToken(res.data.accessToken);
         setStorage("refresh", res.data.refreshToken);
         setStorage("access", res.data.accessToken);
         setStorage("member", res.data.memberId);
-        console.log(token);
+        // console.log(token);
         router.push("/main?value=전체");
       });
     }
   }, []);
   return (
     <>
-      <div>로그인 처리 중... </div>{" "}
-      <div onClick={() => console.log(token)}>토큰값 확ㄷ인</div>
+      <div>로그인 처리 중...</div>
     </>
   );
 }

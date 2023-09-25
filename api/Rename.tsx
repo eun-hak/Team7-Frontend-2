@@ -23,7 +23,7 @@ const ReName = () => {
           },
         }
       );
-      console.log(response);
+      // console.log(response);
       alert("닉네임 수정이 완료되었습니다");
       router.push("/main?value=전체");
       return response.data;

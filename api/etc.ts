@@ -38,7 +38,7 @@ const ETC = () => {
         `${baseURL}oauth2/kakao/logout?memberId=${memberId}`,
         undefined
       );
-      console.log(data);
+      // console.log(data);
       if (data == "Logged out successfully") {
         removeStorage("login");
         removeStorage("refresh");

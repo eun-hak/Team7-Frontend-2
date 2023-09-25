@@ -14,7 +14,7 @@ const Feed = () => {
         `/feeds/feedType?value=${value}`
       );
       // console.log(data.data.data);
-      console.log(baseURL);
+      // console.log(baseURL);
       return data.data.data;
       // return data
     } catch (error) {
@@ -46,7 +46,7 @@ const Feed = () => {
           Authorization: token2,
         },
       });
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       console.error("Error getting access token:", error);

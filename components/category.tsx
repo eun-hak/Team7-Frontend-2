@@ -1,7 +1,7 @@
 "use client";
 import styled from "@emotion/styled";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 const category = [
   "전체",
@@ -28,6 +28,34 @@ const backgroundColors: BackgroundColors = {
   삑사리요정: "#FF5CBE",
   기타: "black",
 };
+
+const Category = () => {
+  const searchParams = useSearchParams();
+  const searchValue = searchParams.get("value") || "";
+  const router = useRouter();
+  const [selectedButtonIndex, setSelectedButtonIndex] = useState<number>(-1); // 선택된 버튼 인덱스
+  return (
+    <CategoryWrapper>
+      {category.map((item, index) => (
+        <CategoryButton
+          backgroundColor={
+            selectedButtonIndex === index ? "white" : "#00000080"
+          }
+          color={selectedButtonIndex === index ? "black" : "white"}
+          key={index}
+          onClick={() => {
+            router.push(`/main?value=${item}`);
+            setSelectedButtonIndex(index);
+          }}
+        >
+          {item}
+        </CategoryButton>
+      ))}
+    </CategoryWrapper>
+  );
+};
+
+export default Category;
 
 const CategoryWrapper = styled.div`
   display: flex;
@@ -84,42 +112,3 @@ const CategoryButton = styled.button<{
     color: black;
   }
 `;
-
-// router.navigate('/other-page');
-
-const Category = () => {
-  // const handleChange = () => {
-  //   if(colorChange.current !== undefined){
-  //     colorChange.current.style = "width:300px; height:300px; background:red;"
-  //     //4. 해당 ref 이름과 current 를이용해 직접 조정할 수 있다.
-  //   }
-
-  // };
-  const colorChange = useRef();
-  const searchParams = useSearchParams();
-
-  const searchValue = searchParams.get("value") || "";
-  const router = useRouter();
-  const [selectedButtonIndex, setSelectedButtonIndex] = useState<number>(-1); // 선택된 버튼 인덱스
-  return (
-    <CategoryWrapper>
-      {category.map((item, index) => (
-        <CategoryButton
-          backgroundColor={
-            selectedButtonIndex === index ? "white" : "#00000080"
-          }
-          color={selectedButtonIndex === index ? "black" : "white"}
-          key={index}
-          onClick={() => {
-            router.push(`/main?value=${item}`);
-            setSelectedButtonIndex(index);
-          }}
-        >
-          {item}
-        </CategoryButton>
-      ))}
-    </CategoryWrapper>
-  );
-};
-
-export default Category;
