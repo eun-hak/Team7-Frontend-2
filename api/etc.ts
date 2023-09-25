@@ -44,7 +44,8 @@ const ETC = () => {
         removeStorage("refresh");
         removeStorage("access");
         console.log("로그아웃 성공");
-        alert("로그아웃에 성공하였습니다");
+
+        // alert("로그아웃에 성공하였습니다");
         if (onSuccessCallback) {
           onSuccessCallback();
         }

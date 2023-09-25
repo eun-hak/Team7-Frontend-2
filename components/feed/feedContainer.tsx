@@ -1,28 +1,24 @@
 "use client";
-import { MainFeed2 } from "@/type/feedtype";
-// import { MainFeed } from "@/type/feedtype";
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import CustomAudio from "../audio3";
-import { css, keyframes } from "@emotion/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Modal from "../modal";
 import ModalForm from "../modalform";
-import { getStorage, setStorage } from "@/util/loginStorage";
+import { getStorage, isLoginStorage, setStorage } from "@/util/loginStorage";
 import Interection from "@/api/Interection";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Feed from "@/api/Feed";
 import Body from "../body";
-// { data }: { data: MainFeed }
 
-// 노래제목 : data.musicName
-// 노래가수 : data.musicianName
-// 빌런유형 : data.feedType
-// 닉네임   : data.ownerName
-// 조회수   : data.viewCount
-// 생성일   : data.createdAt
-// 박수     : 아직 안만들어짐
 const FeedContainer = ({ data }: any) => {
+  function padWithZeros(num: number, length: number) {
+    let numString = num.toString();
+    while (numString.length < length) {
+      numString = "0" + numString;
+    }
+    return numString;
+  }
   const feed = Feed();
   const queryClient = useQueryClient();
   const searchParams = useSearchParams();
@@ -32,19 +28,9 @@ const FeedContainer = ({ data }: any) => {
     () => feed.all(searchValue),
     {}
   );
-  // // 쿼리 다시 불러오기 함수
-  // const refetchQuery = (newRefetchCacheValue: any) => {
-  //   // refetchcache 값을 변경하여 키를 업데이트
-  //   const updatedQueryKey = ["feed", searchValue, newRefetchCacheValue];
-
-  //   // 쿼리를 다시 불러옴
-  //   queryClient.invalidateQueries(updatedQueryKey);
-  // };
-
-  // refetchcache 값을 바꿀 때 호출
 
   const { Interection_click, Interection_check } = Interection();
-  // const Interection_id = data.feedId;
+  const isLogin = isLoginStorage();
   const { myclapfeed, myfeed } = Body();
   const router = useRouter();
   const [modalData, setModalData] = useState<any>([]);
@@ -53,10 +39,17 @@ const FeedContainer = ({ data }: any) => {
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
   const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const colorChange = useRef();
+
+  const handleClickMypage = () => {
+    if (!isLogin) {
+      alert("로그인 후 이용해주세요");
+      router.push("/sign");
+    }
+  };
   // console.log(data);
   const My_Calp_data =
     data &&
+    isLoginStorage() &&
     myclapfeed.map((data: any) => {
       return data.feedId;
     });
@@ -65,7 +58,7 @@ const FeedContainer = ({ data }: any) => {
   const handleButtonClick = () => {
     setClicked(!clicked);
   };
-  console.log(My_Calp_data);
+  // console.log(My_Calp_data);
   return (
     <>
       {data &&
@@ -113,16 +106,17 @@ const FeedContainer = ({ data }: any) => {
                       {/* <ModalForm></ModalForm> */}
                     </Modal>
                   </>
-                ) : My_Calp_data.includes(data.feedId) ? (
+                ) : isLoginStorage() && My_Calp_data.includes(data.feedId) ? (
                   <ClapWrapper
-                    onClick={async () => {
-                      queryClient.invalidateQueries(["myclapfeed"]);
-                      refetch();
+                    onClick={() => {
                       handleButtonClick();
-                      await Interection_click({
+                      Interection_click({
                         feedId: data.feedId,
                         memberId: memberId,
                       });
+                      queryClient.invalidateQueries(["myclapfeed"]);
+                      queryClient.invalidateQueries(["feed"]);
+                      // refetch();
                     }}
                     clicked={false}
                     border="2px solid #651fff;"
@@ -131,14 +125,16 @@ const FeedContainer = ({ data }: any) => {
                   </ClapWrapper>
                 ) : (
                   <ClapWrapper
-                    onClick={async () => {
-                      queryClient.invalidateQueries(["myclapfeed"]);
-                      refetch();
+                    onClick={() => {
+                      handleClickMypage();
                       handleButtonClick();
-                      await Interection_click({
+                      Interection_click({
                         feedId: data.feedId,
                         memberId: memberId,
                       });
+                      queryClient.invalidateQueries(["myclapfeed"]);
+                      queryClient.invalidateQueries(["feed"]);
+                      // refetch();
                     }}
                     clicked={false}
                     BackgroundColor={"#EAED70"}
@@ -151,18 +147,18 @@ const FeedContainer = ({ data }: any) => {
               <CustomAudio></CustomAudio>
               <NickName>닉네임 : {data.ownerName}</NickName>
               <WordBottomWrap>
-                {data.createdAt}
-                <div>
+                {data.createdAt.split(" ")[0]}
+                <IMGFlex>
                   <img
                     src="/play-arrow.png"
                     alt="Play"
                     width="17px"
                     height="17px"
                   />
-                </div>
-                <div>{data.viewCount}</div>
+                  {padWithZeros(data.viewCount, 3)}
+                </IMGFlex>
                 박수
-                {data.interactionCount} 번
+                {padWithZeros(data.interactionCount, 3)}
               </WordBottomWrap>
             </FeedBox>
           );
@@ -173,6 +169,11 @@ const FeedContainer = ({ data }: any) => {
 
 export default FeedContainer;
 
+const IMGFlex = styled.div`
+  display: flex;
+  width: 60px;
+  justify-content: center;
+`;
 const ModifyFlex = styled.div`
   max-width: 200px;
   display: flex;
@@ -248,9 +249,10 @@ const WordBottomWrap = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   color: rgba(0, 0, 0, 0.6);
   margin-left: 10px;
+  margin-top: 8px;
 `;
 
 const ClapWrapper = styled.div<{

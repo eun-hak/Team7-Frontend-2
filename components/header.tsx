@@ -3,12 +3,21 @@ import styled from "@emotion/styled";
 import Logo from "@/public/logo.svg";
 import Notification from "@/public/notification.svg";
 import Link from "next/link";
-import Category from "./category";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { isLoginStorage } from "@/util/loginStorage";
 
 const Header = () => {
   // const pathname = usePathname();
-
+  const router = useRouter();
+  const isLogin = isLoginStorage();
+  const handleClickNotice = () => {
+    if (!isLogin) {
+      alert("로그인 후 이용해주세요");
+      router.push("/sign");
+    } else {
+      router.push("/notice");
+    }
+  };
   return (
     <HeaderWrapper>
       <div>
@@ -18,11 +27,11 @@ const Header = () => {
               <Logo width={115} height={24} />
             </LogoLink>
           </Link>
-          <Link href="/notice">
-            <NotificationIcon>
-              <Notification />
-            </NotificationIcon>
-          </Link>
+          {/* <Link href="/notice"> */}
+          <NotificationIcon onClick={handleClickNotice}>
+            <Notification />
+          </NotificationIcon>
+          {/* </Link> */}
         </HeaderTop>
       </div>
 
