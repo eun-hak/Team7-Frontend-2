@@ -7,12 +7,13 @@ import jwtDecode, { type JwtPayload } from "jwt-decode";
 import ETC from "./etc";
 import { getStorage, isLoginStorage, setStorage } from "@/util/loginStorage";
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 // const PROXY_URL = window.location.hostname === "localhost" ? "" : "/proxy";
 // axios.defaults.withCredentials = true;
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const JwtInterceptors = () => {
+  const router = useRouter();
   const { logout, refresh } = ETC();
   const [token, setToken] = useRecoilState(tokenState);
   // const [rftoken, setRftoken] = useState();
@@ -56,11 +57,11 @@ const JwtInterceptors = () => {
         config.headers["Content-Type"] = "application/json";
       } else if (isLogin && !tokenValid) {
         const result = await refreshingToken();
-        // console.log(result);
+
         config.headers["Authorization"] = `Bearer ${result?.data.AccessToken}`;
         if (!result) {
           alert("로그인 시간이 만료되었습니다\n다시 로그인 해주세요");
-          await logout();
+          await logout(() => router.push("/sign"));
         }
       } else {
         config.headers["Authorization"] = `Bearer ${token}`;

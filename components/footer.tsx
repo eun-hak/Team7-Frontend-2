@@ -4,29 +4,48 @@ import { useRouter } from "next/navigation";
 import Home from "@/public/home.svg";
 import Add from "@/public/add-box.svg";
 import Mypage from "@/public/mypage.svg";
-import Link from "next/link";
+import { isLoginStorage } from "@/util/loginStorage";
 
 const Footer = () => {
   const router = useRouter();
-
-  const handleClick = () => {
-    router.push("/upload");
-    // <Link href="/upload" />;
+  const isLogin = isLoginStorage();
+  const handleClickPlus = () => {
+    if (!isLogin) {
+      alert("로그인 후 이용해주세요");
+      router.push("/sign");
+    } else {
+      router.push("/upload");
+    }
   };
-
+  const handleClickMain = () => {
+    if (!isLogin) {
+      alert("로그인 후 이용해주세요");
+      router.push("/sign");
+    } else {
+      router.push("/main?value=전체");
+    }
+  };
+  const handleClickMypage = () => {
+    if (!isLogin) {
+      alert("로그인 후 이용해주세요");
+      router.push("/sign");
+    } else {
+      router.push("/mypage");
+    }
+  };
   return (
     <FooterWrapper>
       <FooterContainer>
         <FooterIcons>
-          <FooterIconLink href="/main?value=전체">
+          <FooterIconLink onClick={handleClickMain}>
             <FooterIcon>
               <Home />
             </FooterIcon>
           </FooterIconLink>
-          <FooterIcon onClick={handleClick}>
+          <FooterIcon onClick={handleClickPlus}>
             <Add />
           </FooterIcon>
-          <FooterIconLink href="/mypage">
+          <FooterIconLink onClick={handleClickMypage}>
             <FooterIcon>
               <Mypage />
             </FooterIcon>
@@ -62,7 +81,7 @@ const FooterIcons = styled.div`
   width: 100%;
 `;
 
-const FooterIconLink = styled(Link)`
+const FooterIconLink = styled.div`
   cursor: pointer;
 `;
 
