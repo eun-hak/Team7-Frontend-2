@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
 import FrontIcon from "@/public/chevron-right.svg";
+import NoticeForm from "@/components/noticeform";
 
 const Mypage = () => {
   const methods = useForm();
@@ -20,6 +21,7 @@ const Mypage = () => {
       <MainPageWrapper>
         <MainPageContainer>
           <UploadHeader name="알림" type="hidden"></UploadHeader>
+          <NoticeForm></NoticeForm>
         </MainPageContainer>
       </MainPageWrapper>
     </FormProvider>
