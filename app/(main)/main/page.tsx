@@ -52,7 +52,6 @@ const Main = () => {
         <FeedWrap>
           <FeedContainer data={all}></FeedContainer>
         </FeedWrap>
-
         <Footer />
       </MainPageContainer>
     </MainPageWrapper>
