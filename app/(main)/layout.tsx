@@ -23,4 +23,5 @@ const BodyStyle = styled.body``;
 const BgStyle = styled.div`
   background-color: #fff;
   min-height: calc(100vh * 1);
+  overflow-y: hidden;
 `;
