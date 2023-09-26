@@ -6,7 +6,7 @@ import jwtDecode, { type JwtPayload } from "jwt-decode";
 // import { logout, refresh } from "@/api/etc";
 import ETC from "./etc";
 import { getStorage, isLoginStorage, setStorage } from "@/util/loginStorage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 // const PROXY_URL = window.location.hostname === "localhost" ? "" : "/proxy";
 // axios.defaults.withCredentials = true;
@@ -16,16 +16,17 @@ const JwtInterceptors = () => {
   const router = useRouter();
   const { logout, refresh } = ETC();
   const [token, setToken] = useRecoilState(tokenState);
-  // const [rftoken, setRftoken] = useState();
   const data: any = getStorage("refresh");
-
+  useEffect(() => {
+    // token이 업데이트될 때마다 호출되는 부분
+  }, [token]);
   const instance = axios.create({
     baseURL: `${baseURL}`,
   });
   //액세스토큰 유효성 검사
   const isAccessTokenValid = async () => {
     if (!token) return false;
-    const tokenInfo = await jwtDecode<JwtPayload>(token);
+    const tokenInfo = jwtDecode<JwtPayload>(token);
     if (tokenInfo.exp && tokenInfo.exp <= Date.now() / 1000) return false;
     return true;
   };
@@ -39,8 +40,9 @@ const JwtInterceptors = () => {
       if (res?.status !== 200) {
         throw new Error(`Response status is ${res?.status}`);
       } else {
-        // console.log(res.data.accessToken);
+        //토큰값이 바로 저장 안됨
         setToken(res.data.accessToken);
+        console.log(token);
         setStorage("access", res.data.accessToken);
         return res;
       }
@@ -48,7 +50,6 @@ const JwtInterceptors = () => {
       console.error("refreshToken ERROR", error);
     }
   };
-
   instance.interceptors.request.use(
     async (config) => {
       const tokenValid = await isAccessTokenValid();
@@ -57,12 +58,12 @@ const JwtInterceptors = () => {
         config.headers["Content-Type"] = "application/json";
       } else if (isLogin && !tokenValid) {
         const result = await refreshingToken();
-
-        config.headers["Authorization"] = `Bearer ${result?.data.AccessToken}`;
         if (!result) {
           alert("로그인 시간이 만료되었습니다\n다시 로그인 해주세요");
           await logout(() => router.push("/sign"));
         }
+
+        config.headers["Authorization"] = `Bearer ${result?.data.accessToken}`;
       } else {
         config.headers["Authorization"] = `Bearer ${token}`;
       }
