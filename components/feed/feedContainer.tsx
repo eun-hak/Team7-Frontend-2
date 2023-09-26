@@ -1,7 +1,7 @@
 "use client";
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
-import CustomAudio from "../audio3";
+import CustomAudio from "../audioPlayer";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Modal from "../modal";
 import ModalForm from "../modalform";
@@ -50,7 +50,7 @@ const FeedContainer = ({ data }: any) => {
   const My_Calp_data =
     data &&
     isLoginStorage() &&
-    myclapfeed.map((data: any) => {
+    myclapfeed?.map((data: any) => {
       return data.feedId;
     });
   const [clicked, setClicked] = useState<boolean>(false);
@@ -106,7 +106,7 @@ const FeedContainer = ({ data }: any) => {
                       {/* <ModalForm></ModalForm> */}
                     </Modal>
                   </>
-                ) : isLoginStorage() && My_Calp_data.includes(data.feedId) ? (
+                ) : isLoginStorage() && My_Calp_data?.includes(data.feedId) ? (
                   <ClapWrapper
                     onClick={() => {
                       handleButtonClick();

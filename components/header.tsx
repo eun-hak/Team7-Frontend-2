@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import Logo from "@/public/logo.svg";
 import Notification from "@/public/notification.svg";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { isLoginStorage } from "@/util/loginStorage";
 
 const Header = () => {
@@ -65,13 +65,6 @@ const NotificationIcon = styled.div`
   margin-right: 20px;
   cursor: pointer;
 `;
-/* display: ${(props) => (props.isUploadPage ? "none" : "flex")}; */
-// const CategoryWrapper = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   border: none;
-// `;
 
 const WhiteBackground = styled.div`
   height: 115px;

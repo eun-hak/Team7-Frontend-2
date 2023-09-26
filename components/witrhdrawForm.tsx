@@ -39,12 +39,6 @@ const WithDrawForm = () => {
 
   return (
     <MusicWrapper onSubmit={handleSubmit(onSubmit)}>
-      {/* <MusicInput
-        {...register("songTitle", { required: "원곡 노래 제목은 필수입니다." })}
-        placeholder="원곡 노래 제목을 입력해주세요. (필수)"
-      />
-      {errors.songTitle && <div>errors.songTitle.message</div>} */}
-
       {WitdrawReason.map(({ value, label }) => (
         <CustomRadio key={value}>
           <RadioInput

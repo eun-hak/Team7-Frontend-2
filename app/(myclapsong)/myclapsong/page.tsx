@@ -1,13 +1,10 @@
 "use client";
 import styled from "@emotion/styled";
 import UploadHeader from "@/components/upload_header";
-// import { logout } from "@/api/etc";
 import { FormProvider, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
-import FrontIcon from "@/public/chevron-right.svg";
-import RenameForm from "@/components/renameForm";
 import FeedContainer from "@/components/feed/feedContainer";
 import Body from "@/components/body";
 

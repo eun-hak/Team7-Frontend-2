@@ -1,12 +1,10 @@
 "use client";
 import styled from "@emotion/styled";
-import Notification from "@/public/notification.svg";
 import Link from "next/link";
 import BackIcon from "@/public/chevron-left.svg";
 import { usePathname } from "next/navigation";
 import { useFormContext } from "react-hook-form";
-import { getStorage, setStorage } from "@/util/loginStorage";
-import JwtInterceptors from "@/api/ApiController";
+import { getStorage } from "@/util/loginStorage";
 import SubmitFeed from "@/api/SubmitFeed";
 import { useRouter } from "next/navigation";
 import ReName from "@/api/Rename";

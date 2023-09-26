@@ -63,9 +63,6 @@ const FooterWrapper = styled.div`
   width: 100%;
 `;
 
-// const FixedWrapper = styled.div`
-//   position: fixed;
-// `;
 const FooterContainer = styled.footer`
   display: flex;
   width: 100%;

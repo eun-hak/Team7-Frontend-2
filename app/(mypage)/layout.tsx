@@ -1,10 +1,7 @@
 "use client";
 import styled from "@emotion/styled";
 import "../globals.css";
-
 import { Providers } from "../providers";
-import { RecoilRoot } from "recoil";
-import ReactQueryProvider from "../ReactQueryProvider";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (

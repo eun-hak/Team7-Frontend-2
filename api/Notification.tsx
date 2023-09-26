@@ -22,7 +22,7 @@ const Notification = () => {
           },
         }
       );
-      console.log(response);
+      // console.log(response);
       return response.data.data;
     } catch (error) {
       console.error("Error getting access token:", error);
@@ -44,7 +44,7 @@ const Notification = () => {
           },
         }
       );
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (error) {
       console.error("Error getting access token:", error);

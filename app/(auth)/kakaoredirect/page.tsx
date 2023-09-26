@@ -4,7 +4,7 @@ import KakaoOAuth2RedirectPage from "@/api/KakaoCallback";
 const Kakoredirect = () => {
   return (
     <>
-      <KakaoOAuth2RedirectPage />;
+      <KakaoOAuth2RedirectPage />
     </>
   );
 };

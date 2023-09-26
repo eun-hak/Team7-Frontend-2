@@ -16,7 +16,7 @@ const DeleteFeed = () => {
           Authorization: token2,
         },
       });
-      console.log(response);
+      // console.log(response);
       alert("삭제되었습니다");
       router.refresh();
       return response.data;

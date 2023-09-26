@@ -1,14 +1,13 @@
 "use client";
 import styled from "@emotion/styled";
 import UploadHeader from "@/components/upload_header";
-// import { logout } from "@/api/etc";
 import ETC from "@/api/etc";
 import { FormProvider, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
 import FrontIcon from "@/public/chevron-right.svg";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Modal from "@/components/modal";
 import ModalForm from "@/components/modalform";
 
@@ -22,7 +21,7 @@ const Mypage = () => {
   const [token, setToken] = useRecoilState(tokenState);
   const router = useRouter();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  console.log(myfeed);
+  // console.log(myfeed);
   const handleLogoutAndRedirect = () => {
     logout(() => {
       router.push("/main?value=전체"); // 특정 조건이 만족하는 경우에만 화면 이동
@@ -61,7 +60,6 @@ const Mypage = () => {
             <NicknameWrapper> 박수 친 노래</NicknameWrapper>
             <EditWrapper>
               <WordWrapper>
-                {" "}
                 {myclapfeed == undefined ? 0 : myclapfeed?.length}곡
               </WordWrapper>
               <LogoLink>
@@ -84,7 +82,6 @@ const Mypage = () => {
               onRequestClose={() => setModalIsOpen(false)}
             >
               <ModalForm setModalIsOpen={setModalIsOpen}></ModalForm>
-              {/* <ModalForm></ModalForm> */}
             </Modal>
           </ContentWrapper>
           <ContentWrapper onClick={() => router.push("/withdraw")}>
