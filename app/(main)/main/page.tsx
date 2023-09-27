@@ -7,7 +7,9 @@ import Body from "@/components/body";
 import FeedContainer from "@/components/feed/feedContainer";
 import { css, keyframes } from "@emotion/react";
 import Category from "@/components/category";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { tokenState } from "@/recoil/recoilstore";
 
 interface BackgroundImages {
   [key: string]: string;
@@ -25,13 +27,16 @@ const backgroundImages: BackgroundImages = {
 };
 const Main = () => {
   const [clicked, setClicked] = useState(false);
-
+  const token = useRecoilValue(tokenState);
   const handleButtonClick = () => {
     setClicked(!clicked);
   };
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("value") || "";
   const { all } = Body();
+  useEffect(() => {
+    console.log(token);
+  }, []);
   return (
     <MainPageWrapper background={backgroundImages[searchValue]}>
       <Header />

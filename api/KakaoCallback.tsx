@@ -7,7 +7,7 @@
 // import styles from './KakaoOAuth2RedirectPage.module.css';
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import axios from "axios";
+
 import JwtInterceptors, { baseURL } from "./ApiController";
 import { getStorage, setStorage } from "@/util/loginStorage";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -63,7 +63,7 @@ function KakaoOAuth2RedirectPage() {
         setStorage("refresh", res.data.refreshToken);
         setStorage("access", res.data.accessToken);
         setStorage("member", res.data.memberId);
-        // console.log(token);
+        console.log(token);
         router.push("/main?value=전체");
       });
     }
