@@ -4,7 +4,7 @@ import { getStorage } from "@/util/loginStorage";
 import { usePathname, useRouter } from "next/navigation";
 
 const ReName = () => {
-  //   const { instance } = JwtInterceptors();
+  const { instance } = JwtInterceptors();
   const path = usePathname();
   const router = useRouter();
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
@@ -14,16 +14,12 @@ const ReName = () => {
     const token: any = getStorage("access");
     const token2 = `Bearer ${token.replace(/\"/gi, "")}`;
     try {
-      const response = await axios.post(
-        `${baseURL}members/${memberId}?name=${data}`,
-        undefined,
-        {
-          headers: {
-            Authorization: token2,
-          },
-        }
+      const response = await instance.post(
+        `/members/${memberId}?name=${data}`,
+        undefined
       );
-      // console.log(response);
+
+      console.log(response);
       alert("닉네임 수정이 완료되었습니다");
       router.push("/main?value=전체");
       return response.data;

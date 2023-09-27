@@ -14,14 +14,9 @@ const SubmitFeed = () => {
     const token2 = `Bearer ${token.replace(/\"/gi, "")}`;
     try {
       const response = await instance.post(`/feeds`, formdata);
-      // const response = await axios.post(`${baseURL}feeds`, formdata, {
-      //   headers: {
-      //     Authorization: token2,
-      //   },
-      // });
-      console.log(response);
-      console.log(token3);
-      console.log(token2);
+      // console.log(response);
+      // console.log(token3);
+      // console.log(token2);
       return response.data;
     } catch (error) {
       console.error("Error getting access token:", error);

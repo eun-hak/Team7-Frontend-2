@@ -1,3 +1,4 @@
+"use client";
 import JwtInterceptors from "@/api/ApiController";
 import { getStorage, removeStorage } from "@/util/loginStorage";
 import { AxiosError } from "axios";
