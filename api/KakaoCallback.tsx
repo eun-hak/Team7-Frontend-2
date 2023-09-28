@@ -40,20 +40,6 @@ function KakaoOAuth2RedirectPage() {
     }
   };
 
-  //인가코드 받아서 백엔드에 넘김 -> 백엔드에서 엑세스토큰 , 리프레시토큰  받아옴 , 토큰을 스토리지에 저장
-  //로그인 유무는 로컬스토리지에서 처리
-
-  // useEffect(() => {
-  //   if (code) {
-  //     getToken({ code: code }).then((res) => {
-  //       router.push("/main");
-  //       setStorage("login", "true");
-  //       setToken(res.data.accessToken);
-  //       setStorage("refresh", res.data.refreshToken);
-  //       setStorage("access", res.data.accessToken);
-  //     });
-  //   }
-  // }, []);
   useEffect(() => {
     if (code) {
       getToken({ code: code, redirectUri: REDIRECT_URI }).then((res) => {
