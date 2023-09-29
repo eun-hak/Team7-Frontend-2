@@ -2,6 +2,7 @@ import axios from "axios";
 import JwtInterceptors, { baseURL } from "./ApiController";
 import { getStorage } from "@/util/loginStorage";
 import { usePathname, useRouter } from "next/navigation";
+import { UserNickNameChange } from "@/type/user";
 
 const ReName = () => {
   const { instance } = JwtInterceptors();
@@ -14,7 +15,7 @@ const ReName = () => {
     const token: any = getStorage("access");
     const token2 = `Bearer ${token.replace(/\"/gi, "")}`;
     try {
-      const response = await instance.post(
+      const response: UserNickNameChange = await instance.post(
         `/members/${memberId}?name=${data}`,
         undefined
       );

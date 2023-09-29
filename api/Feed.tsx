@@ -36,12 +36,12 @@ const Feed = () => {
       console.error(axiosError.message);
     }
   };
-
+  //피드 수정
   const modifyfeed = async (formdata: { code: object }) => {
     const token: any = getStorage("access");
     const token2 = `Bearer ${token.replace(/\"/gi, "")}`;
     try {
-      const response = await axios.put(`${baseURL}feeds`, formdata, {
+      const response: MainFeed2 = await axios.put(`${baseURL}feeds`, formdata, {
         headers: {
           Authorization: token2,
         },
