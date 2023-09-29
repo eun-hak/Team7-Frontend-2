@@ -4,6 +4,7 @@ import JwtInterceptors, { baseURL } from "./ApiController";
 import { getStorage } from "@/util/loginStorage";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
+import { SubmitData } from "@/type/feedtype";
 
 const SubmitFeed = () => {
   const { instance } = JwtInterceptors();
@@ -13,7 +14,7 @@ const SubmitFeed = () => {
     const token: any = getStorage("access");
     const token2 = `Bearer ${token.replace(/\"/gi, "")}`;
     try {
-      const response = await instance.post(`/feeds`, formdata);
+      const response: SubmitData = await instance.post(`/feeds`, formdata);
       // console.log(response);
       // console.log(token3);
       // console.log(token2);

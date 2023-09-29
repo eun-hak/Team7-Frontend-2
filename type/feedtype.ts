@@ -20,3 +20,9 @@ export interface MainFeed2 {
   map(arg0: (data: any) => any): unknown;
   data: MainFeed;
 }
+
+export interface SubmitData {
+  data: {
+    data: string;
+  };
+}

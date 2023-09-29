@@ -12,6 +12,7 @@ import JwtInterceptors, { baseURL } from "./ApiController";
 import { getStorage, setStorage } from "@/util/loginStorage";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
+import { UserLoginResponse } from "@/type/user";
 
 function KakaoOAuth2RedirectPage() {
   const { instance } = JwtInterceptors();
@@ -30,7 +31,10 @@ function KakaoOAuth2RedirectPage() {
   }) => {
     // `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&code=${code}`
     try {
-      const response = await instance.post(`/oauth2/kakao/login`, code);
+      const response: UserLoginResponse = await instance.post(
+        `/oauth2/kakao/login`,
+        code
+      );
       console.log(response);
 
       return response.data;

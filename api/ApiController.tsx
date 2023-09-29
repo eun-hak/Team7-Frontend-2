@@ -62,7 +62,6 @@ const JwtInterceptors = () => {
           alert("로그인 시간이 만료되었습니다\n다시 로그인 해주세요");
           await logout(() => router.push("/sign"));
         }
-
         config.headers["Authorization"] = `Bearer ${result?.data.accessToken}`;
       } else {
         config.headers["Authorization"] = `Bearer ${token}`;
