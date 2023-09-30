@@ -8,11 +8,7 @@ import { SubmitData } from "@/type/feedtype";
 
 const SubmitFeed = () => {
   const { instance } = JwtInterceptors();
-  const token1 = useRecoilValue(tokenState);
-  const token3 = `Bearer ${token1}`;
   const submit = async (formdata: { code: object }) => {
-    const token: any = getStorage("access");
-    const token2 = `Bearer ${token.replace(/\"/gi, "")}`;
     try {
       const response: SubmitData = await instance.post(`/feeds`, formdata);
       // console.log(response);
