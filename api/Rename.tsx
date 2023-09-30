@@ -8,12 +8,9 @@ const ReName = () => {
   const { instance } = JwtInterceptors();
   const path = usePathname();
   const router = useRouter();
-  const parts = path.split("/"); // 경로를 '/' 문자로 분리
-  const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
+
   const memberId = getStorage("member")?.replace(/\"/gi, "");
   const rename = async (data: string) => {
-    const token: any = getStorage("access");
-    const token2 = `Bearer ${token.replace(/\"/gi, "")}`;
     try {
       const response: UserNickNameChange = await instance.post(
         `/members/${memberId}?name=${data}`,
