@@ -8,13 +8,14 @@ import Interection from "@/api/Interection";
 import Notification from "@/api/Notification";
 const Body = () => {
   const interection = Interection();
-  const { notification_get } = Notification();
+  const notification = Notification();
   const feed = Feed();
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("value") || "";
   const memberId = getStorage("member")?.replace(/\"/gi, "");
   const [refetchcache, setRefetchcache] = useState();
   const clapfeed = 1;
+  const noticefeed = 1;
   // const value = "고음괴물";
 
   const { data: all } = useQuery(
@@ -35,10 +36,15 @@ const Body = () => {
     () => interection.Interection_check(),
     { staleTime: 0, cacheTime: 0 }
   );
-  const { data: notice } = useQuery(["notice"], () => notification_get(), {
-    staleTime: 0,
-    cacheTime: 0,
-  });
+
+  const { data: notice } = useQuery(
+    ["notice", noticefeed],
+    () => notification.notification_get(),
+    {
+      staleTime: 0,
+      cacheTime: 0,
+    }
+  );
   return { all, myfeed, myclapfeed, notice };
 };
 
