@@ -26,3 +26,9 @@ export interface SubmitData {
     data: string;
   };
 }
+
+export interface DeleteData {
+  data: {
+    data: string;
+  };
+}

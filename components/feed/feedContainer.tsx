@@ -13,8 +13,8 @@ import Body from "../body";
 
 const FeedContainer = ({ data }: any) => {
   function padWithZeros(num: number, length: number) {
-    let numString = num.toString();
-    while (numString.length < length) {
+    let numString = num?.toString();
+    while (numString?.length < length) {
       numString = "0" + numString;
     }
     return numString;
@@ -109,6 +109,7 @@ const FeedContainer = ({ data }: any) => {
                 ) : isLoginStorage() && My_Calp_data?.includes(data.feedId) ? (
                   <ClapWrapper
                     onClick={() => {
+                      console.log(data);
                       handleButtonClick();
                       Interection_click({
                         feedId: data.feedId,
@@ -126,6 +127,7 @@ const FeedContainer = ({ data }: any) => {
                 ) : (
                   <ClapWrapper
                     onClick={() => {
+                      console.log(data);
                       handleClickMypage();
                       handleButtonClick();
                       Interection_click({
