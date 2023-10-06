@@ -48,8 +48,8 @@ const UploadHeader = (props: propsType) => {
     formDataToSend.append("recordDuration", 500);
     formDataToSend.append("recordFile", data.audio[0]);
     submit(formDataToSend);
-    // alert("등록되었습니다");
-    // window.location.reload();
+    alert("등록되었습니다");
+    window.location.reload();
   };
 
   const onSubmitReUpload = (data: any) => {
