@@ -8,19 +8,15 @@ interface Click_Type {
 }
 const Notification = () => {
   //Interaction 수행
+  const { instance } = JwtInterceptors();
 
   const notification_get = async () => {
     const token: any = getStorage("access");
     const token2 = `Bearer ${token?.replace(/\"/gi, "")}`;
     const memberId = getStorage("member")?.replace(/\"/gi, "");
     try {
-      const response = await axios.get(
-        `${baseURL}notifications?memberId=${memberId}`,
-        {
-          headers: {
-            Authorization: token2,
-          },
-        }
+      const response = await instance.get(
+        `/notifications?memberId=${memberId}`
       );
       // console.log(response);
       return response.data.data;
@@ -29,20 +25,15 @@ const Notification = () => {
       throw error;
     }
   };
-
+  //Notification 읽기
   const notification_read = async (notificationId: string) => {
     const token: any = getStorage("access");
     const token2 = `Bearer ${token?.replace(/\"/gi, "")}`;
     const memberId = getStorage("member")?.replace(/\"/gi, "");
     try {
-      const response = await axios.post(
-        `${baseURL}notifications/read?notificationId=${notificationId}`,
-        undefined,
-        {
-          headers: {
-            Authorization: token2,
-          },
-        }
+      const response = await instance.post(
+        `/notifications/read?notificationId=${notificationId}`,
+        undefined
       );
       // console.log(response);
       return response;
