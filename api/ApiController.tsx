@@ -3,13 +3,10 @@ import { tokenState } from "@/recoil/recoilstore";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import jwtDecode, { type JwtPayload } from "jwt-decode";
-// import { logout, refresh } from "@/api/etc";
 import ETC from "./etc";
 import { getStorage, isLoginStorage, setStorage } from "@/util/loginStorage";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-// const PROXY_URL = window.location.hostname === "localhost" ? "" : "/proxy";
-// axios.defaults.withCredentials = true;
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const JwtInterceptors = () => {
@@ -17,9 +14,6 @@ const JwtInterceptors = () => {
   const { logout, refresh } = ETC();
   const [token, setToken] = useRecoilState(tokenState);
   const data: any = getStorage("refresh");
-  useEffect(() => {
-    // token이 업데이트될 때마다 호출되는 부분
-  }, [token]);
   const instance = axios.create({
     baseURL: `${baseURL}`,
   });

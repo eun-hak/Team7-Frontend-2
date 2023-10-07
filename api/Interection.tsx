@@ -8,16 +8,13 @@ interface Click_Type {
 }
 const Interection = () => {
   //Interaction 수행
+  const { instance } = JwtInterceptors();
 
   const Interection_click = async (data: Click_Type) => {
     const token: any = getStorage("access");
     const token2 = `Bearer ${token?.replace(/\"/gi, "")}`;
     try {
-      const response = await axios.post(`${baseURL}interactions`, data, {
-        headers: {
-          Authorization: token2,
-        },
-      });
+      const response = await instance.post(`/interactions`, data);
       // console.log(response);
       return response.data;
     } catch (error) {
@@ -33,13 +30,8 @@ const Interection = () => {
     const isLogin = isLoginStorage();
 
     try {
-      const response = await axios.get(
-        `${baseURL}feeds/interactionFeeds?memberId=${memberId}`,
-        {
-          headers: {
-            Authorization: token2,
-          },
-        }
+      const response = await instance.get(
+        `/feeds/interactionFeeds?memberId=${memberId}`
       );
       // console.log(response.data.data);
       return response.data.data;
