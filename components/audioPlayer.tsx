@@ -12,12 +12,31 @@ import {
 } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { playState } from "@/recoil/recoilstore";
+import { usePathname } from "next/navigation";
 
-function CustomAudio() {
+function CustomAudio({ music_data }: any) {
+  const path = usePathname();
+  const parts = path.split("/"); // 경로를 '/' 문자로 분리
+  const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
   const [totalTime, setTotalTime] = useState(0); // 노래의 총 시간을 나타내는 상태 추가
   const [currentTime, setCurrentTime] = useState(0); // 현재 노래의 진행 시간을 나타내는 상태 추가
   const [music, setMusic] = useRecoilState(playState);
   const [play, setPlay] = useState(false); // 재생 상태를 관리하는 상태
+  console.log(music_data);
+  // base64 문자열을 ArrayBuffer로 디코딩
+  let blobUrl;
+  if (music_data) {
+    const binaryData = atob(music_data);
+    // ArrayBuffer를 Uint8Array로 변환
+    const uint8Array = new Uint8Array(binaryData.length);
+    for (let i = 0; i < binaryData.length; i++) {
+      uint8Array[i] = binaryData.charCodeAt(i);
+    }
+    const blob = new Blob([uint8Array], { type: "audio/mpeg" });
+    const blobUrl = URL.createObjectURL(blob);
+    // blobUrl을 사용할 수 있습니다.
+  }
+
   // const audioSrc = music;
   const [progress, setProgress] = useState(0); // 오디오의 현재 위치를 나타내는 상태
   // 재생 버튼 클릭 시, play 상태를 토글하고 오디오 재생/일시 정지를 수행합니다.
@@ -165,7 +184,13 @@ function CustomAudio() {
           <Box>{formatTime(totalTime)}</Box>
         </Center>
       </Center>
-      <audio id="audioElement" src={music} />
+
+      {lastPart === "upload" ? (
+        <audio id="audioElement" src={music} />
+      ) : (
+        <audio id="audioElement" src={blobUrl} />
+      )}
+
       {/* 오디오 요소 */}
     </Box>
   );

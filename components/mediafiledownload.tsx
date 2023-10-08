@@ -51,6 +51,7 @@ const MediaFileDownload = () => {
     }
     setSelectedFile(file.name);
     //blob 파일로
+    console.log(file);
     console.log(URL.createObjectURL(file));
     setMusic(URL.createObjectURL(file));
   };
