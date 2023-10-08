@@ -146,7 +146,12 @@ const FeedContainer = ({ data }: any) => {
                   </ClapWrapper>
                 )}
               </BoxWrap>
-              <CustomAudio></CustomAudio>
+              {lastPart === "upload" ? (
+                <CustomAudio></CustomAudio>
+              ) : (
+                <CustomAudio music_data={data.recordRawData}></CustomAudio>
+              )}
+
               <NickName>닉네임 : {data.ownerName}</NickName>
               <WordBottomWrap>
                 {data.createdAt.split(" ")[0]}

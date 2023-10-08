@@ -35,10 +35,9 @@ export default Mypage;
 
 const MainPageWrapper = styled.div`
   width: 100%;
-  position: flex;
+  /* position: flex; */
   top: 0;
   bottom: 0;
-
   height: 100vh;
 `;
 
@@ -48,7 +47,7 @@ const MainPageContainer = styled.div`
   width: 100%;
   height: calc(100% - 117px);
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
 `;
 
 const FeedWrap = styled.div`

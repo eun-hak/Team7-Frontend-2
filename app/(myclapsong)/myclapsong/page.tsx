@@ -8,7 +8,7 @@ import { tokenState } from "@/recoil/recoilstore";
 import FeedContainer from "@/components/feed/feedContainer";
 import Body from "@/components/body";
 
-const Mypage = () => {
+const MyClapPage = () => {
   const methods = useForm();
   const { myclapfeed } = Body();
   const [token, setToken] = useRecoilState(tokenState);
@@ -30,7 +30,7 @@ const Mypage = () => {
   );
 };
 
-export default Mypage;
+export default MyClapPage;
 
 const MainPageWrapper = styled.div`
   width: 100%;
