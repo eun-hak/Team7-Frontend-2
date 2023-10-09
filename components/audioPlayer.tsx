@@ -22,9 +22,10 @@ function CustomAudio({ music_data }: any) {
   const [currentTime, setCurrentTime] = useState(0); // 현재 노래의 진행 시간을 나타내는 상태 추가
   const [music, setMusic] = useRecoilState(playState);
   const [play, setPlay] = useState(false); // 재생 상태를 관리하는 상태
-  console.log(music_data);
+  // console.log(music_data);
   // base64 문자열을 ArrayBuffer로 디코딩
   let blobUrl;
+
   if (music_data) {
     const binaryData = atob(music_data);
     // ArrayBuffer를 Uint8Array로 변환
@@ -33,7 +34,7 @@ function CustomAudio({ music_data }: any) {
       uint8Array[i] = binaryData.charCodeAt(i);
     }
     const blob = new Blob([uint8Array], { type: "audio/mpeg" });
-    const blobUrl = URL.createObjectURL(blob);
+    blobUrl = URL.createObjectURL(blob);
     // blobUrl을 사용할 수 있습니다.
   }
 

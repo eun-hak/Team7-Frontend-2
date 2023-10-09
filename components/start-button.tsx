@@ -17,26 +17,13 @@ const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
 // 카카오 API 설정에 등록한 리다이렉트 URI
-const REDIRECT_URI2 = "team7-frontend-2.vercel.app/kakaoredirect"; // 카카오 API 설정에 등록한 리다이렉트 URI
 // "카카오로 시작하기": process.env.NEXT_PUBLIC_KAKAO_LOGIN_URL,
 const BUTTON_LINKS = {
   시작하기: "/sign",
   "카카오로 시작하기": `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`,
   "다른 방법은 아직 준비 중이에요": "",
 };
-
 const ButtonContainer = ({ label }: ButtonProps) => {
-  // const handleKakaoLogin = () => {
-  //   // 카카오 로그인 요청
-  //   try{
-  //    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  //   }
-
-  //   catch(error){
-  //     const axiosError = error as AxiosError
-  //     console.log(axiosError)
-  //   }
-  // };
   const linkTo = BUTTON_LINKS[label] || "";
 
   let bgColor = "";
