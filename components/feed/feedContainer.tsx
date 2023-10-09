@@ -28,7 +28,7 @@ const FeedContainer = ({ data }: any) => {
     () => feed.all(searchValue),
     {}
   );
-
+  const recordRawData = useRef();
   const { Interection_click, Interection_check } = Interection();
   const isLogin = isLoginStorage();
   const { myclapfeed, myfeed } = Body();
@@ -63,6 +63,8 @@ const FeedContainer = ({ data }: any) => {
     <>
       {data &&
         data?.map((data: any) => {
+          console.log(data);
+          let musicData = data.recordRawData;
           return (
             <FeedBox key={data.feedId}>
               <BoxWrap>
@@ -127,7 +129,7 @@ const FeedContainer = ({ data }: any) => {
                 ) : (
                   <ClapWrapper
                     onClick={() => {
-                      console.log(data);
+                      console.log(musicData);
                       handleClickMypage();
                       handleButtonClick();
                       Interection_click({
@@ -149,7 +151,11 @@ const FeedContainer = ({ data }: any) => {
               {lastPart === "upload" ? (
                 <CustomAudio></CustomAudio>
               ) : (
-                <CustomAudio music_data={data.recordRawData}></CustomAudio>
+                <CustomAudio
+                  key={data.feedId}
+                  music_data={data.recordRawData}
+                />
+                // <CustomAudio></CustomAudio>
               )}
 
               <NickName>닉네임 : {data.ownerName}</NickName>
