@@ -1,5 +1,5 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Feed from "@/api/Feed";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -14,8 +14,9 @@ const Body = () => {
   const searchValue = searchParams.get("value") || "";
   const memberId = getStorage("member")?.replace(/\"/gi, "");
   const [refetchcache, setRefetchcache] = useState();
-  const clapfeed = 1;
+  // const clapfeed = 1;
   const noticefeed = 1;
+  const queryClient = useQueryClient();
   // const value = "고음괴물";
 
   const { data: all } = useQuery(
@@ -32,7 +33,7 @@ const Body = () => {
   );
 
   const { data: myclapfeed } = useQuery(
-    ["myclapfeed", clapfeed],
+    ["myclapfeed"],
     () => interection.Interection_check(),
     { staleTime: 0, cacheTime: 0 }
   );
@@ -45,6 +46,7 @@ const Body = () => {
       cacheTime: 0,
     }
   );
+
   return { all, myfeed, myclapfeed, notice };
 };
 

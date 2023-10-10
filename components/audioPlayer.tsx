@@ -24,19 +24,34 @@ function CustomAudio({ music_data }: any) {
   const [play, setPlay] = useState(false); // 재생 상태를 관리하는 상태
   // console.log(music_data);
   // base64 문자열을 ArrayBuffer로 디코딩
-  let blobUrl;
+  const [blobUrl, setBlobUrl] = useState<any>(null);
 
-  if (music_data) {
-    const binaryData = atob(music_data);
-    // ArrayBuffer를 Uint8Array로 변환
-    const uint8Array = new Uint8Array(binaryData.length);
-    for (let i = 0; i < binaryData.length; i++) {
-      uint8Array[i] = binaryData.charCodeAt(i);
+  useEffect(() => {
+    if (music_data) {
+      const binaryData = atob(music_data);
+      const uint8Array = new Uint8Array(binaryData.length);
+      for (let i = 0; i < binaryData.length; i++) {
+        uint8Array[i] = binaryData.charCodeAt(i);
+      }
+      const blob = new Blob([uint8Array], { type: "audio/mpeg" });
+      const newBlobUrl = URL.createObjectURL(blob);
+      setBlobUrl(newBlobUrl);
     }
-    const blob = new Blob([uint8Array], { type: "audio/mpeg" });
-    blobUrl = URL.createObjectURL(blob);
-    // blobUrl을 사용할 수 있습니다.
-  }
+  }, [music_data]);
+  // console.log(blobUrl);
+  // let blobUrl;
+  // //음악파일이 null이 아닐때만 실행되도록
+  // if (music_data) {
+  //   const binaryData = atob(music_data);
+  //   // ArrayBuffer를 Uint8Array로 변환
+  //   const uint8Array = new Uint8Array(binaryData.length);
+  //   for (let i = 0; i < binaryData.length; i++) {
+  //     uint8Array[i] = binaryData.charCodeAt(i);
+  //   }
+  //   const blob = new Blob([uint8Array], { type: "audio/mpeg" });
+  //   blobUrl = URL.createObjectURL(blob);
+  //   // blobUrl을 사용할 수 있습니다.
+  // }
 
   // const audioSrc = music;
   const [progress, setProgress] = useState(0); // 오디오의 현재 위치를 나타내는 상태
@@ -121,6 +136,7 @@ function CustomAudio({ music_data }: any) {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
   return (
+    //오디오 UI
     <Box>
       <Center>
         {/* Slider를 사용한 프로그레스 바 */}
@@ -176,9 +192,6 @@ function CustomAudio({ music_data }: any) {
           </SliderTrack>
           <SliderThumb bg="#651FFF" />
         </Slider>
-
-        {/* </Center>
-        <Center mt={4}> */}
         <Center mr={6}>
           <Box>{formatTime(currentTime)}</Box>
           <Box mx={2}>/</Box>
