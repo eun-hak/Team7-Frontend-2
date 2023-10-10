@@ -190,12 +190,13 @@ const FeedContainer = ({ data }: any) => {
                 )}
               </BoxWrap>
               {lastPart === "upload" ? (
-                <CustomAudio></CustomAudio>
+                <CustomAudio index={1}></CustomAudio>
               ) : (
                 <CustomAudio
                   key={data.feedId}
                   //데이터 잘 들어감
                   music_data={data.recordRawData}
+                  index={data.feedId}
                 />
               )}
 

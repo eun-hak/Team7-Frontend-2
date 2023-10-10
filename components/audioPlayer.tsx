@@ -14,7 +14,7 @@ import { useRecoilState } from "recoil";
 import { playState } from "@/recoil/recoilstore";
 import { usePathname } from "next/navigation";
 
-function CustomAudio({ music_data }: any) {
+function CustomAudio({ music_data, index }: any) {
   const path = usePathname();
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
   const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
@@ -63,7 +63,7 @@ function CustomAudio({ music_data }: any) {
   // 오디오의 현재 위치를 업데이트하는 함수
   const updateProgress = () => {
     const audioElement = document.getElementById(
-      "audioElement"
+      `audioElement${index}`
     ) as HTMLAudioElement;
     const currentTime = audioElement.currentTime;
     const duration = audioElement.duration;
@@ -74,7 +74,7 @@ function CustomAudio({ music_data }: any) {
   useEffect(() => {
     // play 상태가 변경될 때마다 이 효과가 실행됩니다.
     const audioElement = document.getElementById(
-      "audioElement"
+      `audioElement${index}`
     ) as HTMLAudioElement; // <audio> 요소 가져오기
 
     if (play) {
@@ -89,7 +89,7 @@ function CustomAudio({ music_data }: any) {
   useEffect(() => {
     // 오디오 요소의 currentTime을 기반으로 프로그레스 바 값 업데이트
     const audioElement = document.getElementById(
-      "audioElement"
+      `audioElement${index}`
     ) as HTMLAudioElement;
     audioElement.addEventListener("timeupdate", updateProgress);
 
@@ -102,7 +102,7 @@ function CustomAudio({ music_data }: any) {
   //총 시간을 가져오는 useEffect
   useEffect(() => {
     const audioElement = document.getElementById(
-      "audioElement"
+      `audioElement${index}`
     ) as HTMLAudioElement;
     audioElement.addEventListener("loadedmetadata", () => {
       // 노래의 총 시간을 가져와서 상태에 저장
@@ -113,7 +113,7 @@ function CustomAudio({ music_data }: any) {
   // 타이머 업데이트 useEffect
   useEffect(() => {
     const audioElement = document.getElementById(
-      "audioElement"
+      `audioElement${index}`
     ) as HTMLAudioElement;
     audioElement.addEventListener("timeupdate", updateProgress);
 
@@ -175,7 +175,7 @@ function CustomAudio({ music_data }: any) {
           value={isNaN(progress) ? 0 : progress} // duration이 NaN이면 0으로 설정
           onChange={(value) => {
             const audioElement = document.getElementById(
-              "audioElement"
+              `audioElement${index}`
             ) as HTMLAudioElement;
             const duration = audioElement.duration;
             if (!isNaN(duration)) {
@@ -200,9 +200,9 @@ function CustomAudio({ music_data }: any) {
       </Center>
 
       {lastPart === "upload" ? (
-        <audio id="audioElement" src={music} />
+        <audio id={`audioElement${index}`} src={music} />
       ) : (
-        <audio id="audioElement" src={blobUrl} />
+        <audio id={`audioElement${index}`} src={blobUrl} />
       )}
 
       {/* 오디오 요소 */}
