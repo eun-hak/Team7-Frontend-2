@@ -51,6 +51,7 @@ const FeedContainer = ({ data }: any) => {
   };
 
   //optimistic update를 위한 usemutate
+
   const { mutate: updateLikeMutate } = useMutation(
     () => interection.Interection_check(),
     {
@@ -91,6 +92,7 @@ const FeedContainer = ({ data }: any) => {
     setClicked(!clicked);
   };
   // console.log(My_Calp_data);
+
   return (
     <>
       {data &&
@@ -143,7 +145,7 @@ const FeedContainer = ({ data }: any) => {
                   <ClapWrapper
                     onClick={() => {
                       // console.log(data);
-                      console.log(data.recordRawData);
+                      // console.log(data.recordRawData);
                       SetisLike(!isLike);
                       handleButtonClick();
                       Interection_click({
@@ -166,7 +168,7 @@ const FeedContainer = ({ data }: any) => {
                   <ClapWrapper
                     onClick={() => {
                       SetisLike(!isLike);
-                      console.log(data.recordRawData);
+                      // console.log(data.recordRawData);
                       handleClickMypage();
                       handleButtonClick();
                       Interection_click({
