@@ -23,7 +23,7 @@ const FeedContainer = ({ data }: any) => {
   const queryClient = useQueryClient();
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("value") || "";
-  const recordRawData = useRef();
+
   const interection = Interection();
   const { Interection_click, Interection_check } = Interection();
   const isLogin = isLoginStorage();
@@ -50,31 +50,52 @@ const FeedContainer = ({ data }: any) => {
     }
   };
 
-  //optimistic update를 위한 usemutate
+  //optimistic update를 위한 usemutate =>박수관련 interaction
 
   const { mutate: updateLikeMutate } = useMutation(
     () => interection.Interection_check(),
     {
       onMutate: async () => {
         await queryClient.cancelQueries(["myclapfeed"]);
-        const previousProjectLike = queryClient.getQueryData(["myclapfeed"]);
+        const previousProjectCount = queryClient.getQueryData(["myclapfeed"]);
         queryClient.setQueryData(["myclapfeed"], () => {
           isLike
             ? setQuerycontent(["2px solid #651fff;", "white", "👏"])
-            : // (querycontent[0] = "2px solid #651fff;"),
-              // (querycontent[1] = "white")
+            : setQuerycontent(["", "#EAED70", "박수"]);
+        });
+        return { previousProjectCount };
+      },
+      onError: (err, variables, context) => {
+        queryClient.setQueryData(["myclapfeed"], context?.previousProjectCount);
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries(["myclapfeed"]);
+      },
+    }
+  );
 
-              setQuerycontent(["", "#EAED70", "박수"]);
-
-          // (querycontent[0] = ""), (querycontent[1] = "#EAED70")
+  const { mutate: updateCountMutate } = useMutation(
+    () => feed.all(searchValue),
+    {
+      onMutate: async () => {
+        await queryClient.cancelQueries(["feed", searchValue]);
+        const previousProjectLike = queryClient.getQueryData([
+          "feed",
+          searchValue,
+        ]);
+        queryClient.setQueryData(["feed", searchValue], () => {
+          data.interactionCount++;
         });
         return { previousProjectLike };
       },
       onError: (err, variables, context) => {
-        queryClient.setQueryData(["myclapfeed"], context?.previousProjectLike);
+        queryClient.setQueryData(
+          ["feed", searchValue],
+          context?.previousProjectLike
+        );
       },
       onSettled: () => {
-        queryClient.invalidateQueries(["myclapfeed"]);
+        queryClient.invalidateQueries(["feed", searchValue]);
       },
     }
   );
@@ -144,17 +165,16 @@ const FeedContainer = ({ data }: any) => {
                 ) : isLoginStorage() && My_Calp_data?.includes(data.feedId) ? (
                   <ClapWrapper
                     onClick={() => {
-                      // console.log(data);
-                      // console.log(data.recordRawData);
+                      updateLikeMutate();
+                      updateCountMutate();
                       SetisLike(!isLike);
+                      handleClickMypage();
                       handleButtonClick();
                       Interection_click({
                         feedId: data.feedId,
                         memberId: memberId,
                       });
                       // queryClient.invalidateQueries(["myclapfeed"]);
-                      updateLikeMutate();
-                      queryClient.invalidateQueries(["feed"]);
                     }}
                     clicked={false}
                     border="2px solid #651fff;"
@@ -167,8 +187,9 @@ const FeedContainer = ({ data }: any) => {
                 ) : (
                   <ClapWrapper
                     onClick={() => {
+                      updateLikeMutate();
+                      updateCountMutate();
                       SetisLike(!isLike);
-                      // console.log(data.recordRawData);
                       handleClickMypage();
                       handleButtonClick();
                       Interection_click({
@@ -176,8 +197,7 @@ const FeedContainer = ({ data }: any) => {
                         memberId: memberId,
                       });
                       // queryClient.invalidateQueries(["myclapfeed"]);
-                      updateLikeMutate();
-                      queryClient.invalidateQueries(["feed"]);
+
                       // refetch();
                     }}
                     clicked={false}
@@ -334,8 +354,15 @@ const ClapWrapper = styled.div<{
   margin: 10px;
   background-color: ${(props) =>
     props.BackgroundColor || "transparent"}; /* 기본값은 투명으로 설정 */
-  &:hover {
+  &:active {
     cursor: pointer;
     background-color: #651fff;
+  }
+
+  @media (min-width: 768px) {
+    &:hover {
+      cursor: pointer;
+      background-color: #651fff;
+    }
   }
 `;
