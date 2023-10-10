@@ -22,7 +22,7 @@ const Interection = () => {
       throw error;
     }
   };
-
+  //사용자가 인터렉션한 모든 피드 정보 가져오기
   const Interection_check = async () => {
     const token: any = getStorage("access");
     const token2 = `Bearer ${token?.replace(/\"/gi, "")}`;

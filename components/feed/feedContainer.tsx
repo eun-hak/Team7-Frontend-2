@@ -7,7 +7,7 @@ import Modal from "../modal";
 import ModalForm from "../modalform";
 import { getStorage, isLoginStorage, setStorage } from "@/util/loginStorage";
 import Interection from "@/api/Interection";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Feed from "@/api/Feed";
 import Body from "../body";
 
@@ -23,12 +23,8 @@ const FeedContainer = ({ data }: any) => {
   const queryClient = useQueryClient();
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("value") || "";
-  const { refetch } = useQuery(
-    ["feed", searchValue],
-    () => feed.all(searchValue),
-    {}
-  );
   const recordRawData = useRef();
+  const interection = Interection();
   const { Interection_click, Interection_check } = Interection();
   const isLogin = isLoginStorage();
   const { myclapfeed, myfeed } = Body();
@@ -39,6 +35,13 @@ const FeedContainer = ({ data }: any) => {
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
   const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isLike, SetisLike] = useState(false);
+
+  const [querycontent, setQuerycontent] = useState([
+    "2px solid #651fff;",
+    "white",
+    "👏",
+  ]);
 
   const handleClickMypage = () => {
     if (!isLogin) {
@@ -46,6 +49,35 @@ const FeedContainer = ({ data }: any) => {
       router.push("/sign");
     }
   };
+
+  //optimistic update를 위한 usemutate
+  const { mutate: updateLikeMutate } = useMutation(
+    () => interection.Interection_check(),
+    {
+      onMutate: async () => {
+        await queryClient.cancelQueries(["myclapfeed"]);
+        const previousProjectLike = queryClient.getQueryData(["myclapfeed"]);
+        queryClient.setQueryData(["myclapfeed"], () => {
+          isLike
+            ? setQuerycontent(["2px solid #651fff;", "white", "👏"])
+            : // (querycontent[0] = "2px solid #651fff;"),
+              // (querycontent[1] = "white")
+
+              setQuerycontent(["", "#EAED70", "박수"]);
+
+          // (querycontent[0] = ""), (querycontent[1] = "#EAED70")
+        });
+        return { previousProjectLike };
+      },
+      onError: (err, variables, context) => {
+        queryClient.setQueryData(["myclapfeed"], context?.previousProjectLike);
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries(["myclapfeed"]);
+      },
+    }
+  );
+
   // console.log(data);
   const My_Calp_data =
     data &&
@@ -63,7 +95,7 @@ const FeedContainer = ({ data }: any) => {
     <>
       {data &&
         data?.map((data: any) => {
-          console.log(data);
+          // console.log(data);
           let musicData = data.recordRawData;
           return (
             <FeedBox key={data.feedId}>
@@ -105,45 +137,54 @@ const FeedContainer = ({ data }: any) => {
                         musicname={modalData[0]}
                         musician={modalData[1]}
                       ></ModalForm>
-                      {/* <ModalForm></ModalForm> */}
                     </Modal>
                   </>
                 ) : isLoginStorage() && My_Calp_data?.includes(data.feedId) ? (
                   <ClapWrapper
                     onClick={() => {
-                      console.log(data);
+                      // console.log(data);
+                      console.log(data.recordRawData);
+                      SetisLike(!isLike);
                       handleButtonClick();
                       Interection_click({
                         feedId: data.feedId,
                         memberId: memberId,
                       });
-                      queryClient.invalidateQueries(["myclapfeed"]);
+                      // queryClient.invalidateQueries(["myclapfeed"]);
+                      updateLikeMutate();
                       queryClient.invalidateQueries(["feed"]);
-                      // refetch();
                     }}
                     clicked={false}
                     border="2px solid #651fff;"
+                    // BackgroundColor={querycontent[1]}
+                    // border={querycontent[0]}
                   >
+                    {/* {querycontent[2]} */}
                     👏
                   </ClapWrapper>
                 ) : (
                   <ClapWrapper
                     onClick={() => {
-                      console.log(musicData);
+                      SetisLike(!isLike);
+                      console.log(data.recordRawData);
                       handleClickMypage();
                       handleButtonClick();
                       Interection_click({
                         feedId: data.feedId,
                         memberId: memberId,
                       });
-                      queryClient.invalidateQueries(["myclapfeed"]);
+                      // queryClient.invalidateQueries(["myclapfeed"]);
+                      updateLikeMutate();
                       queryClient.invalidateQueries(["feed"]);
                       // refetch();
                     }}
                     clicked={false}
                     BackgroundColor={"#EAED70"}
+                    // BackgroundColor={querycontent[1]}
+                    // border={querycontent[0]}
                     fontsize="14px"
                   >
+                    {/* {querycontent[2]} */}
                     박수
                   </ClapWrapper>
                 )}
@@ -153,9 +194,9 @@ const FeedContainer = ({ data }: any) => {
               ) : (
                 <CustomAudio
                   key={data.feedId}
+                  //데이터 잘 들어감
                   music_data={data.recordRawData}
                 />
-                // <CustomAudio></CustomAudio>
               )}
 
               <NickName>닉네임 : {data.ownerName}</NickName>
