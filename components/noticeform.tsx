@@ -41,10 +41,16 @@ const NoticeForm = () => {
   const timeAgo = getTimeAgo(date);
   console.log(data?.length);
   console.log(timeAgo); // "30분 전" 또는 해당하는 텍스트 출력
+  const sortedData = data?.slice().sort((a: any, b: any) => {
+    // Compare the 'createdAt' timestamps for sorting
+    const dateA: any = new Date(a.createdAt);
+    const dateB: any = new Date(b.createdAt);
 
+    return dateB - dateA; // To sort in descending order (most recent first)
+  });
   return (
     <>
-      {data?.map((item: any) => {
+      {sortedData?.map((item: any) => {
         return (
           <NoticeBox ownerRead={item.ownerRead}>
             <NoticeClap>👏</NoticeClap>
@@ -55,7 +61,7 @@ const NoticeForm = () => {
               </NoticeWord>
               <NoticeWord>
                 {item.interactionCount}명에게 박수받았어요!
-                {item.ownerRead}
+                {/* {item.ownerRead} */}
               </NoticeWord>
             </NoticeWordWrapper>
             <NoticeTimer>{getTimeAgo(item.createdAt)}</NoticeTimer>
