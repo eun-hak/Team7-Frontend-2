@@ -8,7 +8,6 @@ const ReName = () => {
   const { instance } = JwtInterceptors();
   const path = usePathname();
   const router = useRouter();
-
   const memberId = getStorage("member")?.replace(/\"/gi, "");
   const rename = async (data: string) => {
     try {
