@@ -11,7 +11,29 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Feed from "@/api/Feed";
 import Body from "../body";
 
+// const FeedCounter = ({data} : any) =>{
+//   data.map((data: any)=>{
+//     const [interactionCount, setInteractionCount] = useState(
+//       data.interactionCount
+//     )
+//     return(interactionCount
+//   )
+//   }
+//  )
+
+//   return{
+//     setInteractionCount
+//   }
+// }
+
 const FeedContainer = ({ data }: any) => {
+  // const interactionCounts = data?.map((data: any) => {
+  //   const [interactionCount, setInteractionCount] = useState(
+  //     data.interactionCount
+  //   );
+  //   return { interactionCount, setInteractionCount };
+  // });
+
   function padWithZeros(num: number, length: number) {
     let numString = num?.toString();
     while (numString?.length < length) {
@@ -23,7 +45,6 @@ const FeedContainer = ({ data }: any) => {
   const queryClient = useQueryClient();
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("value") || "";
-
   const interection = Interection();
   const { Interection_click, Interection_check } = Interection();
   const isLogin = isLoginStorage();
@@ -83,9 +104,7 @@ const FeedContainer = ({ data }: any) => {
           "feed",
           searchValue,
         ]);
-        queryClient.setQueryData(["feed", searchValue], () => {
-          data.interactionCount++;
-        });
+        queryClient.setQueryData(["feed", searchValue], () => {});
         return { previousProjectLike };
       },
       onError: (err, variables, context) => {
@@ -99,7 +118,6 @@ const FeedContainer = ({ data }: any) => {
       },
     }
   );
-
   // console.log(data);
   const My_Calp_data =
     data &&
@@ -107,6 +125,10 @@ const FeedContainer = ({ data }: any) => {
     myclapfeed?.map((data: any) => {
       return data.feedId;
     });
+
+  const Clap_count_data = data?.map((data: any) => {
+    return data.interactionCount;
+  });
   const [clicked, setClicked] = useState<boolean>(false);
 
   const handleButtonClick = () => {
@@ -117,9 +139,9 @@ const FeedContainer = ({ data }: any) => {
   return (
     <>
       {data &&
-        data?.map((data: any) => {
-          // console.log(data);
-          let musicData = data.recordRawData;
+        data?.map((data: any, index: number) => {
+          let countLike = data.interactionCount;
+
           return (
             <FeedBox key={data.feedId}>
               <BoxWrap>
@@ -235,7 +257,8 @@ const FeedContainer = ({ data }: any) => {
                   {padWithZeros(data.viewCount, 3)}
                 </IMGFlex>
                 박수
-                {padWithZeros(data.interactionCount, 3)}
+                {/* {padWithZeros(data.interactionCount, 3)} */}
+                {padWithZeros(countLike, 3)}
               </WordBottomWrap>
             </FeedBox>
           );

@@ -10,6 +10,7 @@ import Category from "@/components/category";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
+import FeedData from "@/components/feed/feedData";
 
 interface BackgroundImages {
   [key: string]: string;
@@ -45,7 +46,8 @@ const Main = () => {
       </CategoryWrapper>
       <MainPageContainer>
         <FeedWrap>
-          <FeedContainer data={all}></FeedContainer>
+          {/* <FeedContainer data={all}></FeedContainer> */}
+          <FeedData data={all}></FeedData>
         </FeedWrap>
         <Footer />
       </MainPageContainer>

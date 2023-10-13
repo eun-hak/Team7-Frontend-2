@@ -33,7 +33,7 @@ const NoticeForm = () => {
     for (let i = 0; i < data?.length; i++) {
       notification_read(data[i]?.notificationId);
     }
-  }, [NoticeForm]);
+  }, []);
   // 예시: 현재 시간에서 30분 전의 시간을 표시
   const date = new Date();
   date.setMinutes(date.getMinutes() - 30);
