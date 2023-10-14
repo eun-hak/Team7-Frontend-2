@@ -44,23 +44,38 @@ const FeedData = ({ data }: any) => {
 
   //optimistic update를 위한 usemutate =>박수관련 interaction
 
-  const { mutate: updateLikeMutate } = useMutation(
-    () => interection.Interection_check(),
-    {
-      onMutate: async () => {
-        await queryClient.cancelQueries(["myclapfeed"]);
-        const previousProjectCount = queryClient.getQueryData(["myclapfeed"]);
-        queryClient.setQueryData(["myclapfeed"], () => {});
-        return { previousProjectCount };
-      },
-      onError: (err, variables, context) => {
-        queryClient.setQueryData(["myclapfeed"], context?.previousProjectCount);
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries(["myclapfeed"]);
-      },
-    }
-  );
+  //   const { mutate: updateLikeMutate } = useMutation(
+  //     () => interection.Interection_check(),
+  //     {
+  //       onMutate: async (like_data) => {
+  //         await queryClient.cancelQueries(["myclapfeed"]);
+  //         const previousProjectCount = queryClient.getQueryData(["myclapfeed"]);
+  //         queryClient.setQueryData(["myclapfeed"], () => {
+  //           if (
+  //             data.feedId === like_data &&
+  //             My_Calp_data?.includes(data.feedId)
+  //           ) {
+  //             console.log("박수치기");
+  //             My_Calp_data.filter((item: any) => item !== like_data);
+  //           } else if (
+  //             data.feedId === like_data &&
+  //             !My_Calp_data?.includes(data.feedId)
+  //           ) {
+  //             ("박수제거");
+
+  //             My_Calp_data.push(like_data);
+  //           }
+  //         });
+  //         return { previousProjectCount };
+  //       },
+  //       onError: (err, variables, context) => {
+  //         queryClient.setQueryData(["myclapfeed"], context?.previousProjectCount);
+  //       },
+  //       onSettled: () => {
+  //         queryClient.invalidateQueries(["myclapfeed"]);
+  //       },
+  //     }
+  //   );
 
   const { mutate: updateCountMutate } = useMutation(
     () => feed.all(searchValue),
@@ -73,7 +88,27 @@ const FeedData = ({ data }: any) => {
         ]);
         queryClient.setQueryData(
           ["feed", searchValue],
-          count_data + 1
+
+          () => {
+            data?.map((data: any) => {
+              if (
+                data.feedId === count_data &&
+                !My_Calp_data?.includes(data.feedId)
+              ) {
+                console.log("+1");
+
+                data.interactionCount = data.interactionCount + 1;
+              } else if (
+                data.feedId === count_data &&
+                My_Calp_data?.includes(data.feedId)
+              ) {
+                console.log("-1");
+
+                data.interactionCount = data.interactionCount - 1;
+              }
+            });
+          }
+
           //적용 안되는중
         );
         return { previousProjectLike };
@@ -90,6 +125,8 @@ const FeedData = ({ data }: any) => {
     }
   );
   // console.log(data);
+
+  //여기를 mutation으로 바꿔야될듯?
   const My_Calp_data =
     data &&
     isLoginStorage() &&
@@ -154,8 +191,8 @@ const FeedData = ({ data }: any) => {
               ) : isLoginStorage() && My_Calp_data?.includes(data.feedId) ? (
                 <ClapWrapper
                   onClick={() => {
-                    updateLikeMutate();
-                    updateCountMutate(countLike);
+                    // updateLikeMutate(data.feedId);
+                    updateCountMutate(data.feedId);
                     handleClickMypage();
                     handleButtonClick();
                     Interection_click({
@@ -166,6 +203,7 @@ const FeedData = ({ data }: any) => {
                   }}
                   clicked={false}
                   border="2px solid #651fff;"
+                  //   content="👏"
                   // BackgroundColor={querycontent[1]}
                   // border={querycontent[0]}
                 >
@@ -175,10 +213,11 @@ const FeedData = ({ data }: any) => {
               ) : (
                 <ClapWrapper
                   onClick={() => {
-                    updateLikeMutate();
-                    updateCountMutate(countLike);
+                    // updateLikeMutate(data.feedId);
+                    updateCountMutate(data.feedId);
                     handleClickMypage();
                     handleButtonClick();
+
                     Interection_click({
                       feedId: data.feedId,
                       memberId: memberId,
@@ -187,6 +226,7 @@ const FeedData = ({ data }: any) => {
 
                     // refetch();
                   }}
+                  //   content="박수"
                   clicked={false}
                   BackgroundColor={"#EAED70"}
                   // BackgroundColor={querycontent[1]}
@@ -326,6 +366,7 @@ const ClapWrapper = styled.div<{
   BackgroundColor?: any;
   border?: string;
   fontsize?: string;
+  content?: string;
 }>`
   display: flex;
   justify-content: center;
@@ -334,6 +375,7 @@ const ClapWrapper = styled.div<{
   /* border: 2px solid #651fff; */
   border: ${(props) => props.border || "none"};
   font-size: ${(props) => props.fontsize || "20px"};
+  content: ${(props) => props.content};
   width: 60px;
   height: 34px;
   flex-shrink: 0;
