@@ -100,6 +100,7 @@ const FeedData = ({ data }: any) => {
                 data.interactionProps.content = "👏";
                 data.interactionProps.border = "2px solid #651fff";
                 data.interactionProps.backgroundColor = "transparent";
+                data.interactionProps.fontSize = "20px";
               } else if (
                 data.feedId === count_data &&
                 My_Calp_data?.includes(data.feedId)
@@ -109,7 +110,7 @@ const FeedData = ({ data }: any) => {
                 data.interactionProps.content = "박수";
                 data.interactionProps.backgroundColor = "#EAED70";
                 data.interactionProps.border = "none";
-                // data.interactionProps.fontSize = "14px";
+                data.interactionProps.fontSize = "14px";
               }
             });
           }
@@ -209,7 +210,7 @@ const FeedData = ({ data }: any) => {
                   clicked={false}
                   border={data.interactionProps.border}
                   BackgroundColor={data.interactionProps.backgroundColor}
-
+                  fontsize={data.interactionProps.fontSize}
                   //   content="👏"
                   // BackgroundColor={querycontent[1]}
                   // border={querycontent[0]}
@@ -239,8 +240,7 @@ const FeedData = ({ data }: any) => {
                   border={data.interactionProps.border}
                   // BackgroundColor={querycontent[1]}
                   // border={querycontent[0]}
-                  // fontsize={data.interactionProps.fontSize}
-                  fontsize="20px"
+                  fontsize={data.interactionProps.fontSize}
                 >
                   {/* 박수 */}
                   {data.interactionProps.content}
