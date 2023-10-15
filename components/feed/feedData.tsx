@@ -12,6 +12,7 @@ import Feed from "@/api/Feed";
 import Body from "../body";
 
 const FeedData = ({ data }: any) => {
+  // console.log(data);
   function padWithZeros(num: number, length: number) {
     let numString = num?.toString();
     while (numString?.length < length) {
@@ -42,40 +43,39 @@ const FeedData = ({ data }: any) => {
     }
   };
 
-  //optimistic update를 위한 usemutate =>박수관련 interaction
+  // optimistic update를 위한 usemutate =>박수관련 interaction
 
-  //   const { mutate: updateLikeMutate } = useMutation(
-  //     () => interection.Interection_check(),
-  //     {
-  //       onMutate: async (like_data) => {
-  //         await queryClient.cancelQueries(["myclapfeed"]);
-  //         const previousProjectCount = queryClient.getQueryData(["myclapfeed"]);
-  //         queryClient.setQueryData(["myclapfeed"], () => {
-  //           if (
-  //             data.feedId === like_data &&
-  //             My_Calp_data?.includes(data.feedId)
-  //           ) {
-  //             console.log("박수치기");
-  //             My_Calp_data.filter((item: any) => item !== like_data);
-  //           } else if (
-  //             data.feedId === like_data &&
-  //             !My_Calp_data?.includes(data.feedId)
-  //           ) {
-  //             ("박수제거");
-
-  //             My_Calp_data.push(like_data);
-  //           }
-  //         });
-  //         return { previousProjectCount };
-  //       },
-  //       onError: (err, variables, context) => {
-  //         queryClient.setQueryData(["myclapfeed"], context?.previousProjectCount);
-  //       },
-  //       onSettled: () => {
-  //         queryClient.invalidateQueries(["myclapfeed"]);
-  //       },
-  //     }
-  //   );
+  const { mutate: updateLikeMutate } = useMutation(
+    () => interection.Interection_check(),
+    {
+      onMutate: async (like_data) => {
+        await queryClient.cancelQueries(["myclapfeed"]);
+        const previousProjectCount = queryClient.getQueryData(["myclapfeed"]);
+        queryClient.setQueryData(["myclapfeed"], () => {
+          // if (
+          //   data.feedId === like_data &&
+          //   My_Calp_data?.includes(data.feedId)
+          // ) {
+          //   console.log("박수치기");
+          //   My_Calp_data.filter((item: any) => item !== like_data);
+          // } else if (
+          //   data.feedId === like_data &&
+          //   !My_Calp_data?.includes(data.feedId)
+          // ) {
+          //   ("박수제거");
+          //   My_Calp_data.push(like_data);
+          // }
+        });
+        return { previousProjectCount };
+      },
+      onError: (err, variables, context) => {
+        queryClient.setQueryData(["myclapfeed"], context?.previousProjectCount);
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries(["myclapfeed"]);
+      },
+    }
+  );
 
   const { mutate: updateCountMutate } = useMutation(
     () => feed.all(searchValue),
@@ -96,15 +96,20 @@ const FeedData = ({ data }: any) => {
                 !My_Calp_data?.includes(data.feedId)
               ) {
                 console.log("+1");
-
                 data.interactionCount = data.interactionCount + 1;
+                data.interactionProps.content = "👏";
+                data.interactionProps.border = "2px solid #651fff";
+                data.interactionProps.backgroundColor = "transparent";
               } else if (
                 data.feedId === count_data &&
                 My_Calp_data?.includes(data.feedId)
               ) {
                 console.log("-1");
-
                 data.interactionCount = data.interactionCount - 1;
+                data.interactionProps.content = "박수";
+                data.interactionProps.backgroundColor = "#EAED70";
+                data.interactionProps.border = "none";
+                // data.interactionProps.fontSize = "14px";
               }
             });
           }
@@ -191,7 +196,7 @@ const FeedData = ({ data }: any) => {
               ) : isLoginStorage() && My_Calp_data?.includes(data.feedId) ? (
                 <ClapWrapper
                   onClick={() => {
-                    // updateLikeMutate(data.feedId);
+                    updateLikeMutate(data.feedId);
                     updateCountMutate(data.feedId);
                     handleClickMypage();
                     handleButtonClick();
@@ -202,18 +207,20 @@ const FeedData = ({ data }: any) => {
                     // queryClient.invalidateQueries(["myclapfeed"]);
                   }}
                   clicked={false}
-                  border="2px solid #651fff;"
+                  border={data.interactionProps.border}
+                  BackgroundColor={data.interactionProps.backgroundColor}
+
                   //   content="👏"
                   // BackgroundColor={querycontent[1]}
                   // border={querycontent[0]}
                 >
-                  {/* {querycontent[2]} */}
-                  👏
+                  {data.interactionProps.content}
+                  {/* 👏 */}
                 </ClapWrapper>
               ) : (
                 <ClapWrapper
                   onClick={() => {
-                    // updateLikeMutate(data.feedId);
+                    updateLikeMutate(data.feedId);
                     updateCountMutate(data.feedId);
                     handleClickMypage();
                     handleButtonClick();
@@ -228,13 +235,15 @@ const FeedData = ({ data }: any) => {
                   }}
                   //   content="박수"
                   clicked={false}
-                  BackgroundColor={"#EAED70"}
+                  BackgroundColor={data.interactionProps.backgroundColor}
+                  border={data.interactionProps.border}
                   // BackgroundColor={querycontent[1]}
                   // border={querycontent[0]}
-                  fontsize="14px"
+                  // fontsize={data.interactionProps.fontSize}
+                  fontsize="20px"
                 >
-                  {/* {querycontent[2]} */}
-                  박수
+                  {/* 박수 */}
+                  {data.interactionProps.content}
                 </ClapWrapper>
               )}
             </BoxWrap>

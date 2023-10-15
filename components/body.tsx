@@ -19,11 +19,11 @@ const Body = () => {
   const queryClient = useQueryClient();
   // const value = "고음괴물";
 
-  const { data: all } = useQuery(
-    ["feed", searchValue],
-    () => feed.all(searchValue),
-    {}
-  );
+    const { data: all } = useQuery(
+      ["feed", searchValue],
+      () => feed.all(searchValue),
+      {}
+    );
 
   // refetchOnMount: true, // 처음 마운트될 때 자동으로 다시 불러오기
   const { data: myfeed } = useQuery(
