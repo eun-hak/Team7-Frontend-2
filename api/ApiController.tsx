@@ -52,7 +52,10 @@ const JwtInterceptors = () => {
         config.headers["Content-Type"] = "application/json";
       } else if (isLogin && !tokenValid) {
         const result = await refreshingToken();
+        console.log(localStorage.login);
         if (!result) {
+          //같은 리프레쉬를 연속으로 발생하여 UX적으로 악영향을 끼침
+          // Feed.tsx / Notification.tsx / Interection.tsx
           alert("로그인 시간이 만료되었습니다\n다시 로그인 해주세요");
           await logout(() => router.push("/sign"));
         }

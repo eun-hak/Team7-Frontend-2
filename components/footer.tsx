@@ -33,6 +33,7 @@ const Footer = () => {
       router.push("/mypage");
     }
   };
+
   return (
     <FooterWrapper>
       <FooterContainer>

@@ -11,9 +11,7 @@ const SubmitFeed = () => {
   const submit = async (formdata: { code: object }) => {
     try {
       const response: SubmitData = await instance.post(`/feeds`, formdata);
-      // console.log(response);
-      // console.log(token3);
-      // console.log(token2);
+
       return response.data;
     } catch (error) {
       console.error("Error getting access token:", error);
