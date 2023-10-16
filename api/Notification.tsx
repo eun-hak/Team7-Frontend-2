@@ -7,7 +7,6 @@ interface Click_Type {
   memberId?: string;
 }
 const Notification = () => {
-  //Interaction 수행
   const { instance } = JwtInterceptors();
 
   const notification_get = async () => {
@@ -15,8 +14,11 @@ const Notification = () => {
     const token2 = `Bearer ${token?.replace(/\"/gi, "")}`;
     const memberId = getStorage("member")?.replace(/\"/gi, "");
     try {
-      const response = await instance.get(
-        `/notifications?memberId=${memberId}`
+      const response = await axios.get(
+        `${baseURL}notifications?memberId=${memberId}`,
+        {
+          headers: { Authorization: `Bearer ${token2}` },
+        }
       );
       // console.log(response);
       return response.data.data;
@@ -31,8 +33,8 @@ const Notification = () => {
     const token2 = `Bearer ${token?.replace(/\"/gi, "")}`;
     const memberId = getStorage("member")?.replace(/\"/gi, "");
     try {
-      const response = await instance.post(
-        `/notifications/read?notificationId=${notificationId}`,
+      const response = await axios.post(
+        `notifications/read?notificationId=${notificationId}`,
         undefined
       );
       // console.log(response);
