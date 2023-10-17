@@ -255,6 +255,7 @@ const FeedData = ({ data }: any) => {
                 //데이터 잘 들어감
                 music_data={data.recordRawData}
                 index={data.feedId}
+                feedId={data.feedId}
               />
             )}
 
