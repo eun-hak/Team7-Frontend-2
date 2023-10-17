@@ -30,8 +30,11 @@ const Interection = () => {
     const isLogin = isLoginStorage();
 
     try {
-      const response = await instance.get(
-        `/feeds/interactionFeeds?memberId=${memberId}`
+      const response = await axios.get(
+        `${baseURL}feeds/interactionFeeds?memberId=${memberId}`,
+        {
+          headers: { Authorization: `Bearer ${token2}` },
+        }
       );
       // console.log(response.data.data);
       return response.data.data;

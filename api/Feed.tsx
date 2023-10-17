@@ -25,8 +25,15 @@ const Feed = () => {
 
   //내가 만든 피드
   const myfeed = async (id: string | undefined) => {
+    const token: any = getStorage("access");
+    const token2 = `Bearer ${token?.replace(/\"/gi, "")}`;
     try {
-      const data: MainFeed2 = await instance.get(`/feeds/member?id=${id}`);
+      const data: MainFeed2 = await axios.get(
+        `${baseURL}feeds/member?id=${id}`,
+        {
+          headers: { Authorization: `Bearer ${token2}` },
+        }
+      );
       // console.log(data.data.data);
       // console.log(baseURL);
       return data.data.data;
