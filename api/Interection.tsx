@@ -44,7 +44,29 @@ const Interection = () => {
     }
   };
 
-  return { Interection_click, Interection_check };
+  const Interection_plus = async (feedId: string) => {
+    const token: any = getStorage("access");
+    const token2 = `Bearer ${token?.replace(/\"/gi, "")}`;
+    const memberId = getStorage("member")?.replace(/\"/gi, "");
+    const isLogin = isLoginStorage();
+
+    try {
+      const response = await axios.post(
+        `${baseURL}feeds/viewFeed?id=${feedId}`,
+        undefined,
+        {
+          headers: { Authorization: `Bearer ${token2}` },
+        }
+      );
+      // console.log(response.data.data);
+      return response.data.data;
+    } catch (error) {
+      console.error("Error getting access token:", error);
+      throw error;
+    }
+  };
+
+  return { Interection_click, Interection_check, Interection_plus };
 };
 
 export default Interection;

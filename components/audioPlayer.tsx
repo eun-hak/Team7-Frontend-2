@@ -13,8 +13,9 @@ import {
 import { useRecoilState } from "recoil";
 import { playState } from "@/recoil/recoilstore";
 import { usePathname } from "next/navigation";
+import Interection from "@/api/Interection";
 
-function CustomAudio({ music_data, index }: any) {
+function CustomAudio({ music_data, index, feedId }: any) {
   const path = usePathname();
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
   const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
@@ -22,6 +23,7 @@ function CustomAudio({ music_data, index }: any) {
   const [currentTime, setCurrentTime] = useState(0); // 현재 노래의 진행 시간을 나타내는 상태 추가
   const [music, setMusic] = useRecoilState(playState);
   const [play, setPlay] = useState(false); // 재생 상태를 관리하는 상태
+  const { Interection_plus } = Interection();
   // console.log(music_data);
   // base64 문자열을 ArrayBuffer로 디코딩
   const [blobUrl, setBlobUrl] = useState<any>(null);
@@ -52,7 +54,6 @@ function CustomAudio({ music_data, index }: any) {
   //   blobUrl = URL.createObjectURL(blob);
   //   // blobUrl을 사용할 수 있습니다.
   // }
-
   // const audioSrc = music;
   const [progress, setProgress] = useState(0); // 오디오의 현재 위치를 나타내는 상태
   // 재생 버튼 클릭 시, play 상태를 토글하고 오디오 재생/일시 정지를 수행합니다.
@@ -80,6 +81,7 @@ function CustomAudio({ music_data, index }: any) {
     if (play) {
       // 재생 중인 경우
       audioElement.play();
+      Interection_plus(feedId);
     } else {
       // 일시 정지 중인 경우
       audioElement.pause();
@@ -141,7 +143,6 @@ function CustomAudio({ music_data, index }: any) {
       <Center>
         {/* Slider를 사용한 프로그레스 바 */}
         {/* 재생/일시 정지 버튼 */}
-
         <IconButton
           mr={2}
           bg="transparent"
