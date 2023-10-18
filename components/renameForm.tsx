@@ -20,13 +20,25 @@ const RenameForm = () => {
   const onChangeNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value ? setNicknameIsEmpty(false) : setNicknameIsEmpty(true);
   };
+  // /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,16}$/
   return (
     <RenameWrapper onSubmit={handleSubmit(onSubmit)}>
       <RenameInput
-        {...register("rename", { required: "1글자 이상 적어주세요" })}
+        {...register("rename", {
+          required: "1글자 이상 적어주세요",
+          pattern: {
+            value: /^[가-힣a-zA-Z][^!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\s]*$/,
+            message:
+              "닉네임에는 특수문자가 들어가면 안되고 첫글자가 숫자면 안됩니다",
+          },
+        })}
         placeholder="닉네임을 입력해주세요"
         onChange={(e) => onChangeNickName(e)}
       />
+
+      {errors.rename && (
+        <span className="error-message">{errors.rename.message as String}</span>
+      )}
     </RenameWrapper>
   );
 };
