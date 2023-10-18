@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import { useFormContext } from "react-hook-form";
+import { activenicknameform } from "@/recoil/recoilstore";
+import { useRecoilState } from "recoil";
 const RenameForm = () => {
   const {
     register,
@@ -13,11 +15,17 @@ const RenameForm = () => {
     console.log(data); // 폼 데이터 출력
   };
 
+  const [NicknameisEmpty, setNicknameIsEmpty] =
+    useRecoilState(activenicknameform);
+  const onChangeNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value ? setNicknameIsEmpty(false) : setNicknameIsEmpty(true);
+  };
   return (
     <RenameWrapper onSubmit={handleSubmit(onSubmit)}>
       <RenameInput
         {...register("rename", { required: "1글자 이상 적어주세요" })}
         placeholder="닉네임을 입력해주세요"
+        onChange={(e) => onChangeNickName(e)}
       />
     </RenameWrapper>
   );

@@ -72,6 +72,13 @@ function CustomAudio({ music_data, index, feedId }: any) {
     setProgress(calculatedProgress);
   };
 
+  //조회수 증가
+  useEffect(() => {
+    if (feedId && totalTime * 0.3 < currentTime) {
+      Interection_plus(feedId);
+    }
+  }, [play]);
+
   useEffect(() => {
     // play 상태가 변경될 때마다 이 효과가 실행됩니다.
     const audioElement = document.getElementById(
@@ -81,7 +88,6 @@ function CustomAudio({ music_data, index, feedId }: any) {
     if (play) {
       // 재생 중인 경우
       audioElement.play();
-      Interection_plus(feedId);
     } else {
       // 일시 정지 중인 경우
       audioElement.pause();
@@ -94,7 +100,6 @@ function CustomAudio({ music_data, index, feedId }: any) {
       `audioElement${index}`
     ) as HTMLAudioElement;
     audioElement.addEventListener("timeupdate", updateProgress);
-
     // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
     return () => {
       audioElement.removeEventListener("timeupdate", updateProgress);
@@ -118,11 +123,10 @@ function CustomAudio({ music_data, index, feedId }: any) {
       `audioElement${index}`
     ) as HTMLAudioElement;
     audioElement.addEventListener("timeupdate", updateProgress);
-
     const timer = setInterval(() => {
       if (play && currentTime < totalTime) {
         // 재생 중이며, 현재 시간이 총 시간보다 작은 경우에만 타이머를 업데이트합니다.
-        setCurrentTime((currentTime) => currentTime + 1); // 함수를 사용하여 업데이트
+        setCurrentTime(audioElement.currentTime); // 함수를 사용하여 업데이트
       }
     }, 1000); // 1초마다 타이머 업데이트
 

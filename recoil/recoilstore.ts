@@ -15,3 +15,13 @@ export const playState = atom({
   key: "playState",
   default: "",
 });
+
+export const activemusicform = atom({
+  key: "activemusicform",
+  default: true,
+});
+
+export const activenicknameform = atom({
+  key: "activenicknameform",
+  default: true,
+});
