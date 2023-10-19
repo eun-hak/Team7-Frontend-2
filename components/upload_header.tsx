@@ -9,9 +9,13 @@ import SubmitFeed from "@/api/SubmitFeed";
 import { useRouter } from "next/navigation";
 import ReName from "@/api/Rename";
 import Feed from "@/api/Feed";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./modal";
 import ModalForm from "./modalform";
+
+import { activemusicform, activenicknameform } from "@/recoil/recoilstore";
+import { useRecoilState } from "recoil";
+
 interface propsType {
   name: string;
   type: string;
@@ -25,7 +29,9 @@ const UploadHeader = (props: propsType) => {
   const { rename } = ReName();
   const { submit } = SubmitFeed();
   const { modifyfeed } = Feed();
-
+  const [isEmpty, setIsEmpty] = useRecoilState(activemusicform);
+  const [NicknameisEmpty, setNicknameIsEmpty] =
+    useRecoilState(activenicknameform);
   const {
     register,
     handleSubmit,
@@ -33,6 +39,30 @@ const UploadHeader = (props: propsType) => {
     getValues,
   } = useFormContext();
 
+  const [uploadColor, setUploadColor] = useState("rgba(0, 0, 0, 0.38)");
+
+  const [NicknameColor, setNicknameColor] = useState("rgba(0, 0, 0, 0.38)");
+  useEffect(() => {
+    if (isEmpty == false) {
+      setUploadColor("#651FFF");
+    } else {
+      setUploadColor("rgba(0, 0, 0, 0.38)");
+    }
+  }, [isEmpty]);
+
+  useEffect(() => {
+    if (NicknameisEmpty == false) {
+      setNicknameColor("#651FFF");
+    } else {
+      setNicknameColor("rgba(0, 0, 0, 0.38)");
+    }
+  }, [NicknameisEmpty]);
+
+  // if (NicknameisEmpty == false) {
+  //   setUploadColor("#651FFF");
+  // } else {
+  //   setUploadColor("rgba(0, 0, 0, 0.38)");
+  // }
   const onSubmitWithdraw = (data: any) => {
     console.log(data);
     // setStorage("withdraw", data.withdrawTitle)
@@ -108,7 +138,7 @@ const UploadHeader = (props: propsType) => {
               <ButtonWrap
                 type="submit"
                 disabled={isSubmitting}
-                color="rgba(0, 0, 0, 0.38);"
+                color={uploadColor}
                 visibility={props.type}
               >
                 올리기
@@ -119,7 +149,7 @@ const UploadHeader = (props: propsType) => {
               <ButtonWrap
                 type="submit"
                 disabled={isSubmitting}
-                color="rgba(0, 0, 0, 0.38);"
+                color={NicknameColor}
                 visibility={props.type}
               >
                 완료
