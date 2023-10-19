@@ -11,6 +11,7 @@ const MusicUploadForm = () => {
     watch,
   } = useFormContext();
   const [isEmpty, setIsEmpty] = useRecoilState(activemusicform);
+
   const onSubmit = (data: any) => {
     // 제출 버튼을 클릭했을 때 실행되는 함수
     console.log(data); // 폼 데이터 출력

@@ -13,7 +13,11 @@ import { useEffect, useState } from "react";
 import Modal from "./modal";
 import ModalForm from "./modalform";
 
-import { activemusicform, activenicknameform } from "@/recoil/recoilstore";
+import {
+  activemusicform,
+  activenicknameform,
+  activewithdrawform,
+} from "@/recoil/recoilstore";
 import { useRecoilState } from "recoil";
 
 interface propsType {
@@ -32,6 +36,9 @@ const UploadHeader = (props: propsType) => {
   const [isEmpty, setIsEmpty] = useRecoilState(activemusicform);
   const [NicknameisEmpty, setNicknameIsEmpty] =
     useRecoilState(activenicknameform);
+
+  const [WithdrawisEmpty, setWithdrawIsEmpty] =
+    useRecoilState(activewithdrawform);
   const {
     register,
     handleSubmit,
@@ -42,6 +49,8 @@ const UploadHeader = (props: propsType) => {
   const [uploadColor, setUploadColor] = useState("rgba(0, 0, 0, 0.38)");
 
   const [NicknameColor, setNicknameColor] = useState("rgba(0, 0, 0, 0.38)");
+
+  const [WithdrawColor, setWithdrawColor] = useState("rgba(0, 0, 0, 0.38)");
   useEffect(() => {
     if (isEmpty == false) {
       setUploadColor("#651FFF");
@@ -57,6 +66,14 @@ const UploadHeader = (props: propsType) => {
       setNicknameColor("rgba(0, 0, 0, 0.38)");
     }
   }, [NicknameisEmpty]);
+
+  useEffect(() => {
+    if (WithdrawisEmpty == false) {
+      setWithdrawColor("#651FFF");
+    } else {
+      setWithdrawColor("rgba(0, 0, 0, 0.38)");
+    }
+  }, [WithdrawisEmpty]);
 
   // if (NicknameisEmpty == false) {
   //   setUploadColor("#651FFF");
@@ -160,7 +177,7 @@ const UploadHeader = (props: propsType) => {
               <ButtonWrap
                 type="submit"
                 disabled={isSubmitting}
-                color="rgba(0, 0, 0, 0.38);"
+                color={uploadColor}
                 visibility={props.type}
               >
                 완료
@@ -171,13 +188,13 @@ const UploadHeader = (props: propsType) => {
               <ButtonWrap
                 type="submit"
                 disabled={isSubmitting}
-                color="rgba(0, 0, 0, 0.38);"
+                color={WithdrawColor}
                 visibility={props.type}
                 onClick={() => {
                   setModalIsOpen(true);
                 }}
               >
-                제출2
+                제출
               </ButtonWrap>
               <Modal
                 isOpen={modalIsOpen}

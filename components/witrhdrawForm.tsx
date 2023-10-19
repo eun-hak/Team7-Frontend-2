@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
-
+import { useRecoilState } from "recoil";
+import { activewithdrawform } from "@/recoil/recoilstore";
 const WithDrawForm = () => {
   const {
     register,
@@ -9,7 +10,7 @@ const WithDrawForm = () => {
     watch,
     formState: { errors },
   } = useFormContext();
-
+  const [isEmpty, setIsEmpty] = useRecoilState(activewithdrawform);
   const widthdrawTitle: string = watch("withdrawTitle");
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -31,6 +32,10 @@ const WithDrawForm = () => {
     { value: 4, label: "SNS 기능이 부족해요." },
     { value: 5, label: "기타" },
   ];
+
+  const onChangeWithdraw = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value ? setIsEmpty(false) : setIsEmpty(true);
+  };
   useEffect(() => {
     if (errors.withdrawTitle) {
       alert(errors.withdrawTitle.message);
@@ -47,6 +52,7 @@ const WithDrawForm = () => {
             {...register("withdrawTitle", {
               required: "탈퇴 사유를 선택해주세요.",
             })}
+            onChange={(e) => onChangeWithdraw(e)}
             value={`${label}`}
           />
           <RadioLabel htmlFor={`option${value}`}>{label}</RadioLabel>

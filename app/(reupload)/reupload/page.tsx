@@ -31,7 +31,11 @@ const UploadBox = styled.div`
   width: 377px;
 
   margin-top: 15px;
-  margin-left: 140px;
+  margin-top: 15px;
+  @media (min-width: 474px) {
+    margin-left: 140px;
+  }
+  /* margin-left: 140px; */
 `;
 const MainPageWrapper = styled.div`
   width: 100%;
