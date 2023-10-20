@@ -25,3 +25,8 @@ export const activenicknameform = atom({
   key: "activenicknameform",
   default: true,
 });
+
+export const activewithdrawform = atom({
+  key: "activewithdrawform",
+  default: true,
+});
