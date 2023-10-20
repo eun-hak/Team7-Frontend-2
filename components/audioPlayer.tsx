@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Center,
@@ -14,6 +14,7 @@ import { useRecoilState } from "recoil";
 import { playState } from "@/recoil/recoilstore";
 import { usePathname } from "next/navigation";
 import Interection from "@/api/Interection";
+import Body from "./body";
 
 function CustomAudio({ music_data, index, feedId }: any) {
   const path = usePathname();
@@ -24,10 +25,17 @@ function CustomAudio({ music_data, index, feedId }: any) {
   const [music, setMusic] = useRecoilState(playState);
   const [play, setPlay] = useState(false); // 재생 상태를 관리하는 상태
   const { Interection_plus } = Interection();
+  const { all } = Body();
   // console.log(music_data);
   // base64 문자열을 ArrayBuffer로 디코딩
   const [blobUrl, setBlobUrl] = useState<any>(null);
-
+  const music_play_data = () =>
+    all?.map((data: any, index) => {
+      const stop_music = document.getElementById(
+        `audioElement${data.feedId}`
+      ) as HTMLAudioElement; // <audio> 요소 가져오기
+      stop_music.pause();
+    });
   useEffect(() => {
     if (music_data) {
       const binaryData = atob(music_data);
@@ -74,10 +82,12 @@ function CustomAudio({ music_data, index, feedId }: any) {
 
   //조회수 증가
   useEffect(() => {
-    if (feedId && totalTime * 0.3 < currentTime) {
+    if (feedId && totalTime * 0.001 < currentTime) {
       Interection_plus(feedId);
     }
   }, [play]);
+
+  const [currentAudio, setCurrentAudio] = useState();
 
   useEffect(() => {
     // play 상태가 변경될 때마다 이 효과가 실행됩니다.
@@ -85,8 +95,10 @@ function CustomAudio({ music_data, index, feedId }: any) {
       `audioElement${index}`
     ) as HTMLAudioElement; // <audio> 요소 가져오기
 
+    // const stopaudioElement =
     if (play) {
-      // 재생 중인 경우
+      setCurrentAudio(index);
+      music_play_data();
       audioElement.play();
     } else {
       // 일시 정지 중인 경우
@@ -141,6 +153,7 @@ function CustomAudio({ music_data, index, feedId }: any) {
     const seconds = Math.floor(timeInSeconds % 60);
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
+
   return (
     //오디오 UI
     <Box>
@@ -153,13 +166,28 @@ function CustomAudio({ music_data, index, feedId }: any) {
           aria-label="Play"
           onClick={togglePlay}
           colorScheme={play ? "transparent" : "transparent"}
+          id={`playButton${index}`} // ID 추가
           icon={
-            play ? (
+            play && currentAudio == index ? (
               <img
                 src="/stop-arrow.png"
                 alt="Stop"
                 width="12px"
                 height="12px"
+              />
+            ) : currentAudio !== index ? (
+              <img
+                src="/play-arrow.png"
+                alt="Play"
+                width="34px"
+                height="34px"
+              />
+            ) : !play ? (
+              <img
+                src="/play-arrow.png"
+                alt="Play"
+                width="34px"
+                height="34px"
               />
             ) : (
               <img
@@ -171,7 +199,7 @@ function CustomAudio({ music_data, index, feedId }: any) {
             )
           }
         >
-          {play ? "일시 정지" : "재생"}
+          {/* {play ? "일시 정지" : "재생"} */}
         </IconButton>
 
         {/* 여기서 WARNING */}
@@ -207,7 +235,7 @@ function CustomAudio({ music_data, index, feedId }: any) {
       {lastPart === "upload" ? (
         <audio id={`audioElement${index}`} src={music} />
       ) : (
-        <audio id={`audioElement${index}`} src={blobUrl} />
+        <audio id={`audioElement${index}`} src={blobUrl} tabIndex={-1} />
       )}
 
       {/* 오디오 요소 */}
