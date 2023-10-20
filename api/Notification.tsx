@@ -34,8 +34,11 @@ const Notification = () => {
     const memberId = getStorage("member")?.replace(/\"/gi, "");
     try {
       const response = await axios.post(
-        `notifications/read?notificationId=${notificationId}`,
-        undefined
+        `${baseURL}notifications/read?notificationId=${notificationId}`,
+        undefined,
+        {
+          headers: { Authorization: `Bearer ${token2}` },
+        }
       );
       // console.log(response);
       return response;
