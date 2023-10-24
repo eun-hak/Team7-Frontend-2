@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,
   Center,
@@ -17,6 +17,8 @@ import Interection from "@/api/Interection";
 import Body from "./body";
 
 function CustomAudio({ music_data, index, feedId }: any) {
+
+  // const audioRef = useRef(null);
   const path = usePathname();
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
   const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
@@ -26,16 +28,26 @@ function CustomAudio({ music_data, index, feedId }: any) {
   const [play, setPlay] = useState(false); // 재생 상태를 관리하는 상태
   const { Interection_plus } = Interection();
   const { all } = Body();
-  // console.log(music_data);
-  // base64 문자열을 ArrayBuffer로 디코딩
   const [blobUrl, setBlobUrl] = useState<any>(null);
+  const [progress, setProgress] = useState(0); // 오디오의 현재 위치를 나타내는 상태
+
+   // 재생 버튼 클릭 시, play 상태를 토글하고 오디오 재생/일시 정지를 수행합니다.
+   const togglePlay = () => {
+    setPlay(!play);
+  };
+
+
+  // 다른 오디오 실행시 기존 오디오 멈추기
   const music_play_data = () =>
     all?.map((data: any, index) => {
       const stop_music = document.getElementById(
         `audioElement${data.feedId}`
-      ) as HTMLAudioElement; // <audio> 요소 가져오기
+      ) as HTMLAudioElement;
       stop_music.pause();
     });
+
+
+  //음악데이터 가져오기
   useEffect(() => {
     if (music_data) {
       const binaryData = atob(music_data);
@@ -48,26 +60,9 @@ function CustomAudio({ music_data, index, feedId }: any) {
       setBlobUrl(newBlobUrl);
     }
   }, [music_data]);
-  // console.log(blobUrl);
-  // let blobUrl;
-  // //음악파일이 null이 아닐때만 실행되도록
-  // if (music_data) {
-  //   const binaryData = atob(music_data);
-  //   // ArrayBuffer를 Uint8Array로 변환
-  //   const uint8Array = new Uint8Array(binaryData.length);
-  //   for (let i = 0; i < binaryData.length; i++) {
-  //     uint8Array[i] = binaryData.charCodeAt(i);
-  //   }
-  //   const blob = new Blob([uint8Array], { type: "audio/mpeg" });
-  //   blobUrl = URL.createObjectURL(blob);
-  //   // blobUrl을 사용할 수 있습니다.
-  // }
-  // const audioSrc = music;
-  const [progress, setProgress] = useState(0); // 오디오의 현재 위치를 나타내는 상태
-  // 재생 버튼 클릭 시, play 상태를 토글하고 오디오 재생/일시 정지를 수행합니다.
-  const togglePlay = () => {
-    setPlay(!play);
-  };
+
+  
+ 
 
   // 오디오의 현재 위치를 업데이트하는 함수
   const updateProgress = () => {
@@ -87,27 +82,22 @@ function CustomAudio({ music_data, index, feedId }: any) {
     }
   }, [play]);
 
-  const [currentAudio, setCurrentAudio] = useState();
-
+ // play 상태가 변경
   useEffect(() => {
-    // play 상태가 변경될 때마다 이 효과가 실행됩니다.
     const audioElement = document.getElementById(
       `audioElement${index}`
-    ) as HTMLAudioElement; // <audio> 요소 가져오기
-
-    // const stopaudioElement =
+    ) as HTMLAudioElement;
     if (play) {
-      setCurrentAudio(index);
       music_play_data();
       audioElement.play();
     } else {
-      // 일시 정지 중인 경우
       audioElement.pause();
     }
   }, [play]);
 
+
+// 오디오 요소의 currentTime을 기반으로 프로그레스 바 값 업데이트
   useEffect(() => {
-    // 오디오 요소의 currentTime을 기반으로 프로그레스 바 값 업데이트
     const audioElement = document.getElementById(
       `audioElement${index}`
     ) as HTMLAudioElement;
@@ -118,7 +108,8 @@ function CustomAudio({ music_data, index, feedId }: any) {
     };
   }, []);
 
-  //총 시간을 가져오는 useEffect
+
+  //총 시간
   useEffect(() => {
     const audioElement = document.getElementById(
       `audioElement${index}`
@@ -129,7 +120,9 @@ function CustomAudio({ music_data, index, feedId }: any) {
     });
   }, []);
 
-  // 타이머 업데이트 useEffect
+
+
+  // 타이머 업데이트 
   useEffect(() => {
     const audioElement = document.getElementById(
       `audioElement${index}`
@@ -137,8 +130,8 @@ function CustomAudio({ music_data, index, feedId }: any) {
     audioElement.addEventListener("timeupdate", updateProgress);
     const timer = setInterval(() => {
       if (play && currentTime < totalTime) {
-        // 재생 중이며, 현재 시간이 총 시간보다 작은 경우에만 타이머를 업데이트합니다.
-        setCurrentTime(audioElement.currentTime); // 함수를 사용하여 업데이트
+        // 재생 중이며, 현재 시간이 총 시간보다 작은 경우에만 타이머를 업데이트
+        setCurrentTime(audioElement.currentTime);
       }
     }, 1000); // 1초마다 타이머 업데이트
 
@@ -154,12 +147,14 @@ function CustomAudio({ music_data, index, feedId }: any) {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
+
+
   return (
     //오디오 UI
     <Box>
       <Center>
         {/* Slider를 사용한 프로그레스 바 */}
-        {/* 재생/일시 정지 버튼 */}
+        
         <IconButton
           mr={2}
           bg="transparent"
@@ -168,26 +163,12 @@ function CustomAudio({ music_data, index, feedId }: any) {
           colorScheme={play ? "transparent" : "transparent"}
           id={`playButton${index}`} // ID 추가
           icon={
-            play && currentAudio == index ? (
+            play ? (
               <img
                 src="/stop-arrow.png"
                 alt="Stop"
                 width="12px"
                 height="12px"
-              />
-            ) : currentAudio !== index ? (
-              <img
-                src="/play-arrow.png"
-                alt="Play"
-                width="34px"
-                height="34px"
-              />
-            ) : !play ? (
-              <img
-                src="/play-arrow.png"
-                alt="Play"
-                width="34px"
-                height="34px"
               />
             ) : (
               <img
@@ -235,7 +216,7 @@ function CustomAudio({ music_data, index, feedId }: any) {
       {lastPart === "upload" ? (
         <audio id={`audioElement${index}`} src={music} />
       ) : (
-        <audio id={`audioElement${index}`} src={blobUrl} tabIndex={-1} />
+        <audio id={`audioElement${index}`} src={blobUrl} />
       )}
 
       {/* 오디오 요소 */}
@@ -244,3 +225,17 @@ function CustomAudio({ music_data, index, feedId }: any) {
 }
 
 export default CustomAudio;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

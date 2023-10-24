@@ -1,6 +1,6 @@
 "use client";
 import styled from "@emotion/styled";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import CustomAudio from "../audioPlayer";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Modal from "../modal";
@@ -10,6 +10,8 @@ import Interection from "@/api/Interection";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Feed from "@/api/Feed";
 import Body from "../body";
+import { CustomAudio2 } from "../audioPlayer2";
+import { AudioPlayer } from "../audioPlayer2";
 
 const FeedData = ({ data }: any) => {
   // console.log(data);
@@ -146,6 +148,13 @@ const FeedData = ({ data }: any) => {
   };
   // console.log(My_Calp_data);
 
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+  //   const currentAudioRef = ref;
+  const handleAudioSwitch = useCallback((target: HTMLAudioElement) => {
+    if (currentAudioRef.current) currentAudioRef.current.pause();
+    currentAudioRef.current = target;
+  }, []);
+
   const feed_data = () => {
     return (
       data &&
@@ -248,14 +257,20 @@ const FeedData = ({ data }: any) => {
               )}
             </BoxWrap>
             {lastPart === "upload" ? (
-              <CustomAudio index={1}></CustomAudio>
+              <CustomAudio2 index={1}></CustomAudio2>
             ) : (
-              <CustomAudio
-                key={data.feedId}
-                //데이터 잘 들어감
+              // <CustomAudio2
+              //   key={data.feedId}
+              //   //데이터 잘 들어감
+              //   music_data={data.recordRawData}
+              //   index={data.feedId}
+              //   feedId={data.feedId}
+              // />
+              <AudioPlayer
                 music_data={data.recordRawData}
-                index={data.feedId}
+                index={index}
                 feedId={data.feedId}
+                handleAudioSwitch={handleAudioSwitch}
               />
             )}
 
