@@ -50,6 +50,15 @@ export function AudioPlayer({
   index: number;
   feedId: string;
 }) {
+  const { Interection_plus } = Interection();
+  const [music, setMusic] = useRecoilState(playState);
+  const [play, setPlay] = useState(false);
+  const [totalTime, setTotalTime] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const path = usePathname();
+  const parts = path.split("/"); // 경로를 '/' 문자로 분리
+  const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
+  const [blobUrl, setBlobUrl] = useState<any>(null);
   useEffect(() => {
     if (music_data) {
       const binaryData = atob(music_data);
@@ -63,10 +72,11 @@ export function AudioPlayer({
     }
   }, [music_data]);
 
-  const path = usePathname();
-  const parts = path.split("/"); // 경로를 '/' 문자로 분리
-  const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
-  const [blobUrl, setBlobUrl] = useState<any>(null);
+  useEffect(() => {
+    if (play) {
+      Interection_plus(feedId);
+    }
+  }, [play]);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const callbackRef = useCallback<(target: HTMLAudioElement) => void>(
@@ -76,18 +86,12 @@ export function AudioPlayer({
     },
     []
   );
-  const [music, setMusic] = useRecoilState(playState);
-  const [play, setPlay] = useState(false);
-  const [totalTime, setTotalTime] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-
   const progress = totalTime ? (currentTime / totalTime) * 100 : 0;
 
   const handleToggle = () => {
     const play = audioRef.current?.paused;
     if (play === undefined || !audioRef.current) return;
     handleAudioSwitch(audioRef.current);
-
     audioRef.current[play ? "play" : "pause"]();
   };
 
