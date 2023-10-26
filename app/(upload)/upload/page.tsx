@@ -5,6 +5,7 @@ import MediaFileDownload from "@/components/mediafiledownload";
 import MusicUploadForm from "@/components/musicUploadForm";
 import { FormProvider, useForm } from "react-hook-form";
 import CustomAudio from "@/components/audioPlayer";
+import {CustomAudio2} from "@/components/audioPlayer2";
 
 const Upload = () => {
   const methods = useForm();
@@ -16,7 +17,8 @@ const Upload = () => {
           <MusicUploadForm></MusicUploadForm>
           <MediaFileDownload />
           <UploadBox>
-            <CustomAudio></CustomAudio>
+            {/* <CustomAudio></CustomAudio> */}
+            <CustomAudio2 />
           </UploadBox>
         </MainPageContainer>
       </MainPageWrapper>
