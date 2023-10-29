@@ -12,8 +12,9 @@ import Feed from "@/api/Feed";
 import Body from "../body";
 import { CustomAudio2 } from "../audioPlayer2";
 import { AudioPlayer } from "../audioPlayer2";
+import { Feed_Data, MainFeed, MainFeed2, MyClapFeed } from "@/type/feedtype";
 
-const FeedData = ({ data }: any) => {
+const FeedData = ({ data }: MainFeed) => {
   // console.log(data);
   function padWithZeros(num: number, length: number) {
     let numString = num?.toString();
@@ -38,6 +39,7 @@ const FeedData = ({ data }: any) => {
   const lastPart = parts[parts.length - 1]; // 마지막 부분을 가져오기
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const [mutatebool, setMutatebool] = useState(false);
   const handleClickMypage = () => {
     if (!isLogin) {
       alert("로그인 후 이용해주세요");
@@ -53,21 +55,7 @@ const FeedData = ({ data }: any) => {
       onMutate: async (like_data) => {
         await queryClient.cancelQueries(["myclapfeed"]);
         const previousProjectCount = queryClient.getQueryData(["myclapfeed"]);
-        queryClient.setQueryData(["myclapfeed"], () => {
-          // if (
-          //   data.feedId === like_data &&
-          //   My_Calp_data?.includes(data.feedId)
-          // ) {
-          //   console.log("박수치기");
-          //   My_Calp_data.filter((item: any) => item !== like_data);
-          // } else if (
-          //   data.feedId === like_data &&
-          //   !My_Calp_data?.includes(data.feedId)
-          // ) {
-          //   ("박수제거");
-          //   My_Calp_data.push(like_data);
-          // }
-        });
+        queryClient.setQueryData(["myclapfeed"], () => {});
         return { previousProjectCount };
       },
       onError: (err, variables, context) => {
@@ -81,8 +69,9 @@ const FeedData = ({ data }: any) => {
 
   const { mutate: updateCountMutate } = useMutation(
     () => feed.all(searchValue),
+
     {
-      onMutate: async (count_data: any) => {
+      onMutate: async (count_data: Feed_Data["feedId"]) => {
         await queryClient.cancelQueries(["feed", searchValue]);
         const previousProjectLike = queryClient.getQueryData([
           "feed",
@@ -92,13 +81,15 @@ const FeedData = ({ data }: any) => {
           ["feed", searchValue],
 
           () => {
-            data?.map((data: any) => {
+            data?.map((data: Feed_Data) => {
+              let interactionCount = data.interactionCount;
               if (
                 data.feedId === count_data &&
                 !My_Calp_data?.includes(data.feedId)
               ) {
                 console.log("+1");
-                data.interactionCount = data.interactionCount + 1;
+                data.interactionCount += 1;
+                // interactionCount = interactionCount+1
                 data.interactionProps.content = "👏";
                 data.interactionProps.border = "2px solid #651fff";
                 data.interactionProps.backgroundColor = "transparent";
@@ -108,7 +99,8 @@ const FeedData = ({ data }: any) => {
                 My_Calp_data?.includes(data.feedId)
               ) {
                 console.log("-1");
-                data.interactionCount = data.interactionCount - 1;
+                data.interactionCount -= 1;
+                // interactionCount = interactionCount-1
                 data.interactionProps.content = "박수";
                 data.interactionProps.backgroundColor = "#EAED70";
                 data.interactionProps.border = "none";
@@ -132,13 +124,83 @@ const FeedData = ({ data }: any) => {
       },
     }
   );
+
+  // const { mutate: updateCountMutate } = useMutation(
+  //   (feed) =>
+  //     Interection_click({
+  //       feedId: feed,
+  //       memberId: memberId,
+  //     }),
+
+  //   {
+  //     onMutate: async (count_data: Feed_Data["feedId"]) => {
+  //       await queryClient.cancelQueries(["feed", searchValue]);
+  //       const previousProjectLike = queryClient.getQueryData([
+  //         "feed",
+  //         searchValue,
+  //       ]);
+  //       queryClient.setQueryData(
+  //         ["feed", searchValue],
+
+  //         () => {
+  //           data?.map((data: Feed_Data) => {
+  //             if (
+  //               data.feedId === count_data &&
+  //               !My_Calp_data?.includes(data.feedId)
+  //             ) {
+  //               console.log("+1");
+  //               data.interactionCount += 1;
+  //               // interactionCount = interactionCount+1
+  //               data.interactionProps.content = "👏";
+  //               data.interactionProps.border = "2px solid #651fff";
+  //               data.interactionProps.backgroundColor = "transparent";
+  //               data.interactionProps.fontSize = "20px";
+  //             } else if (
+  //               data.feedId === count_data &&
+  //               My_Calp_data?.includes(data.feedId)
+  //             ) {
+  //               console.log("-1");
+  //               data.interactionCount -= 1;
+  //               // interactionCount = interactionCount-1
+  //               data.interactionProps.content = "박수";
+  //               data.interactionProps.backgroundColor = "#EAED70";
+  //               data.interactionProps.border = "none";
+  //               data.interactionProps.fontSize = "14px";
+  //             }
+  //           });
+  //         }
+
+  //         //적용 안되는중
+  //       );
+  //       return { previousProjectLike };
+  //     },
+  //     onError: (err, variables, context) => {
+  //       queryClient.setQueryData(
+  //         ["feed", searchValue],
+  //         context?.previousProjectLike
+  //       );
+  //     },
+  //     onSettled: () => {
+  //       queryClient.invalidateQueries(["feed", searchValue]);
+  //     },
+  //   }
+  // );
   // console.log(data);
+
+  ///////////////////////////////////////////////// optimistic mutation 2번째
+
+  const push_clap_data = (data: any) => {
+    return [...My_Calp_data, data];
+  };
+  const delete_clap_data = (data: any) => {
+    return My_Calp_data.filter((element: any) => element !== data);
+  };
 
   //여기를 mutation으로 바꿔야될듯?
   const My_Calp_data =
     data &&
     isLoginStorage() &&
-    myclapfeed?.map((data: any) => {
+    myclapfeed?.map((data: MyClapFeed) => {
       return data.feedId;
     });
   const [clicked, setClicked] = useState<boolean>(false);
@@ -158,7 +220,7 @@ const FeedData = ({ data }: any) => {
   const feed_data = () => {
     return (
       data &&
-      data?.map((data: any, index: number) => {
+      data?.map((data: Feed_Data, index: number) => {
         let countLike = data.interactionCount;
 
         return (
@@ -206,7 +268,9 @@ const FeedData = ({ data }: any) => {
               ) : isLoginStorage() && My_Calp_data?.includes(data.feedId) ? (
                 <ClapWrapper
                   onClick={() => {
-                    updateLikeMutate(data.feedId);
+                    console.log(My_Calp_data);
+                    delete_clap_data(data.feedId);
+                    updateLikeMutate();
                     updateCountMutate(data.feedId);
                     handleClickMypage();
                     handleButtonClick();
@@ -230,8 +294,11 @@ const FeedData = ({ data }: any) => {
               ) : (
                 <ClapWrapper
                   onClick={() => {
-                    updateLikeMutate(data.feedId);
+                    push_clap_data(data.feedId);
+                    console.log(My_Calp_data);
+                    updateLikeMutate();
                     updateCountMutate(data.feedId);
+
                     handleClickMypage();
                     handleButtonClick();
 
