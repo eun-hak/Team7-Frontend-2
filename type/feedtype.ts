@@ -12,7 +12,7 @@ export interface Feed_Data {
     content: string;
     backgroundColor: string;
     border: string;
-    fontSize : string;
+    fontSize: string;
   };
   interactionCount: number;
   createdAt: string;
@@ -21,10 +21,10 @@ export interface Feed_Data {
 }
 
 export interface MainFeed {
-  data: Feed_Data[];
+  data: Feed_Data[] | undefined;
 }
 
-export type MyClapFeed = Partial<Feed_Data>
+export type MyClapFeed = Partial<Feed_Data>;
 
 export interface MainFeed2 {
   map(arg0: (data: any) => any): unknown;
