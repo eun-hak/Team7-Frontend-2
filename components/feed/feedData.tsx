@@ -191,12 +191,12 @@ const FeedData = ({ data }: MainFeed) => {
 
   ///////////////////////////////////////////////// optimistic mutation 2번째
 
-  const push_clap_data = (data: any) => {
-    return [...My_Calp_data, data];
-  };
-  const delete_clap_data = (data: any) => {
-    return My_Calp_data.filter((element: any) => element !== data);
-  };
+  // const push_clap_data = (data: any) => {
+  //   return [...My_Calp_data, data];
+  // };
+  // const delete_clap_data = (data: any) => {
+  //   return My_Calp_data.filter((element: any) => element !== data);
+  // };
 
   //여기를 mutation으로 바꿔야될듯?
   const My_Calp_data =
@@ -271,7 +271,7 @@ const FeedData = ({ data }: MainFeed) => {
                 <ClapWrapper
                   onClick={() => {
                     console.log(My_Calp_data);
-                    delete_clap_data(data.feedId);
+                    // delete_clap_data(data.feedId);
                     updateLikeMutate();
                     updateCountMutate(data.feedId);
                     handleClickMypage();
@@ -296,7 +296,7 @@ const FeedData = ({ data }: MainFeed) => {
               ) : (
                 <ClapWrapper
                   onClick={() => {
-                    push_clap_data(data.feedId);
+                    // push_clap_data(data.feedId);
                     console.log(My_Calp_data);
                     updateLikeMutate();
                     updateCountMutate(data.feedId);
