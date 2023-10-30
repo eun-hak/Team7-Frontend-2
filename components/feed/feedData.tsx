@@ -67,70 +67,8 @@ const FeedData = ({ data }: MainFeed) => {
     }
   );
 
-  const { mutate: updateCountMutate } = useMutation(
-    () => feed.all(searchValue),
-
-    {
-      onMutate: async (count_data: Feed_Data["feedId"]) => {
-        await queryClient.cancelQueries(["feed", searchValue]);
-        const previousProjectLike = queryClient.getQueryData([
-          "feed",
-          searchValue,
-        ]);
-        queryClient.setQueryData(
-          ["feed", searchValue],
-
-          () => {
-            data?.map((data: Feed_Data) => {
-              let interactionCount = data.interactionCount;
-              if (
-                data.feedId === count_data &&
-                !My_Calp_data?.includes(data.feedId)
-              ) {
-                console.log("+1");
-                data.interactionCount += 1;
-                // interactionCount = interactionCount+1
-                data.interactionProps.content = "👏";
-                data.interactionProps.border = "2px solid #651fff";
-                data.interactionProps.backgroundColor = "transparent";
-                data.interactionProps.fontSize = "20px";
-              } else if (
-                data.feedId === count_data &&
-                My_Calp_data?.includes(data.feedId)
-              ) {
-                console.log("-1");
-                data.interactionCount -= 1;
-                // interactionCount = interactionCount-1
-                data.interactionProps.content = "박수";
-                data.interactionProps.backgroundColor = "#EAED70";
-                data.interactionProps.border = "none";
-                data.interactionProps.fontSize = "14px";
-              }
-            });
-          }
-
-          //적용 안되는중
-        );
-        return { previousProjectLike };
-      },
-      onError: (err, variables, context) => {
-        queryClient.setQueryData(
-          ["feed", searchValue],
-          context?.previousProjectLike
-        );
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries(["feed", searchValue]);
-      },
-    }
-  );
-
   // const { mutate: updateCountMutate } = useMutation(
-  //   (feed) =>
-  //     Interection_click({
-  //       feedId: feed,
-  //       memberId: memberId,
-  //     }),
+  //   () => feed.all(searchValue),
 
   //   {
   //     onMutate: async (count_data: Feed_Data["feedId"]) => {
@@ -144,6 +82,7 @@ const FeedData = ({ data }: MainFeed) => {
 
   //         () => {
   //           data?.map((data: Feed_Data) => {
+  //             let interactionCount = data.interactionCount;
   //             if (
   //               data.feedId === count_data &&
   //               !My_Calp_data?.includes(data.feedId)
@@ -185,7 +124,70 @@ const FeedData = ({ data }: MainFeed) => {
   //     },
   //   }
   // );
-  // console.log(data);
+
+  const { mutate: updateCountMutate } = useMutation(
+    (feed) =>
+      Interection_click({
+        feedId: feed,
+        memberId: memberId,
+      }),
+
+    {
+      onMutate: async (count_data: Feed_Data["feedId"]) => {
+        await queryClient.cancelQueries(["feed", searchValue]);
+        const previousProjectLike = queryClient.getQueryData([
+          "feed",
+          searchValue,
+        ]);
+        queryClient.setQueryData(
+          ["feed", searchValue],
+
+          () => {
+            data?.map((data: Feed_Data) => {
+              if (
+                data.feedId === count_data &&
+                // !My_Calp_data?.includes(data.feedId)
+                data.interactionProps.content == "박수"
+              ) {
+                console.log("+1");
+                data.interactionCount += 1;
+                // interactionCount = interactionCount+1
+                data.interactionProps.content = "👏";
+                data.interactionProps.border = "2px solid #651fff";
+                data.interactionProps.backgroundColor = "transparent";
+                data.interactionProps.fontSize = "20px";
+              } else if (
+                data.feedId === count_data &&
+                // My_Calp_data?.includes(data.feedId)
+                data.interactionProps.content == "👏"
+              ) {
+                console.log("-1");
+                data.interactionCount -= 1;
+                // interactionCount = interactionCount-1
+                data.interactionProps.content = "박수";
+                data.interactionProps.backgroundColor = "#EAED70";
+                data.interactionProps.border = "none";
+                data.interactionProps.fontSize = "14px";
+              }
+            });
+          }
+
+          //적용 안되는중
+        );
+        return { previousProjectLike };
+      },
+      onError: (err, variables, context) => {
+        queryClient.setQueryData(
+          ["feed", searchValue],
+          context?.previousProjectLike
+        );
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries(["feed", searchValue]);
+      },
+    }
+  );
+  console.log(data);
 
   ///////////////////////////////////////////////// optimistic mutation 2번째
 
