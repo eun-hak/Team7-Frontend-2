@@ -49,23 +49,23 @@ const FeedData = ({ data }: MainFeed) => {
 
   // optimistic update를 위한 usemutate =>박수관련 interaction
 
-  const { mutate: updateLikeMutate } = useMutation(
-    () => interection.Interection_check(),
-    {
-      onMutate: async (like_data) => {
-        await queryClient.cancelQueries(["myclapfeed"]);
-        const previousProjectCount = queryClient.getQueryData(["myclapfeed"]);
-        queryClient.setQueryData(["myclapfeed"], () => {});
-        return { previousProjectCount };
-      },
-      onError: (err, variables, context) => {
-        queryClient.setQueryData(["myclapfeed"], context?.previousProjectCount);
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries(["myclapfeed"]);
-      },
-    }
-  );
+  // const { mutate: updateLikeMutate } = useMutation(
+  //   () => interection.Interection_check(),
+  //   {
+  //     onMutate: async (like_data) => {
+  //       await queryClient.cancelQueries(["myclapfeed"]);
+  //       const previousProjectCount = queryClient.getQueryData(["myclapfeed"]);
+  //       queryClient.setQueryData(["myclapfeed"], () => {});
+  //       return { previousProjectCount };
+  //     },
+  //     onError: (err, variables, context) => {
+  //       queryClient.setQueryData(["myclapfeed"], context?.previousProjectCount);
+  //     },
+  //     onSettled: () => {
+  //       queryClient.invalidateQueries(["myclapfeed"]);
+  //     },
+  //   }
+  // );
 
   // const { mutate: updateCountMutate } = useMutation(
   //   () => feed.all(searchValue),
@@ -126,12 +126,12 @@ const FeedData = ({ data }: MainFeed) => {
   // );
 
   const { mutate: updateCountMutate } = useMutation(
-    (feed) =>
-      Interection_click({
-        feedId: feed,
-        memberId: memberId,
-      }),
-
+    // (feed) =>
+    //   Interection_click({
+    //     feedId: feed,
+    //     memberId: memberId,
+    //   }),
+    () => feed.all(searchValue),
     {
       onMutate: async (count_data: Feed_Data["feedId"]) => {
         await queryClient.cancelQueries(["feed", searchValue]);
@@ -205,11 +205,11 @@ const FeedData = ({ data }: MainFeed) => {
     myclapfeed?.map((data: MyClapFeed) => {
       return data.feedId;
     });
-  const [clicked, setClicked] = useState<boolean>(false);
+  // const [clicked, setClicked] = useState<boolean>(false);
 
-  const handleButtonClick = () => {
-    setClicked(!clicked);
-  };
+  // const handleButtonClick = () => {
+  //   setClicked(!clicked);
+  // };
   // console.log(My_Calp_data);
 
   const currentAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -272,10 +272,10 @@ const FeedData = ({ data }: MainFeed) => {
                   onClick={() => {
                     console.log(My_Calp_data);
                     // delete_clap_data(data.feedId);
-                    updateLikeMutate();
+                    // updateLikeMutate();
                     updateCountMutate(data.feedId);
                     handleClickMypage();
-                    handleButtonClick();
+                    // handleButtonClick();
                     Interection_click({
                       feedId: data.feedId,
                       memberId: memberId,
@@ -298,12 +298,10 @@ const FeedData = ({ data }: MainFeed) => {
                   onClick={() => {
                     // push_clap_data(data.feedId);
                     console.log(My_Calp_data);
-                    updateLikeMutate();
+                    // updateLikeMutate();
                     updateCountMutate(data.feedId);
-
                     handleClickMypage();
-                    handleButtonClick();
-
+                    // handleButtonClick();
                     Interection_click({
                       feedId: data.feedId,
                       memberId: memberId,
