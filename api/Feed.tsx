@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import JwtInterceptors, { baseURL } from "./ApiController";
 // import { Feed } from "@/type/feedtype";
-import { MainFeed2 } from "@/type/feedtype";
+import { Feed_Data, MainFeed2 } from "@/type/feedtype";
 import { getStorage } from "@/util/loginStorage";
 
 const Feed = () => {
