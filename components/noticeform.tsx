@@ -29,9 +29,12 @@ const NoticeForm = () => {
       return `${days}일 전`;
     }
   }
+  // b6d28bae6ee64dde8eed40522c022b32
   useEffect(() => {
     for (let i = 0; i < data?.length; i++) {
-      notification_read(data[i]?.notificationId);
+      if (data[i]?.notificationId) {
+        notification_read(data[i]?.notificationId);
+      }
     }
   }, []);
   // 예시: 현재 시간에서 30분 전의 시간을 표시
