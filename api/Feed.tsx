@@ -64,4 +64,5 @@ const Feed = () => {
   return { all, myfeed, modifyfeed };
 };
 
-export default Feed;
+
+export default Feed
