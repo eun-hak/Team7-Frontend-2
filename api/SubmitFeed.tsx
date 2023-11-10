@@ -1,9 +1,5 @@
 "use client";
-import axios from "axios";
-import JwtInterceptors, { baseURL } from "./ApiController";
-import { getStorage } from "@/util/loginStorage";
-import { useRecoilValue } from "recoil";
-import { tokenState } from "@/recoil/recoilstore";
+import JwtInterceptors from "./ApiController";
 import { SubmitData } from "@/type/feedtype";
 
 const SubmitFeed = () => {
@@ -11,7 +7,6 @@ const SubmitFeed = () => {
   const submit = async (formdata: { code: object }) => {
     try {
       const response: SubmitData = await instance.post(`/feeds`, formdata);
-
       return response.data;
     } catch (error) {
       console.error("Error getting access token:", error);

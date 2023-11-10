@@ -5,7 +5,6 @@ import { useRecoilState } from "recoil";
 import jwtDecode, { type JwtPayload } from "jwt-decode";
 import ETC from "./etc";
 import { getStorage, isLoginStorage, setStorage } from "@/util/loginStorage";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -28,15 +27,11 @@ const JwtInterceptors = () => {
   //토큰 리프레시
   const refreshingToken = async () => {
     try {
-      // console.log({ refreshToken: data.replace(/\"/gi, "") });
       const res = await refresh({ refreshToken: data.replace(/\"/gi, "") });
-      // console.log(res?.status);
       if (res?.status !== 200) {
         throw new Error(`Response status is ${res?.status}`);
       } else {
-        //토큰값이 바로 저장 안됨
         setToken(res.data.accessToken);
-        console.log(token);
         setStorage("access", res.data.accessToken);
         return res;
       }
@@ -52,7 +47,6 @@ const JwtInterceptors = () => {
         config.headers["Content-Type"] = "application/json";
       } else if (isLogin && !tokenValid) {
         const result = await refreshingToken();
-        console.log(localStorage.login);
         if (!result) {
           //같은 리프레쉬를 연속으로 발생하여 UX적으로 악영향을 끼침
           // Feed.tsx / Notification.tsx / Interection.tsx
@@ -63,8 +57,6 @@ const JwtInterceptors = () => {
       } else {
         config.headers["Authorization"] = `Bearer ${token}`;
       }
-      // console.log(token);
-      // console.log(config.headers.Authorization);
       return config;
     },
     function (error) {

@@ -1,9 +1,7 @@
 "use client";
-
 import { getStorage, removeStorage } from "@/util/loginStorage";
 import { AxiosError } from "axios";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { baseURL } from "@/api/ApiController";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
@@ -31,12 +29,10 @@ const ETC = () => {
         `${baseURL}oauth2/kakao/logout?memberId=${memberId}`,
         undefined
       );
-      // console.log(data);
       if (data == "Logged out successfully") {
         removeStorage("login");
         removeStorage("refresh");
         removeStorage("access");
-        console.log("로그아웃 성공");
         if (onSuccessCallback) {
           onSuccessCallback();
         }
