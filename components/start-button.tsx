@@ -89,7 +89,6 @@ const ButtonWrapper = styled.button<{
         ? "#d3be1e"
         : "rgba(0, 0, 0, 0.25);"};
     color: black;
-    /* background-color: rgba(0, 0, 0, 0.25); */
     color: rgba(0, 0, 0, 0.75);
     cursor: pointer;
   }

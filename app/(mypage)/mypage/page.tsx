@@ -11,11 +11,11 @@ import { useRouter } from "next/navigation";
 import Modal from "@/components/modal";
 import ModalForm from "@/components/modalform";
 
-import Body from "@/components/body";
+import Reactquery from "@/util/reactquery";
 // import CustomAudio2 from "@/components/audioPlayer2";
 
 const Mypage = () => {
-  const { myfeed, myclapfeed } = Body();
+  const { myfeed, myclapfeed } = Reactquery();
 
   const { logout } = ETC();
   const methods = useForm();

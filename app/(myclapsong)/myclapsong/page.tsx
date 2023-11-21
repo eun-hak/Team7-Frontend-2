@@ -5,12 +5,11 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
-import FeedContainer from "@/components/feed/feedContainer";
-import Body from "@/components/body";
-
+import Reactquery from "@/util/reactquery";
+import FeedData from "@/components/feed/feedData";
 const MyClapPage = () => {
   const methods = useForm();
-  const { myclapfeed } = Body();
+  const { myclapfeed } = Reactquery();
   const [token, setToken] = useRecoilState(tokenState);
 
   useEffect(() => {
@@ -22,7 +21,7 @@ const MyClapPage = () => {
         <MainPageContainer>
           <UploadHeader name="박수 친 노래" type="hidden"></UploadHeader>
           <FeedWrap>
-            <FeedContainer data={myclapfeed}></FeedContainer>
+            <FeedData data={myclapfeed}></FeedData>
           </FeedWrap>
         </MainPageContainer>
       </MainPageWrapper>

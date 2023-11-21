@@ -14,10 +14,9 @@ import { useRecoilState } from "recoil";
 import { playState } from "@/recoil/recoilstore";
 import { usePathname } from "next/navigation";
 import Interection from "@/api/Interection";
-import Body from "./body";
+import Reactquery from "../util/reactquery";
 
 function CustomAudio({ music_data, index, feedId }: any) {
-
   // const audioRef = useRef(null);
   const path = usePathname();
   const parts = path.split("/"); // 경로를 '/' 문자로 분리
@@ -27,15 +26,14 @@ function CustomAudio({ music_data, index, feedId }: any) {
   const [music, setMusic] = useRecoilState(playState);
   const [play, setPlay] = useState(false); // 재생 상태를 관리하는 상태
   const { Interection_plus } = Interection();
-  const { all } = Body();
+  const { all } = Reactquery();
   const [blobUrl, setBlobUrl] = useState<any>(null);
   const [progress, setProgress] = useState(0); // 오디오의 현재 위치를 나타내는 상태
 
-   // 재생 버튼 클릭 시, play 상태를 토글하고 오디오 재생/일시 정지를 수행합니다.
-   const togglePlay = () => {
+  // 재생 버튼 클릭 시, play 상태를 토글하고 오디오 재생/일시 정지를 수행합니다.
+  const togglePlay = () => {
     setPlay(!play);
   };
-
 
   // 다른 오디오 실행시 기존 오디오 멈추기
   const music_play_data = () =>
@@ -45,7 +43,6 @@ function CustomAudio({ music_data, index, feedId }: any) {
       ) as HTMLAudioElement;
       stop_music.pause();
     });
-
 
   //음악데이터 가져오기
   useEffect(() => {
@@ -60,9 +57,6 @@ function CustomAudio({ music_data, index, feedId }: any) {
       setBlobUrl(newBlobUrl);
     }
   }, [music_data]);
-
-  
- 
 
   // 오디오의 현재 위치를 업데이트하는 함수
   const updateProgress = () => {
@@ -82,7 +76,7 @@ function CustomAudio({ music_data, index, feedId }: any) {
     }
   }, [play]);
 
- // play 상태가 변경
+  // play 상태가 변경
   useEffect(() => {
     const audioElement = document.getElementById(
       `audioElement${index}`
@@ -95,8 +89,7 @@ function CustomAudio({ music_data, index, feedId }: any) {
     }
   }, [play]);
 
-
-// 오디오 요소의 currentTime을 기반으로 프로그레스 바 값 업데이트
+  // 오디오 요소의 currentTime을 기반으로 프로그레스 바 값 업데이트
   useEffect(() => {
     const audioElement = document.getElementById(
       `audioElement${index}`
@@ -107,7 +100,6 @@ function CustomAudio({ music_data, index, feedId }: any) {
       audioElement.removeEventListener("timeupdate", updateProgress);
     };
   }, []);
-
 
   //총 시간
   useEffect(() => {
@@ -120,9 +112,7 @@ function CustomAudio({ music_data, index, feedId }: any) {
     });
   }, []);
 
-
-
-  // 타이머 업데이트 
+  // 타이머 업데이트
   useEffect(() => {
     const audioElement = document.getElementById(
       `audioElement${index}`
@@ -147,14 +137,12 @@ function CustomAudio({ music_data, index, feedId }: any) {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
-
-
   return (
     //오디오 UI
     <Box>
       <Center>
         {/* Slider를 사용한 프로그레스 바 */}
-        
+
         <IconButton
           mr={2}
           bg="transparent"
@@ -225,17 +213,3 @@ function CustomAudio({ music_data, index, feedId }: any) {
 }
 
 export default CustomAudio;
-
-
-
-
-
-
-
-
-
-
-
-
-
-

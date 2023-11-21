@@ -1,17 +1,15 @@
 "use client";
 import styled from "@emotion/styled";
 import UploadHeader from "@/components/upload_header";
-// import { logout } from "@/api/etc";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { tokenState } from "@/recoil/recoilstore";
-import FeedContainer from "@/components/feed/feedContainer";
-import Body from "@/components/body";
-
+import Reactquery from "@/util/reactquery";
+import FeedData from "@/components/feed/feedData";
 const Mypage = () => {
   const methods = useForm();
-  const { myfeed } = Body();
+  const { myfeed } = Reactquery();
   const [token, setToken] = useRecoilState(tokenState);
 
   useEffect(() => {
@@ -23,7 +21,7 @@ const Mypage = () => {
         <MainPageContainer>
           <UploadHeader name="내 노래" type="hidden"></UploadHeader>
           <FeedWrap>
-            <FeedContainer data={myfeed}></FeedContainer>
+            <FeedData data={myfeed}></FeedData>
           </FeedWrap>
         </MainPageContainer>
       </MainPageWrapper>
