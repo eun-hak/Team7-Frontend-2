@@ -15,7 +15,7 @@ import { useRecoilState } from "recoil";
 import { playState } from "@/recoil/recoilstore";
 import { usePathname } from "next/navigation";
 import Interection from "@/api/Interection";
-import Body from "./body";
+import Reactquery from "../util/reactquery";
 
 export function CustomAudio2({ music_data, index, feedId, ref }: any) {
   const currentAudioRef = useRef<HTMLAudioElement | null>(null);

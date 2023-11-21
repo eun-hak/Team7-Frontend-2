@@ -9,7 +9,7 @@ import { getStorage, isLoginStorage, setStorage } from "@/util/loginStorage";
 import Interection from "@/api/Interection";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Feed from "@/api/Feed";
-import Body from "../body";
+import Reactquery from "../../util/reactquery";
 import { CustomAudio2 } from "../audioPlayer2";
 import { AudioPlayer } from "../audioPlayer2";
 import { Feed_Data, MainFeed, MainFeed2, MyClapFeed } from "@/type/feedtype";
@@ -30,7 +30,7 @@ const FeedData = ({ data }: MainFeed) => {
   const interection = Interection();
   const { Interection_click } = Interection();
   const isLogin = isLoginStorage();
-  const { myclapfeed } = Body();
+  const { myclapfeed } = Reactquery();
   const router = useRouter();
   const [modalData, setModalData] = useState<any>([]);
   const path = usePathname();

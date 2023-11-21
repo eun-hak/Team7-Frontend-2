@@ -3,9 +3,7 @@ import Footer from "@/components/footer";
 import Header from "@/components/header";
 import styled from "@emotion/styled";
 import { useSearchParams } from "next/navigation";
-import Body from "@/components/body";
-import FeedContainer from "@/components/feed/feedContainer";
-import { css, keyframes } from "@emotion/react";
+import Reactquery from "@/util/reactquery";
 import Category from "@/components/category";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -34,7 +32,7 @@ const Main = () => {
   };
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("value") || "";
-  const { all } = Body();
+  const { all } = Reactquery();
   useEffect(() => {
     console.log(token);
   }, []);
@@ -46,7 +44,6 @@ const Main = () => {
       </CategoryWrapper>
       <MainPageContainer>
         <FeedWrap>
-          {/* <FeedContainer data={all}></FeedContainer> */}
           <FeedData data={all}></FeedData>
         </FeedWrap>
         <Footer />

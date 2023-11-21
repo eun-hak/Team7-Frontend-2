@@ -9,7 +9,7 @@ import { getStorage, isLoginStorage, setStorage } from "@/util/loginStorage";
 import Interection from "@/api/Interection";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Feed from "@/api/Feed";
-import Body from "../body";
+import Reactquery from "../../util/reactquery";
 
 // const FeedCounter = ({data} : any) =>{
 //   data.map((data: any)=>{
@@ -48,7 +48,7 @@ const FeedContainer = ({ data }: any) => {
   const interection = Interection();
   const { Interection_click, Interection_check } = Interection();
   const isLogin = isLoginStorage();
-  const { myclapfeed, myfeed } = Body();
+  const { myclapfeed, myfeed } = Reactquery();
   const router = useRouter();
   const [modalData, setModalData] = useState<any>([]);
   const path = usePathname();

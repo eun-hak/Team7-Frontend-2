@@ -10,7 +10,7 @@ const Notification = () => {
   const { instance } = JwtInterceptors();
 
   const notification_get = async () => {
-    const token: any = getStorage("access");
+    const token = getStorage("access");
     const token2 = `Bearer ${token?.replace(/\"/gi, "")}`;
     const memberId = getStorage("member")?.replace(/\"/gi, "");
     try {
@@ -29,7 +29,7 @@ const Notification = () => {
   };
   //Notification 읽기
   const notification_read = async (notificationId: string) => {
-    const token: any = getStorage("access");
+    const token = getStorage("access");
     const token2 = `Bearer ${token?.replace(/\"/gi, "")}`;
     const memberId = getStorage("member")?.replace(/\"/gi, "");
     try {

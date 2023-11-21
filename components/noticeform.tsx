@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import Body from "./body";
+import Reactquery from "../util/reactquery";
 import Notification from "@/api/Notification";
 import { useEffect } from "react";
 
 const NoticeForm = () => {
-  const { notice } = Body();
+  const { notice } = Reactquery();
   const { notification_read } = Notification();
   console.log(notice);
   const data = notice;
